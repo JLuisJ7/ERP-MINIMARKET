@@ -6,7 +6,7 @@ var Util = {
         var configGrid = {
             "destroy": true,
             "language": {
-                "loadingRecords": '<img src="../images/profile-loading.gif">',
+                "loadingRecords": '<img src="index.php?r=images/profile-loading.gif">',
                 "zeroRecords": "No se Encontraron Resultados",
                 paginate: {
                     "next": "Siguiente",
@@ -142,7 +142,7 @@ var ProvCore = {
                                        
                        $.ajax({
                             type: "POST",
-                            url: '../compras/AjaxEditarProveedor',
+                            url: 'index.php?r=compras/AjaxEditarProveedor',
                             data: {
                                 idProveedor  :idProveedor,
                                 RazSoc_Prov:RazSoc_Prov,
@@ -173,7 +173,7 @@ var ProvCore = {
     },
     obtenerProveedor: function(idProveedor){
         $.ajax({
-            url: '../compras/AjaxObtenerProveedor',
+            url: 'index.php?r=compras/AjaxObtenerProveedor',
             type: 'POST',            
             data: {idProveedor: idProveedor},
         })
@@ -218,7 +218,7 @@ var ProvCore = {
 
                         $.ajax({
                             type: "POST",
-                            url: '../compras/AjaxActualizarEstadoProveedor',
+                            url: 'index.php?r=compras/AjaxActualizarEstadoProveedor',
                             data: {idProveedor: idProveedor,estado_Prov:0},
                             success: function(response) {
                                 console.log(response);
@@ -317,7 +317,7 @@ var ProvCore = {
                        
                        $.ajax({
                             type: "POST",
-                            url: '../compras/AjaxAgregarProveedor',
+                            url: 'index.php?r=compras/AjaxAgregarProveedor',
                             data: {
                                 RazSoc_Prov:RazSoc_Prov,
                                 tipoPersona_Prov:tipoPersona_Prov,
@@ -349,7 +349,7 @@ var ProvCore = {
         
         Util.createGrid('#listaProveedores',{
             toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoProveedor">Nuevo Proveedor</a>',
-            url:'../Compras/ajaxListadoProveedores',
+            url:'index.php?r=Compras/ajaxListadoProveedores',
             columns:[
                 {"mData": "RazSoc_Prov", "sClass": "alignCenter"},
                 {"mData": "tipoPersona_Prov", "sClass": "alignCenter"},
@@ -515,7 +515,7 @@ var FnCore = {
                                        
                        $.ajax({
                             type: "POST",
-                            url: '../ventas/AjaxEditarCliente',
+                            url: 'index.php?r=ventas/AjaxEditarCliente',
                             data: {
                                 idCliente  :idCliente,
                                 RazSoc_Cli:RazSoc_Cli,
@@ -546,7 +546,7 @@ var FnCore = {
     },
     obtenerCliente: function(idCliente){
         $.ajax({
-            url: '../ventas/AjaxObtenerCliente',
+            url: 'index.php?r=ventas/AjaxObtenerCliente',
             type: 'POST',            
             data: {idCliente: idCliente},
         })
@@ -591,7 +591,7 @@ var FnCore = {
 
                         $.ajax({
                             type: "POST",
-                            url: '../ventas/AjaxActualizarEstadoCliente',
+                            url: 'index.php?r=ventas/AjaxActualizarEstadoCliente',
                             data: {idCliente: idCliente,estado_Cli:0},
                             success: function(response) {
                                 console.log(response);
@@ -690,7 +690,7 @@ var FnCore = {
                        
                        $.ajax({
                             type: "POST",
-                            url: '../ventas/AjaxAgregarCliente',
+                            url: 'index.php?r=ventas/AjaxAgregarCliente',
                             data: {
                                 RazSoc_Cli:RazSoc_Cli,
                                 tipoPersona_Cli:tipoPersona_Cli,
@@ -722,7 +722,7 @@ var FnCore = {
         
         Util.createGrid('#listaClientes',{
             toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoCliente">Nuevo Cliente</a>',
-            url:'../Ventas/ajaxListadoClientes',
+            url:'index.php?r=Ventas/ajaxListadoClientes',
             columns:[
                 {"mData": "RazSoc_Cli", "sClass": "alignCenter"},
                 {"mData": "tipoPersona_Cli", "sClass": "alignCenter"},
@@ -793,7 +793,7 @@ var ProdCore = {
     },
     obtenerProducto: function(idProducto){
         $.ajax({
-            url: '../almacen/AjaxObtenerProducto',
+            url: 'index.php?r=almacen/AjaxObtenerProducto',
             type: 'POST',            
             data: {idProducto: idProducto},
         })
@@ -838,7 +838,7 @@ var ProdCore = {
 
                         $.ajax({
                             type: "POST",
-                            url: '../almacen/AjaxActualizarEstadoProducto',
+                            url: 'index.php?r=almacen/AjaxActualizarEstadoProducto',
                             data: {idProducto: idProducto,estadoProd:0},
                             success: function(response) {
                                 console.log(response);
@@ -940,7 +940,7 @@ var ProdCore = {
                                        
                        $.ajax({
                             type: "POST",
-                            url: '../almacen/AjaxEditarProducto',
+                            url: 'index.php?r=almacen/AjaxEditarProducto',
                             data: {
                                 idProducto  :idProducto,
                                 desc_Prod   :desc_Prod,
@@ -1046,7 +1046,7 @@ var ProdCore = {
                        
                        $.ajax({
                             type: "POST",
-                            url: '../almacen/AjaxAgregarProducto',
+                            url: 'index.php?r=almacen/AjaxAgregarProducto',
                             data: {desc_Prod:desc_Prod,presentacion:presentacion,tipoProd:tipoProd,stock:stock,idMarca:idMarca,idCategoria:idCategoria},
                             success: function(response) {
                                 if (response.success) {
@@ -1072,7 +1072,7 @@ var ProdCore = {
         
         Util.createGrid('#listaProductos',{
             toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoProducto">Nuevo Producto</a>',
-            url:'../almacen/ajaxListadoProductos',
+            url:'index.php?r=almacen/ajaxListadoProductos',
             columns:[
                 {"mData": "desc_Prod", "sClass": "alignCenter"},
                 {"mData": "presentacion", "sClass": "alignCenter"},
@@ -1107,7 +1107,7 @@ var ProdCore = {
 
         $.ajax({
             type: "POST",
-            url: '../almacen/AjaxListarMarcas',
+            url: 'index.php?r=almacen/AjaxListarMarcas',
             //sync:false,           
             success: function(data) {
                 var html = "";
@@ -1130,7 +1130,7 @@ var ProdCore = {
 
         $.ajax({
             type: "POST",
-            url: '../almacen/AjaxListarCategorias',
+            url: 'index.php?r=almacen/AjaxListarCategorias',
             //sync:false,           
             success: function(data) {
                 var html = "";
@@ -1190,7 +1190,7 @@ var coreFn = {
 
                         $.ajax({
                             type: "POST",
-                            url: '../personal/ajaxActualizarEmpleado',
+                            url: 'index.php?r=personal/ajaxActualizarEmpleado',
                             data: {idePersona: ideEmpleado,ideEstado:0},
                             success: function(response) {
                                 console.log(response);
@@ -1300,7 +1300,7 @@ var coreFn = {
 
                        $.ajax({
                             type: "POST",
-                            url: '../personal/ajaxSaveEmpleado',
+                            url: 'index.php?r=personal/ajaxSaveEmpleado',
                             data: empleado,
                             success: function(response) {
                                 if (response.success) {
@@ -1325,7 +1325,7 @@ var coreFn = {
         
         Util.createGrid('#listaEmpleados',{
             toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoEmpleado">Nuevo Empleado</a>',
-            url:'../personal/ajaxListadoEmpleados',
+            url:'index.php?r=personal/ajaxListadoEmpleados',
             columns:[
                 {"mData": "des_nombres", "sClass": "alignCenter"},
                 {"mData": "des_apepat", "sClass": "alignCenter"},
@@ -1364,7 +1364,7 @@ var coreFn = {
 
         $.ajax({
             type: "POST",
-            url: '../admCatalogo/ajaxObtenerCatalogo',
+            url: 'index.php?r=admCatalogo/ajaxObtenerCatalogo',
             //sync:false,
             data : {ideGrupoCatalogo:ideCatalogo},
             success: function(data) {

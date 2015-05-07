@@ -1,3 +1,6 @@
 framework/
 webminigi/protected/runtime/application.log
 webminigi/.htaccess
+
+webminigiV11/protected/runtime/application.log
+webminigiV11/.htaccess
