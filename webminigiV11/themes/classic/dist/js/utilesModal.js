@@ -803,6 +803,7 @@ var ProdCore = {
                 $("#edit_desc_Prod").val(data.desc_Prod);
                 $("#edit_presentacion").val(data.presentacion);
                 $("#edit_stock").val(data.stock);
+                $("#edit_Precio").val(data.Precio);
                 $("#edit_tipoProd option[value='"+data.tipoProd+"']").attr('selected','selected');
                 $("#edit_ListaMarcas option[value='"+data.idMarca+"']").attr('selected','selected');
                 $("#edit_ListaCategorias option[value='"+data.idCategoria+"']").attr('selected','selected');
@@ -921,6 +922,13 @@ var ProdCore = {
                                     message : 'Debe ingresar el stock'
                                 }
                             }
+                        },
+                        edit_Precio : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe ingresar el Precio'
+                                }
+                            }
                         }
                     },
                     submitHandler : function(form) {
@@ -930,6 +938,7 @@ var ProdCore = {
                         var presentacion =$("#edit_presentacion").val();
                         var tipoProd =$("#edit_tipoProd").val();
                         var stock =$("#edit_stock").val();
+                        var Precio =$("#edit_Precio").val();
                         var idMarca =$("#edit_ListaMarcas").val();
                         var idCategoria =$("#edit_ListaCategorias").val();
                         if($("#edit_estadoProd").is(':checked')) {
@@ -949,7 +958,8 @@ var ProdCore = {
                                 stock:stock,
                                 idMarca:idMarca,
                                 idCategoria:idCategoria,
-                                estadoProd:estadoProd
+                                estadoProd:estadoProd,
+                                Precio:Precio
                             },
                             success: function(response) {
                                 if (response.success) {
@@ -1031,6 +1041,13 @@ var ProdCore = {
                                     message : 'Debe ingresar el stock'
                                 }
                             }
+                        },
+                        add_Precio : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe ingresar el Precio'
+                                }
+                            }
                         }
                     },
                     submitHandler : function(form) {
@@ -1040,6 +1057,7 @@ var ProdCore = {
                         var presentacion =$("#presentacion").val();
                         var tipoProd =$("#tipoProd").val();
                         var stock =$("#add_stock").val();
+                        var precio =$("#add_Precio").val();
                         var idMarca =$("#ListaMarcas").val();
                         var idCategoria =$("#ListaCategorias").val();
                                              
@@ -1047,7 +1065,15 @@ var ProdCore = {
                        $.ajax({
                             type: "POST",
                             url: 'index.php?r=almacen/AjaxAgregarProducto',
-                            data: {desc_Prod:desc_Prod,presentacion:presentacion,tipoProd:tipoProd,stock:stock,idMarca:idMarca,idCategoria:idCategoria},
+                            data: {
+                                desc_Prod:desc_Prod,
+                                presentacion:presentacion,
+                                tipoProd:tipoProd,
+                                stock:stock,
+                                idMarca:idMarca,
+                                idCategoria:idCategoria,
+                                precio:precio
+                            },
                             success: function(response) {
                                 if (response.success) {
                                      me.loadListadoProductos();
@@ -1080,6 +1106,7 @@ var ProdCore = {
                 {"mData": "stock", "sClass": "alignCenter"},
                 {"mData": "nomMarca", "sClass": "alignCenter"},
                 {"mData": "nomCategoria", "sClass": "alignCenter"},
+                {"mData": "precio", "sClass": "alignCenter"},
                
                 {
                     "mData": 'idProducto',

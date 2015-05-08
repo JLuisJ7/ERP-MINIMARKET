@@ -31,6 +31,7 @@ $this->breadcrumbs=array(
                         <th style="vertical-align: middle;" >Stock</th>
                         <th style="vertical-align: middle;" >Marca</th>
                         <th style="vertical-align: middle;" >Categoria</th>
+                        <th style="vertical-align: middle;" >Precio</th>
                         <th style="vertical-align: middle;" >&nbsp;</th>
                       </tr>
                     </thead>                 
@@ -107,6 +108,12 @@ $this->breadcrumbs=array(
 				        <label class="col-lg-4 control-label">Stock:</label>
 				        <div class="col-lg-7">
 				        	<input type="number" min="0" class="form-control inputNumero" id="add_stock"   name="add_stock" >
+				        </div>
+				     </div>
+				     <div class="form-group">
+				        <label class="col-lg-4 control-label" for="add_Precio">Precio:</label>
+				        <div class="col-lg-7">
+				        	<input type="text" min="0" class="form-control" id="add_Precio"   name="add_Precio" >
 				        </div>
 				     </div>
 
@@ -190,6 +197,12 @@ $this->breadcrumbs=array(
 				        <label class="col-lg-4 control-label" for="edit_stock">Stock:</label>
 				        <div class="col-lg-7">
 				        	<input type="number" min="0" class="form-control inputNumero" id="edit_stock"   name="edit_stock" >
+				        </div>
+				     </div>
+				     <div class="form-group">
+				        <label class="col-lg-4 control-label" for="edit_Precio">Precio:</label>
+				        <div class="col-lg-7">
+				        	<input type="text" min="0" class="form-control" id="edit_Precio"   name="edit_Precio" >
 				        </div>
 				     </div>
 				     <div class="form-group">
