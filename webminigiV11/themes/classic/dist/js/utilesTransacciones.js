@@ -168,9 +168,9 @@ $(document).ready(function() {
 JSON.stringify(table)
 
 $.ajax({
-    url: 'ayax',
+    url: 'index.php?r=ventas/AjaxAgregarDetalleFactura',
     type: 'Post',  
-    data: JSON.stringify(table),
+    data: {json:JSON.stringify(table)},
 })
 .done(function() {
     console.log("success");

@@ -62,6 +62,24 @@ $email_Cli=$_POST['email_Cli'];
 		header('Content-Type: application/json; charset="UTF-8"');
     	  Util::renderJSON(array( 'success' => $respuesta ));
 	}
+public function actionAjaxAgregarDetalleFactura(){
+
+
+ $json=$_POST['json'];
+$array = json_decode($json);
+	
+
+
+
+
+       $respuesta = Detallefactura::model() -> agregarDetalleFactura($array);
+
+
+		
+
+		//header('Content-Type: application/json; charset="UTF-8"');
+    	  Util::renderJSON(array( 'success' => true ));
+	}
 
 public function actionAjaxActualizarEstadocliente(){
 		$idCliente = $_POST['idCliente'];

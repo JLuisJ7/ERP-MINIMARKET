@@ -1,3 +1,21 @@
+select * from Proveedor;
+select * from Cliente;
+
+
+ALTER TABLE PRoducto ADD Precio numeric(8,2);
+
+create table DetalleFactura(
+nroFact int,
+idProducto int,
+cantidad int,
+Precio numeric(8,2),
+valor_Venta numeric(8,2)
+);
+
+select * from DetalleFactura
+
+
+delete from DetalleFactura;
 
 create table Cliente(
 idCliente int AUTO_INCREMENT primary key,

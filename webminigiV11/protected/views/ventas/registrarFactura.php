@@ -78,7 +78,7 @@ $this->breadcrumbs=array(
                 <th style="vertical-align: middle;" >Descripcion</th>
                 <th style="vertical-align: middle;" >Cantidad</th>
                 <th style="vertical-align: middle;" >Precio</th>
-                <th style="vertical-align: middle;" >Valor de Venta</th>                
+                <th style="vertical-align: middle;" >Importe</th>                
               </tr>
             </thead>
            
