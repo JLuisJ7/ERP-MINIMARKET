@@ -67,6 +67,16 @@ public function actionAjaxListarCategorias(){
 		header('Content-Type: application/json; charset="UTF-8"');
     	echo CJSON::encode(array('output'=>$productos[0]));
 	}
+	public function actionAjaxBuscarProducto(){
+		$query = $_POST['query'];
+		
+	
+		$productos = Producto::model()->BuscarProducto($query);
+
+		Util::renderJSON($productos);
+	}
+
+
 	public function actionAjaxObtenerProducto_upd(){
 		$idProducto = $_POST['idProducto'];
 		

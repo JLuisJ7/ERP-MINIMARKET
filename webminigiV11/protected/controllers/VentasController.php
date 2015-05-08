@@ -1,10 +1,11 @@
 <?php
 class VentasController extends Controller{
-	
-	/*public function actionListadoClientes(){
 
-		$this->render("listadoClientes");
-	}*/
+	
+	public function actionregistrarFactura(){
+
+		$this->render("registrarFactura");
+	}
 	public function actionAjaxListadoClientes(){
 		// Condicion de empleados = 18
 		$clientes = Cliente::model()->listadoClientes();

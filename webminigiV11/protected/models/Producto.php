@@ -33,6 +33,15 @@ $sql = "select idProducto,desc_Prod,presentacion,tipoProd,stock,m.nomMarca,c.nom
 		return Yii::app()->db->createCommand($sql)->queryAll();
 	}
 
+public function BuscarProducto($query){
+
+$sql = "SELECT idProducto,desc_Prod FROM Producto WHERE desc_Prod LIKE '%".$query."%'";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
+
 	public function actualizarEstadoProducto($idProducto, $estadoProd){
 		$resultado = array('data'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
 
