@@ -68,6 +68,7 @@ $this->breadcrumbs=array(
 			</div>
         
         	<button id="addRow">Add new row</button>
+
           
           <table class="table table-striped table-hover" id="DetalleFactura" style="">
             <thead>
@@ -80,14 +81,7 @@ $this->breadcrumbs=array(
                 <th style="vertical-align: middle;" >Valor de Venta</th>                
               </tr>
             </thead>
-            <tfoot>
-	            <tr>
-	                <th colspan="4" style="text-align:right">Total:</th>
-	               
-	                <th></th>
-	            </tr>
-
-        	</tfoot>
+           
         	<tbody>
             <tr style="display:none;">
             	<td></td>
@@ -101,6 +95,7 @@ $this->breadcrumbs=array(
         </tbody>
 
           </table>
+          <button id="add_DetalleFact">Agregar Detalle</button>
           <input type="text" id="subTotal">
 <input type="text" id="igv" >
 <input type="text" id="Total" >

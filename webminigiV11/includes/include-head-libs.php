@@ -76,4 +76,5 @@
     <script src="<?php echo Yii::app()->theme->baseUrl;?>/bootstrap/js/bootstrapValidator.js" type="text/javascript"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl;?>/dist/js/bootbox.min.js" type="text/javascript"></script>
       <script src="<?php echo Yii::app()->theme->baseUrl;?>/dist/js/utilesTransacciones.js" type="text/javascript"></script>
+      <script src="http://lightswitch05.github.io/table-to-json/javascripts/jquery.tabletojson.min.js" type="text/javascript"></script>
     

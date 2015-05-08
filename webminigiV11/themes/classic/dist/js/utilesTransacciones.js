@@ -161,7 +161,47 @@ $(document).ready(function() {
  
        
     } );
+
+ $('#add_DetalleFact').click( function() {
+ var table = $('#DetalleFactura').tableToJSON();
+
+JSON.stringify(table)
+
+$.ajax({
+    url: 'ayax',
+    type: 'Post',  
+    data: JSON.stringify(table),
+})
+.done(function() {
+    console.log("success");
+})
+.fail(function() {
+    console.log("error");
+})
+.always(function() {
+    console.log("complete");
+});
+
+});       
+
+ /*$('#add_DetalleFact').on( 'click', function () {
+         var table = $('#DetalleFactura').DataTable();
+        var info=table.page.info();
+        //alert(info.end);
+
+
+
+    } );*/
+
+   
+    var table = $('#DetalleFactura').DataTable();
+
+   
+$('#DetalleFactura tbody').on( 'click', 'td', function () {
+    alert( 'Clicked on cell in visible column: '+table.cell( this ).index().columnVisible );
+} );
+    var table = $('#DetalleFactura').DataTable();
+
+
  
-    // Automatically add a first row of data
-    
 } );
