@@ -1,7 +1,71 @@
-select * from Proveedor;
-select * from Cliente;
+﻿drop Table detalleFactura;
+
+create TABLE DetalleFactura(
+nroSerie Char(3) not  null, 
+nroFact int unsigned NOT NULL,
+idProducto int  NOT NULL,
+cantidad INT unsigned NOT NULL,
+precio NUMERIC ( 8, 2 ) NOT NULL
+);
 
 
+create TABLE Factura (
+nroSerie char(3) not null,
+nroFact int  unsigned,
+idCliente int,
+idEmpleado int,
+fechEmic TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+subTotal NUMERIC ( 8, 2 ) NOT NULL,
+IGV NUMERIC (8, 2 ) NOT NULL,
+Total NUMERIC ( 8, 2 ) NOT NULL,
+estadoFact char(1) default 1,
+fechaElim date DEFAULT Null
+);
+
+
+select * from Factura;
+select * from detalleFactura;
+
+
+select c.RazSoc_cli,f.nroFact,f.Total from Cliente as c
+inner join factura as f on f.idCliente=c.idCliente
+
+select * from Producto;
+
+INSERT INTO detallefactura values('001',2,2,30,2.80);
+
+alter table Factura add constraint pk_seri_num_fact  PRIMARY KEY(nroSerie,nroFact);
+
+alter table Factura add CONSTRAINT fk_Fac_Cli FOREIGN KEY (idCliente) references Cliente(idCliente);
+alter table DetalleFactura add CONSTRAINT fk_Fac_detFac FOREIGN KEY (nroSerie,nroFact) references Factura(nroSerie,nroFact);
+alter table DetalleFactura add CONSTRAINT fk_DetFac_Prod FOREIGN KEY (idProducto) references Producto(idProducto);
+
+
+
+select * from Detallefactura;
+select * from Producto;
+
+--  from Detallefactura;
+CREATE TRIGGER ActualizarStock
+AFTER INSERT ON DetalleFactura 
+FOR EACH ROW
+  UPDATE Producto 
+     SET stock = stock - NEW.cantidad
+   WHERE idProducto = NEW.idProducto
+
+
+
+create table Producto(
+idProducto int AUTO_INCREMENT PRIMARY KEY,
+desc_Prod varchar(100) NOT NULL,
+presentacion varchar(20) NOT NULL,
+tipoProd char(1) NOT  NULL DEFAULT '1',
+stock int NOT NULL,
+idMarca int ,
+idCategoria int,
+fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+estadoProd char(1) not null DEFAULT '1'
+);
 ALTER TABLE PRoducto ADD Precio numeric(8,2);
 
 create table DetalleFactura(
@@ -41,17 +105,6 @@ fec_reg_Prov TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 estado_Prov char(1) not null DEFAULT '1'
 );
 
-create table Producto(
-idProducto int AUTO_INCREMENT PRIMARY KEY,
-desc_Prod varchar(100) NOT NULL,
-presentacion varchar(20) NOT NULL,
-tipoProd char(1) NOT  NULL DEFAULT '1',
-stock int NOT NULL,
-idMarca int ,
-idCategoria int,
-fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-estadoProd char(1) not null DEFAULT '1'
-);
 
 create table Marca(
 idMarca int AUTO_INCREMENT PRIMARY KEY,
@@ -163,4 +216,9 @@ $dataProvider=new CActiveDataProvider('Sispersona', array(
 select * from sispersona;
 
 
+
+
+
+
+ 
 

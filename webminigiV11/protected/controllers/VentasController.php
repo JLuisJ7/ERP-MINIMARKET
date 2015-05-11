@@ -62,17 +62,46 @@ $email_Cli=$_POST['email_Cli'];
 		header('Content-Type: application/json; charset="UTF-8"');
     	  Util::renderJSON(array( 'success' => $respuesta ));
 	}
+
+public function actionAjaxAgregarFactura(){
+
+
+	
+$nroSerie=$_POST['nroSerie'];
+$nroFact=$_POST['nroFactura'];
+$idCliente=$_POST['idCliente'];
+$idEmpleado=$_POST['idEmpleado'];
+$subTotal=$_POST['subTotal'];
+$IGV=$_POST['IGV'];
+$Total=$_POST['Total'];
+
+
+		$respuesta = Factura::model() -> agregarFactura($nroSerie,$nroFact, $idCliente,$idEmpleado,$subTotal,$IGV,$Total);
+
+		header('Content-Type: application/json; charset="UTF-8"');
+    	  Util::renderJSON(array( 'success' => $respuesta ));
+	}
+
+
 public function actionAjaxAgregarDetalleFactura(){
 
 
  $json=$_POST['json'];
 $array = json_decode($json);
+
+$nroSerie=$_POST['nroSerie'];
+$nroFact=$_POST['nroFact'];
 	
+foreach($array as $obj){
+			$idProducto=$obj->Codigo;
+			$cantidad=$obj->Cantidad;
+			$Precio=$obj->Precio;			
+ Detallefactura::model() -> agregarDetalleFactura($nroSerie,$nroFact,$idProducto,$cantidad,$Precio);
 
+}
+//$array_string=mysql_escape_string(serialize($array));
 
-
-
-       $respuesta = Detallefactura::model() -> agregarDetalleFactura($array);
+      
 
 
 		

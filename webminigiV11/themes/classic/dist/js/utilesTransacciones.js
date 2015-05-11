@@ -163,14 +163,20 @@ $(document).ready(function() {
     } );
 
  $('#add_DetalleFact').click( function() {
- var table = $('#DetalleFactura').tableToJSON();
 
-JSON.stringify(table)
+ var table = $('#DetalleFactura').tableToJSON();
+var nroSerie=$("#nroSerie").val();
+  var nroFactura=$("#nroFactura").val();
+
 
 $.ajax({
     url: 'index.php?r=ventas/AjaxAgregarDetalleFactura',
     type: 'Post',  
-    data: {json:JSON.stringify(table)},
+    data: {
+            json:JSON.stringify(table),
+            nroSerie:nroSerie,
+            nroFact:nroFactura
+        },
 })
 .done(function() {
     console.log("success");
@@ -182,7 +188,42 @@ $.ajax({
     console.log("complete");
 });
 
-});       
+});
+
+ $('#add_Factura').click( function() {
+  var nroSerie=$("#nroSerie").val();
+  var nroFactura=$("#nroFactura").val();
+  var idCliente=$("#idCliente").val();
+  var idEmpleado=$("#idEmpleado").val();
+  var subTotal=$("#subTotal").val();
+  var IGV=$("#igv").val();
+  var Total=$("#Total").val();
+
+ 
+$.ajax({
+    url: 'index.php?r=ventas/AjaxAgregarFactura',
+    type: 'Post',  
+    data: {
+        nroSerie:nroSerie,
+        nroFactura:nroFactura,
+        idCliente:idCliente,
+        idEmpleado:idEmpleado,
+        subTotal:subTotal,
+        IGV:IGV,
+        Total:Total
+    },
+})
+.done(function() {
+    console.log("success");
+})
+.fail(function() {
+    console.log("error");
+})
+.always(function() {
+    console.log("complete");
+});
+
+});  
 
  /*$('#add_DetalleFact').on( 'click', function () {
          var table = $('#DetalleFactura').DataTable();

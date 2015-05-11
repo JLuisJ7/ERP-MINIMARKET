@@ -4,37 +4,36 @@
  * This is the model class for table "detallefactura".
  *
  * The followings are the available columns in table 'detallefactura':
- * @property integer $nroFact
+ * @property string $nroSerie
+ * @property string $nroFact
  * @property integer $idProducto
- * @property integer $cantidad
- * @property string $Precio
- * @property string $valor_Venta
+ * @property string $cantidad
+ * @property string $precio
+ *
+ * The followings are the available model relations:
+ * @property Producto $idProducto0
+ * @property Factura $nroSerie0
+ * @property Factura $nroFact0
  */
 class Detallefactura extends CActiveRecord
 {
 
-	public function agregarDetalleFactura($array){
+	public function agregarDetalleFactura($nroSerie,$nroFact,$idProducto,$cantidad,$Precio){
 
 		$resultado = array('valor'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
 
-		$Detalle=new Detallefactura;
-
-	
-
-foreach($array as $obj){
-       
-			$Detalle->nroFact=1;
-			$Detalle->idProducto=$obj['Codigo'];
-			$Detalle->cantidad=$obj['Cantidad'];
-			$Detalle->Precio=$obj['Precio'];
-			$Detalle->valor_Venta=$obj['Importe'];
-
-			$Detalle->save();
-
-}
 		
 
-			
+
+
+      		$Detalle=new Detallefactura;
+      		$Detalle->nroSerie=$nroSerie;
+			$Detalle->nroFact=$nroFact;
+			$Detalle->idProducto=$idProducto;
+			$Detalle->cantidad=$cantidad;
+			$Detalle->precio=$Precio;
+
+			$Detalle->save();
 
 		return $resultado;
 	}
@@ -54,11 +53,14 @@ foreach($array as $obj){
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nroFact, idProducto, cantidad', 'numerical', 'integerOnly'=>true),
-			array('Precio, valor_Venta', 'length', 'max'=>8),
+			array('nroSerie, nroFact, idProducto, cantidad, precio', 'required'),
+			array('idProducto', 'numerical', 'integerOnly'=>true),
+			array('nroSerie', 'length', 'max'=>3),
+			array('nroFact, cantidad', 'length', 'max'=>10),
+			array('precio', 'length', 'max'=>8),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('nroFact, idProducto, cantidad, Precio, valor_Venta', 'safe', 'on'=>'search'),
+			array('nroSerie, nroFact, idProducto, cantidad, precio', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,6 +72,9 @@ foreach($array as $obj){
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'idProducto0' => array(self::BELONGS_TO, 'Producto', 'idProducto'),
+			'nroSerie0' => array(self::BELONGS_TO, 'Factura', 'nroSerie'),
+			'nroFact0' => array(self::BELONGS_TO, 'Factura', 'nroFact'),
 		);
 	}
 
@@ -79,11 +84,11 @@ foreach($array as $obj){
 	public function attributeLabels()
 	{
 		return array(
+			'nroSerie' => 'Nro Serie',
 			'nroFact' => 'Nro Fact',
 			'idProducto' => 'Id Producto',
 			'cantidad' => 'Cantidad',
-			'Precio' => 'Precio',
-			'valor_Venta' => 'Valor Venta',
+			'precio' => 'Precio',
 		);
 	}
 
@@ -105,11 +110,11 @@ foreach($array as $obj){
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('nroFact',$this->nroFact);
+		$criteria->compare('nroSerie',$this->nroSerie,true);
+		$criteria->compare('nroFact',$this->nroFact,true);
 		$criteria->compare('idProducto',$this->idProducto);
-		$criteria->compare('cantidad',$this->cantidad);
-		$criteria->compare('Precio',$this->Precio,true);
-		$criteria->compare('valor_Venta',$this->valor_Venta,true);
+		$criteria->compare('cantidad',$this->cantidad,true);
+		$criteria->compare('precio',$this->precio,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
