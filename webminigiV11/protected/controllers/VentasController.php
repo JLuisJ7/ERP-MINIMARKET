@@ -12,6 +12,13 @@ class VentasController extends Controller{
 
 		Util::renderJSON($clientes);
 	}
+	public function actionAjaxObtenerNroFactura(){
+		// Condicion de empleados = 18
+		$Factura = Factura::model()->ObtenerNroFactura();
+		header('Content-Type: application/json; charset="UTF-8"');
+    	echo CJSON::encode(array('output'=>$Factura[0]));
+		
+	}
 
 	public function actionListadoClientes(){
 

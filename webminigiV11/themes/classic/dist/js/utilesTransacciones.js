@@ -1,5 +1,28 @@
 
+  function obtenerNroFactura(){
+         $.ajax({
+        url: 'index.php?r=ventas/AjaxObtenerNroFactura',
+        type: 'POST',        
+    })
+    .done(function(response) {   
+     data=response.output;     
+        //console.log(data.nroFact);
+
+        $("#nroFactura").val(data.nroFact);
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    .always(function() {
+        console.log("complete");
+    });
+    };
+
 $(document).ready(function(){
+
+obtenerNroFactura();
+   
+    
                                 
         var consulta;
                                                                           
@@ -162,7 +185,7 @@ $(document).ready(function() {
        
     } );
 
- $('#add_DetalleFact').click( function() {
+ /*$('#add_DetalleFact').click( function() {
 
  var table = $('#DetalleFactura').tableToJSON();
 var nroSerie=$("#nroSerie").val();
@@ -188,7 +211,7 @@ $.ajax({
     console.log("complete");
 });
 
-});
+});*/
 
  $('#add_Factura').click( function() {
   var nroSerie=$("#nroSerie").val();
@@ -220,7 +243,30 @@ $.ajax({
     console.log("error");
 })
 .always(function() {
+   var table = $('#DetalleFactura').tableToJSON();
+var nroSerie=$("#nroSerie").val();
+  var nroFactura=$("#nroFactura").val();
+
+
+$.ajax({
+    url: 'index.php?r=ventas/AjaxAgregarDetalleFactura',
+    type: 'Post',  
+    data: {
+            json:JSON.stringify(table),
+            nroSerie:nroSerie,
+            nroFact:nroFactura
+        },
+})
+.done(function() {
+    console.log("success");
+})
+.fail(function() {
+    console.log("error");
+})
+.always(function() {
     console.log("complete");
+    
+});
 });
 
 });  

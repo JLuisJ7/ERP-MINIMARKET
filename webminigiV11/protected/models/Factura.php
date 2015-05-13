@@ -23,6 +23,15 @@
 class Factura extends CActiveRecord
 {
 
+public function ObtenerNroFactura(){
+
+$sql = "select count(nroFact)+1 as nroFact from factura";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
+
 	public function agregarFactura($nroSerie,$nroFact, $idCliente,$idEmpleado,$subTotal,$IGV,$Total){
 
 		$resultado = array('valor'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');

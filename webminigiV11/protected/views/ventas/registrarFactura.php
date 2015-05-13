@@ -23,7 +23,7 @@ $this->breadcrumbs=array(
           <h3 class='box-title'><i class="fa fa-user"></i> Generar Factura</h3>
         </div>
         <div class="box-body">
-        
+        <div id="Factura">
         	<div class="col-xs-4">
         		
 				<div class="form-group">
@@ -33,7 +33,7 @@ $this->breadcrumbs=array(
 				
 					<div class="form-group">
 				    <label for="nroFactura">nro Fact</label>
-				    <input type="text" class="form-control" id="nroFactura" value="1">
+				    <input type="text" class="form-control" id="nroFactura" disabled>
 				  </div>
 			     		
 				  <div class="form-group">
@@ -74,13 +74,13 @@ $this->breadcrumbs=array(
 			    <label for="">Total</label>
 			    <input type="text" class="form-control" id="fac_valorVenta" >			    
 			  </div>
-			  <button id="addRow">Add new row</button>
+			  <button id="addRow">Agregar Producto</button>
 			</div>
         
-        	<button id="add_Factura">Add new row</button>
+        	<button id="add_Factura">Registrar Factura</button>
 
           
-          <table class="table table-striped table-hover" id="DetalleFactura" style="">
+          <table  class="table table-striped table-bordered" cellspacing="0" width="100%" id="DetalleFactura" style="">
             <thead>
               <tr>
                 <!--th style="vertical-align: middle;">#</th-->
@@ -105,23 +105,28 @@ $this->breadcrumbs=array(
         </tbody>
 
           </table>
-          <button id="add_DetalleFact">Agregar Detalle</button>
-        <div class="form-group">
-		    <label for="subTotal">SubTotal</label>
-		    <input type="text" class="form-control" id="subTotal" placeholder="">
+        <button id="add_DetalleFact">Agregar Detalle</button>
+        <div class="row">
+  		<div class="col-md-3 col-md-offset-9">
+  			<div class="form-group">
+		    	<label for="subTotal">SubTotal</label>
+		    	<input type="text" class="form-control" id="subTotal" placeholder="">
+			</div>
+			<div class="form-group">
+			    <label for="igv">IGV</label>
+			    <input type="text" class="form-control" id="igv" placeholder="">
+			</div>
+			<div class="form-group">
+			    <label for="Total">Total</label>
+			    <input type="text" class="form-control" id="Total" placeholder="">
+			</div> 
+  		</div>
 		</div>
-		<div class="form-group">
-		    <label for="igv">IGV</label>
-		    <input type="text" class="form-control" id="igv" placeholder="">
-		</div>
-		<div class="form-group">
-		    <label for="Total">Total</label>
-		    <input type="text" class="form-control" id="Total" placeholder="">
-		</div>          
+                 
 
 
 
-
+</div>
         </div>
       </div><!-- /.box -->
     </div><!-- /.col -->
