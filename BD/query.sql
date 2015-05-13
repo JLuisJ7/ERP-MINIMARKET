@@ -1,4 +1,30 @@
-﻿drop Table detalleFactura;
+﻿Create table OrdenCompra(
+nroSerie char(3) not null,
+nroOrden int unsigned NOT NULL,
+idProveedor int,
+idEmpleado int,
+FechaOrden date,
+subTotal numeric(8,2),
+IGV numeric(8,2),
+Total numeric(8,2),
+estadoOrden char(1) default 1,
+fechaElim date default NULL
+);
+create TABLE DetalleOrdenCompra(
+nroSerie Char(3) not  null, 
+nroOrden int unsigned NOT NULL,
+idProducto int  NOT NULL,
+cantidad INT unsigned NOT NULL,
+precio NUMERIC ( 8, 2 ) NOT NULL
+);
+
+alter table OrdenCompra add constraint pk_seri_num_ord  PRIMARY KEY(nroSerie,nroOrden);
+
+alter table OrdenCompra add CONSTRAINT fk_ord_Prov FOREIGN KEY (idProveedor) references Proveedor(idProveedor);
+alter table DetalleOrdenCompra add CONSTRAINT fk_ord_detord FOREIGN KEY (nroSerie,nroFanroOrdenct) references OrdenCompra(nroSerie,nroFnroOrdenact);
+alter table DetalleOrdenCompra add CONSTRAINT fk_Detord_Prod FOREIGN KEY (idProducto) references Producto(idProducto);
+
+
 
 create TABLE DetalleFactura(
 nroSerie Char(3) not  null, 
@@ -22,6 +48,21 @@ estadoFact char(1) default 1,
 fechaElim date DEFAULT Null
 );
 
+alter table Factura add constraint pk_seri_num_fact  PRIMARY KEY(nroSerie,nroFact);
+
+alter table Factura add CONSTRAINT fk_Fac_Cli FOREIGN KEY (idCliente) references Cliente(idCliente);
+alter table DetalleFactura add CONSTRAINT fk_Fac_detFac FOREIGN KEY (nroSerie,nroFact) references Factura(nroSerie,nroFact);
+alter table DetalleFactura add CONSTRAINT fk_DetFac_Prod FOREIGN KEY (idProducto) references Producto(idProducto);
+
+--  from Detallefactura;
+CREATE TRIGGER ActualizarStock
+AFTER INSERT ON DetalleFactura 
+FOR EACH ROW
+  UPDATE Producto 
+     SET stock = stock - NEW.cantidad
+   WHERE idProducto = NEW.idProducto
+
+
 
 select * from Factura;
 select * from detalleFactura;
@@ -34,11 +75,6 @@ select * from Producto;
 
 INSERT INTO detallefactura values('001',2,2,30,2.80);
 
-alter table Factura add constraint pk_seri_num_fact  PRIMARY KEY(nroSerie,nroFact);
-
-alter table Factura add CONSTRAINT fk_Fac_Cli FOREIGN KEY (idCliente) references Cliente(idCliente);
-alter table DetalleFactura add CONSTRAINT fk_Fac_detFac FOREIGN KEY (nroSerie,nroFact) references Factura(nroSerie,nroFact);
-alter table DetalleFactura add CONSTRAINT fk_DetFac_Prod FOREIGN KEY (idProducto) references Producto(idProducto);
 
 
 

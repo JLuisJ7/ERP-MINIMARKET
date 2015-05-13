@@ -1,6 +1,9 @@
 <?php
 class ComprasController extends Controller{
+	public function actionregistraCompra(){
 
+		$this->render("registraCompra");
+	}
 	public function actionListadoProveedores(){
 
 		$proveedores = Proveedor::model()->listadoProveedores();
