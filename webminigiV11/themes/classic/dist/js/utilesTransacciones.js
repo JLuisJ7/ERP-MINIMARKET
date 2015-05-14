@@ -124,7 +124,7 @@ $( '#fac_CantProd' ).change(function(){
     var cant=$( this ).val();
     var precio=$( "#fac_Precio" ).val();
     var total=(cant)*(precio);
- $( '#fac_valorVenta' ).val(total);
+ $( '#fac_valorVenta' ).val(parseFloat(total).toFixed(2));
 });
 
 $( '#fac_CantProd' ).keypress(function(){
@@ -140,7 +140,7 @@ $( '#fac_CantProd' ).keypress(function(){
 
 
 $(document).ready(function() {
-    $('#DetalleFactura').dataTable( {
+    $('#DetalleFactura').dataTable( {      
         "paging":   false,
         "ordering": false,
         "info":     false,
@@ -163,7 +163,9 @@ $(document).ready(function() {
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 } );
-               $("#subTotal").val(total);
+
+
+               $("#subTotal").val((total*1).toFixed(2));
 
                $("#igv").val((total*0.18).toFixed(2));
                var igv= $("#igv").val();
@@ -188,14 +190,18 @@ $(document).ready(function() {
 
 $(document).ready(function() {
    
-    
+   
+
+
  
         $('#addRow').on( 'click', function () {
         var id=$("#fac_idProducto").val();
         var desc=$("#fac_desc_Prod").val();
-         var cant=$("#fac_CantProd").val();
+        var cant=$("#fac_CantProd").val();
         var pre= $("#fac_Precio").val();
-        var val= $("#fac_valorVenta").val();
+        var val=$("#fac_valorVenta").val();
+
+     
 
 
         $('#DetalleFactura').DataTable().row.add( [

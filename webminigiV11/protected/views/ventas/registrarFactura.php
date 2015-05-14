@@ -59,20 +59,20 @@ $this->breadcrumbs=array(
 			<div class="col-xs-4">        		
 			  <div class="form-group">
 			    <label for="">Producto</label>
-			    <input type="text" class="form-control" id="fac_idProducto" >	
-			    <input type="text" class="form-control" id="fac_desc_Prod" >			    
+			    <input type="text" class="form-control" id="fac_idProducto" disabled>	
+			    <input type="text" class="form-control" id="fac_desc_Prod" disabled>			    
 			  </div>
 			  <div class="form-group">
 			    <label for="">Precio</label>
-			    <input type="text" class="form-control" id="fac_Precio" >			    
+			    <input type="text" class="form-control" id="fac_Precio" disabled>			    
 			  </div>
 			  <div class="form-group">
 			    <label for="">Cantidad</label>
 			    <input type="number" class="form-control" id="fac_CantProd" >			    
 			  </div>
 			  <div class="form-group">
-			    <label for="">Total</label>
-			    <input type="text" class="form-control" id="fac_valorVenta" >			    
+			    <label for="">Importe</label>
+			    <input type="text" class="form-control" id="fac_valorVenta" disabled>			    
 			  </div>
 			  <button id="addRow">Agregar Producto</button>
 			</div>
@@ -110,15 +110,15 @@ $this->breadcrumbs=array(
   		<div class="col-md-3 col-md-offset-9">
   			<div class="form-group">
 		    	<label for="subTotal">SubTotal</label>
-		    	<input type="text" class="form-control" id="subTotal" placeholder="">
+		    	<input type="text" class="form-control" id="subTotal"  disabled>
 			</div>
 			<div class="form-group">
 			    <label for="igv">IGV</label>
-			    <input type="text" class="form-control" id="igv" placeholder="">
+			    <input type="text" class="form-control" id="igv" placeholder="" disabled>
 			</div>
 			<div class="form-group">
 			    <label for="Total">Total</label>
-			    <input type="text" class="form-control" id="Total" placeholder="">
+			    <input type="text" class="form-control" id="Total" placeholder="" disabled>
 			</div> 
   		</div>
 		</div>
