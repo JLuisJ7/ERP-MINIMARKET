@@ -117,7 +117,7 @@ $( '#fac_CantProd' ).click(function(){
     var cant=$( this ).val();
     var precio=$( "#fac_Precio" ).val();
     var total=(cant)*(precio);
- $( '#fac_valorVenta' ).val(total);
+  $( '#fac_valorVenta' ).val(parseFloat(total).toFixed(2));
 });
 
 $( '#fac_CantProd' ).change(function(){
@@ -146,7 +146,7 @@ $(document).ready(function() {
         "columnDefs": [ {
             "targets": -1,
             "data": null,
-            "defaultContent": "<button>Click!</button>"
+            "defaultContent": "<button class='btn btn-danger'><i class='fa fa-trash-o '></i></button>"
         } ],
         "paging":   false,
         "ordering": false,
