@@ -32,7 +32,7 @@ $this->breadcrumbs=array(
 				  </div>
 				
 					<div class="form-group">
-				    <label for="nroFactura">nro Orden</label>
+				    <label for="nroOrden">nro Orden</label>
 				    <input type="text" class="form-control" id="nroOrden" disabled>
 				  </div>
 			     		

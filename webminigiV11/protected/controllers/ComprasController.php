@@ -1,5 +1,50 @@
 <?php
 class ComprasController extends Controller{
+
+public function actionAjaxAgregarOrdenCompra(){
+
+
+	
+$nroSerie=$_POST['nroSerie'];
+$nroOrden=$_POST['nroOrden'];
+$idProveedor=$_POST['idProveedor'];
+$idEmpleado=$_POST['idEmpleado'];
+$subTotal=$_POST['subTotal'];
+$IGV=$_POST['IGV'];
+$Total=$_POST['Total'];
+
+
+		$respuesta = OrdenCompra::model() -> agregarOrdenCompra($nroSerie,$nroOrden, $idProveedor,$idEmpleado,$subTotal,$IGV,$Total);
+
+		header('Content-Type: application/json; charset="UTF-8"');
+    	  Util::renderJSON(array( 'success' => $respuesta ));
+	}
+
+public function actionAjaxAgregarDetalleOrdenCompra(){
+
+
+ $json=$_POST['json'];
+$array = json_decode($json);
+
+$nroSerie=$_POST['nroSerie'];
+$nroOrden=$_POST['nroOrden'];
+	
+foreach($array as $obj){
+			$idProducto=$obj->Codigo;
+			$cantidad=$obj->Cantidad;
+			$Precio=$obj->Precio;			
+ DetalleOrdenCompra::model() -> agregarDetalleOrdenCompra($nroSerie,$nroOrden,$idProducto,$cantidad,$Precio);
+
+}
+}
+	public function actionAjaxObtenerNroOrden(){
+		// Condicion de empleados = 18
+		$OrdenCompra = OrdenCompra::model()->ObtenerNroOrden();
+		header('Content-Type: application/json; charset="UTF-8"');
+    	echo CJSON::encode(array('output'=>$OrdenCompra[0]));
+		
+	}
+
 	public function actionregistraCompra(){
 
 		$this->render("registraCompra");

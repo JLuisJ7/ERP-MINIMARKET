@@ -90,6 +90,8 @@ $Total=$_POST['Total'];
 	}
 
 
+
+
 public function actionAjaxAgregarDetalleFactura(){
 
 

@@ -1,9 +1,26 @@
-﻿Create table OrdenCompra(
+﻿drop table OrdenCompra;
+drop table DetalleOrdenCompra;
+
+select * from OrdenCompra;
+select * from DetalleOrdenCompra;
+select * from Producto;
+select * from factura;
+select * from detalleFactura;
+
+CREATE TRIGGER ActualizarStockCompra
+AFTER INSERT ON DetalleOrdenCompra 
+FOR EACH ROW
+  UPDATE Producto 
+     SET stock = stock + NEW.cantidad
+   WHERE idProducto = NEW.idProducto
+   
+   
+Create table OrdenCompra(
 nroSerie char(3) not null,
 nroOrden int unsigned NOT NULL,
 idProveedor int,
 idEmpleado int,
-FechaOrden date,
+FechaOrden TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 subTotal numeric(8,2),
 IGV numeric(8,2),
 Total numeric(8,2),
@@ -18,10 +35,11 @@ cantidad INT unsigned NOT NULL,
 precio NUMERIC ( 8, 2 ) NOT NULL
 );
 
+
 alter table OrdenCompra add constraint pk_seri_num_ord  PRIMARY KEY(nroSerie,nroOrden);
 
 alter table OrdenCompra add CONSTRAINT fk_ord_Prov FOREIGN KEY (idProveedor) references Proveedor(idProveedor);
-alter table DetalleOrdenCompra add CONSTRAINT fk_ord_detord FOREIGN KEY (nroSerie,nroFanroOrdenct) references OrdenCompra(nroSerie,nroFnroOrdenact);
+alter table DetalleOrdenCompra add CONSTRAINT fk_ord_detord FOREIGN KEY (nroSerie,nroOrden) references OrdenCompra(nroSerie,nroOrden);
 alter table DetalleOrdenCompra add CONSTRAINT fk_Detord_Prod FOREIGN KEY (idProducto) references Producto(idProducto);
 
 
@@ -258,3 +276,8 @@ select * from sispersona;
 
  
 
+
+
+select * from DetalleOrdenCompra;
+
+select * from  Producto;

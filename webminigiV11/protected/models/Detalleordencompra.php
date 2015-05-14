@@ -17,6 +17,27 @@
  */
 class Detalleordencompra extends CActiveRecord
 {
+
+	public function agregarDetalleOrdenCompra($nroSerie,$nroOrden,$idProducto,$cantidad,$Precio){
+
+		$resultado = array('valor'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
+
+		
+
+
+
+      		$Detalle=new Detalleordencompra;
+      		$Detalle->nroSerie=$nroSerie;
+			$Detalle->nroOrden=$nroOrden;
+			$Detalle->idProducto=$idProducto;
+			$Detalle->cantidad=$cantidad;
+			$Detalle->precio=$Precio;
+
+			$Detalle->save();
+
+		return $resultado;
+	}
+	
 	/**
 	 * @return string the associated database table name
 	 */

@@ -22,6 +22,43 @@
  */
 class Ordencompra extends CActiveRecord
 {
+
+
+	public function agregarOrdenCompra($nroSerie,$nroOrden,$idProveedor,$idEmpleado,$subTotal,$IGV,$Total){
+
+		$resultado = array('valor'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
+
+		
+		$OrdenCompra=new OrdenCompra;
+		$OrdenCompra->nroSerie=$nroSerie;
+		$OrdenCompra->nroOrden=$nroOrden;
+		$OrdenCompra->idProveedor=$idProveedor;
+		$OrdenCompra->idEmpleado=$idEmpleado;
+		$OrdenCompra->subTotal=$subTotal;
+		$OrdenCompra->IGV=$IGV;
+		$OrdenCompra->Total=$Total;
+
+      		
+if(!$OrdenCompra->save()){
+	
+	$resultado = array('valor'=>0, 'message'=>'No hemos podido realizar su solicitud, intentelo nuevamente');
+
+}
+			
+
+		return $resultado;
+	}
+
+	public function ObtenerNroOrden(){
+
+$sql = "select count(nroOrden)+1 as nroOrden from OrdenCompra";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
+
+
 	/**
 	 * @return string the associated database table name
 	 */

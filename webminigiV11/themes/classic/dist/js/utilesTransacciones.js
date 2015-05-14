@@ -18,10 +18,29 @@
     });
     };
 
+  function obtenerNroOrdenCompra(){
+         $.ajax({
+        url: 'index.php?r=compras/AjaxObtenerNroOrden',
+        type: 'POST',        
+    })
+    .done(function(response) {   
+     data=response.output;     
+        console.log(data.nroOrden);
+
+        $("#nroOrden").val(data.nroOrden);
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    .always(function() {
+        console.log("complete");
+    });
+    };
+
 $(document).ready(function(){
 
 obtenerNroFactura();
-   
+obtenerNroOrdenCompra();
     
                                 
         var consulta;
@@ -145,10 +164,11 @@ $(document).ready(function() {
                     return intVal(a) + intVal(b);
                 } );
                $("#subTotal").val(total);
-               $("#igv").val(total*0.18);
+
+               $("#igv").val((total*0.18).toFixed(2));
                var igv= $("#igv").val();
                var subtotal=$("#subTotal").val();
-               $("#Total").val(parseFloat(subtotal)+parseFloat(igv)); 
+               $("#Total").val((parseFloat(subtotal)+parseFloat(igv)).toFixed(2)); 
  
             // Total over this page
             pageTotal = api
@@ -267,6 +287,65 @@ $.ajax({
     console.log("complete");
     
 });
+});
+
+}); 
+
+$('#add_OrdenCompra').click( function() {
+  var nroSerie=$("#nroSerie").val();
+  var nroOrden=$("#nroOrden").val();
+  var idProveedor=$("#idProveedor").val();
+  var idEmpleado=$("#idEmpleado").val();
+  var subTotal=$("#subTotal").val();
+  var IGV=$("#igv").val();
+  var Total=$("#Total").val();
+
+ 
+$.ajax({
+    url: 'index.php?r=compras/AjaxAgregarOrdenCompra',
+    type: 'Post',  
+    data: {
+        nroSerie:nroSerie,
+        nroOrden:nroOrden,
+        idProveedor:idProveedor,
+        idEmpleado:idEmpleado,
+        subTotal:subTotal,
+        IGV:IGV,
+        Total:Total
+    },
+})
+.done(function() {
+    console.log("success");
+})
+.fail(function() {
+    console.log("error");
+})
+.always(function() {
+  var table = $('#DetalleFactura').tableToJSON();
+var nroSerie=$("#nroSerie").val();
+  var nroFactura=$("#nroFactura").val();
+
+
+$.ajax({
+    url: 'index.php?r=Compras/AjaxAgregarDetalleOrdenCompra',
+    type: 'Post',  
+    data: {
+            json:JSON.stringify(table),
+            nroSerie:nroSerie,
+            nroOrden:nroOrden
+        },
+})
+.done(function() {
+    console.log("success");
+})
+.fail(function() {
+    console.log("error");
+})
+.always(function() {
+    console.log("complete");
+    
+});
+
 });
 
 });  
