@@ -140,7 +140,14 @@ $( '#fac_CantProd' ).keypress(function(){
 
 
 $(document).ready(function() {
-    $('#DetalleFactura').dataTable( {      
+
+    
+     $('#DetalleFactura').dataTable({     
+        "columnDefs": [ {
+            "targets": -1,
+            "data": null,
+            "defaultContent": "<button>Click!</button>"
+        } ],
         "paging":   false,
         "ordering": false,
         "info":     false,
@@ -185,6 +192,13 @@ $(document).ready(function() {
                 'S/.'+ total +''
             );
         }
+    } );
+
+$('#DetalleFactura tbody').on( 'click', 'button', function () {
+  var table = $('#DetalleFactura').DataTable();
+        table.row( $(this).parents('tr') ).remove().draw( false );;
+        //alert( data[0] +"'s salary is: "+ data[ 4 ] );
+
     } );
 } );
 
@@ -365,15 +379,16 @@ $.ajax({
 
     } );*/
 
-   
+  /* 
     var table = $('#DetalleFactura').DataTable();
 
    
 $('#DetalleFactura tbody').on( 'click', 'td', function () {
     alert( 'Clicked on cell in visible column: '+table.cell( this ).index().columnVisible );
 } );
+
     var table = $('#DetalleFactura').DataTable();
 
-
+*/
  
 } );
