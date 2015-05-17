@@ -8,7 +8,10 @@
      data=response.output;     
         //console.log(data.nroFact);
 
-        $("#nroFactura").val(data.nroFact);
+        $("#nroFactura").text(data.nroFact);
+        $("#nroFactura").attr('data-nro', data.nroFact);
+        $("#nroSerie").text('001');
+        $("#nroSerie").attr('data-serie', '001');
     })
     .fail(function() {
         console.log("error");
@@ -46,13 +49,13 @@ obtenerNroOrdenCompra();
         var consulta;
                                                                           
          //hacemos focus al campo de búsqueda
-        $("#buscarProducto").focus();
+        $(".buscarProducto").focus();
                                                                                                     
         //comprobamos si se pulsa una tecla
-        $("#buscarProducto").keyup(function(e){
-                                     
+        $(".buscarProducto").keyup(function(e){
+               $("#findProducto").show();           
               //obtenemos el texto introducido en el campo de búsqueda
-              consulta = $("#buscarProducto").val();
+              consulta = $(".buscarProducto").val();
                                                                            
               //hace la búsqueda
                                                                                   
@@ -101,6 +104,7 @@ $("#findProducto").click(function() {
          data=response.output;
          $("#fac_idProducto").val(data.idProducto);
          $("#fac_desc_Prod").val(data.desc_Prod);
+         $("#fac_desc_Prod").attr('data-id', data.idProducto);;
          $("#fac_Precio").val(data.Precio);
     })
     .fail(function() {
@@ -110,7 +114,7 @@ $("#findProducto").click(function() {
         //console.log("complete");
     });
     
-
+$(this).hide();
 });
 
 $( '#fac_CantProd' ).click(function(){
@@ -178,9 +182,18 @@ $(document).ready(function() {
    $("#Total").val((parseFloat(subtotal)+parseFloat(igv)).toFixed(2)); 
  
   
+}    
+function clearInputs(){
+        $("#fac_desc_Prod").attr("data-id","");
+        $("#fac_desc_Prod").val("");
+        $("#fac_CantProd").val("");
+        $("#fac_Precio").val("");
+        $("#fac_valorVenta").val("");
+ 
+  
 }
         $('#addRow').on( 'click', function () {
-        var id=$("#fac_idProducto").val();
+        var id=$("#fac_desc_Prod").attr("data-id");
         var desc=$("#fac_desc_Prod").val();
         var cant=$("#fac_CantProd").val();
         var pre= $("#fac_Precio").val();
@@ -230,6 +243,7 @@ if(repeat===false){
  
            
 sumarValores();
+clearInputs();
        
     } );
 
@@ -271,8 +285,10 @@ $.ajax({
 });*/
 
  $('#add_Factura').click( function() {
-  var nroSerie=$("#nroSerie").val();
-  var nroFactura=$("#nroFactura").val();
+
+
+  var nroSerie=$("#nroSerie").attr('data-serie');
+  var nroFactura=$("#nroFactura").attr('data-nro');
   var idCliente=$("#idCliente").val();
   var idEmpleado=$("#idEmpleado").val();
   var subTotal=$("#subTotal").val();
