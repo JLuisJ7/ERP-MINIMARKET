@@ -151,63 +151,34 @@ $(document).ready(function() {
         "paging":   false,
         "ordering": false,
         "info":     false,
-        "bFilter": false,
-        "footerCallback": function ( row, data, start, end, display ) {
-            var api = this.api(), data;
- 
-            // Remove the formatting to get integer data for summation
-            var intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[\$,]/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
-            };
- 
-            // Total over all pages
-            total = api
-                .column( 4 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                } );
-
-
-               $("#subTotal").val((total*1).toFixed(2));
-
-               $("#igv").val((total*0.18).toFixed(2));
-               var igv= $("#igv").val();
-               var subtotal=$("#subTotal").val();
-               $("#Total").val((parseFloat(subtotal)+parseFloat(igv)).toFixed(2)); 
- 
-            // Total over this page
-            pageTotal = api
-                .column( 4, { page: 'current'} )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
- 
-            // Update footer
-            $( api.column( 4 ).footer() ).html(
-                'S/.'+ total +''
-            );
-        }
+        "bFilter": false
     } );
 
-$('#DetalleFactura tbody').on( 'click', 'button', function () {
-  var table = $('#DetalleFactura').DataTable();
-        table.row( $(this).parents('tr') ).remove().draw( false );;
-        //alert( data[0] +"'s salary is: "+ data[ 4 ] );
 
-    } );
+
 } );
 
 $(document).ready(function() {
    
-   
+    function sumarValores(){
+  var table=$('#DetalleFactura').DataTable();
+  var total = table 
+    .column(4)
+    .data()
+    .reduce( function (a, b) {
+        return parseFloat(a) + parseFloat(b);
+    } );
 
 
+   $("#subTotal").val((total*1).toFixed(2));
+
+   $("#igv").val((total*0.18).toFixed(2));
+   var igv= $("#igv").val();
+   var subtotal=$("#subTotal").val();
+   $("#Total").val((parseFloat(subtotal)+parseFloat(igv)).toFixed(2)); 
  
+  
+}
         $('#addRow').on( 'click', function () {
         var id=$("#fac_idProducto").val();
         var desc=$("#fac_desc_Prod").val();
@@ -215,14 +186,60 @@ $(document).ready(function() {
         var pre= $("#fac_Precio").val();
         var val=$("#fac_valorVenta").val();
 
-     
+     var table=$('#DetalleFactura').DataTable();
+      var detalle = $('#DetalleFactura').tableToJSON();
+      var repeat=false;
+$.each(detalle,function(index, value){
+    console.log('My array has at position ' + index + ', this value: ' + value.Codigo);
+    if(value.Codigo===id){
+      console.log('repetido');
+     detalle[index].Cantidad=parseInt(detalle[index].Cantidad)+parseInt(cant);
+     detalle[index].Importe=parseFloat(parseInt(detalle[index].Cantidad)*parseFloat(detalle[index].Precio)).toFixed(2);
+     console.log('My array has at position ' + index + ', this value: ' + value.Cantidad);
+    
+    repeat=true;    
+   
+      console.log(detalle);
+     return false;  
+    }
+});
 
+if(repeat===false){
 
-        $('#DetalleFactura').DataTable().row.add( [
+   $('#DetalleFactura').DataTable().row.add( [
            id,desc,cant,pre,val
         ] ).draw();
+ }else if(repeat===true){
+  
+  var table=$('#DetalleFactura').DataTable();
+   table
+        .clear()
+        .draw();
+      
+  $.each(detalle,function(index, value){
+   
+     
+     
+      $('#DetalleFactura').DataTable().row.add( [
+                 value.Codigo,value.Descripcion,value.Cantidad,value.Precio,value.Importe
+              ] ).draw();
+
+});
+ };
+
  
+           
+sumarValores();
        
+    } );
+
+
+        $('#DetalleFactura tbody').on( 'click', 'button', function () {
+  var table = $('#DetalleFactura').DataTable();
+        table.row( $(this).parents('tr') ).remove().draw( false );;
+        //alert( data[0] +"'s salary is: "+ data[ 4 ] );
+        sumarValores();
+
     } );
 
  /*$('#add_DetalleFact').click( function() {
@@ -392,3 +409,5 @@ $('#DetalleFactura tbody').on( 'click', 'td', function () {
 */
  
 } );
+
+

@@ -91,20 +91,7 @@ $this->breadcrumbs=array(
                 <th style="vertical-align: middle;" >Importe</th>
                 <th style="vertical-align: middle;" ></th>                
               </tr>
-            </thead>
-           
-        	<tbody>
-            <tr style="display:none;">
-            	<td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-               
-            </tr>
-           
-        </tbody>
+            </thead>          
 
           </table>
         <button id="add_DetalleFact">Agregar Detalle</button>
