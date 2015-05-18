@@ -57,7 +57,10 @@ $this->breadcrumbs=array(
 			     		
 				  <div class="form-group">
 				    <label for="idCliente">Cliente</label>
-				    <input type="text" class="form-control" id="idCliente" value="1">
+				    <input type="text" class="form-control buscarCliente" data-id="" id="fac_RazSoc_Cli" >
+				    <select multiple class="form-control" id="findCliente" style="position:absolute;z-index:1000;display:none;">
+					</select>
+
 				  </div>
 				  <div class="form-group">
 				    <label for="">Empleado</label>
@@ -78,12 +81,12 @@ $this->breadcrumbs=array(
 			   
 			    <div class="input-group">
                         
-                       <input type="text" class="form-control buscarProducto"  data-id="" id="fac_desc_Prod" placeholder="" >
+                       <input type="text" class="form-control buscarProducto"  data-id="" id="fac_desc_Prod" placeholder="" style="min-width: 200px;" autocomplete="off">
                        <span class="input-group-btn">
         <button class="btn btn-default" type="button"><i class="fa fa-search-plus"></i></button>
       </span>
                       </div>
-			 <select multiple class="form-control" id="findProducto" style="position:absolute;z-index:1000;display:none;">
+			 <select multiple class="form-control" id="findProducto" style="position:absolute;z-index:1000;display:none;min-width: 200px;">
 				</select>
 			  </div>
 				      		
@@ -94,7 +97,7 @@ $this->breadcrumbs=array(
 				  </div>
 				  <div class="form-group">
 				    <label for="">Cantidad</label><br>
-				    <input type="number" class="form-control" id="fac_CantProd" >			    
+				    <input type="number" data-stock="" class="form-control" id="fac_CantProd" min="0" max="">			    
 				  </div>
 				  <div class="form-group">
 				    <label for="">Importe</label><br>

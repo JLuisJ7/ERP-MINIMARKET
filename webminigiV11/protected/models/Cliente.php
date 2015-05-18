@@ -17,6 +17,15 @@
 class Cliente extends CActiveRecord
 {
 
+	public function BuscarCliente($query){
+
+$sql = "SELECT idCliente,RazSoc_Cli FROM Cliente WHERE RazSoc_Cli LIKE '%".$query."%'";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
+
 	/**
 	* Se listan las personas por catalogo
 	**/

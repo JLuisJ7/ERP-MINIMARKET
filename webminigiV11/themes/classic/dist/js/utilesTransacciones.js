@@ -30,7 +30,12 @@
      data=response.output;     
         console.log(data.nroOrden);
 
-        $("#nroOrden").val(data.nroOrden);
+       // $("#nroOrden").val(data.nroOrden);
+        $("#nroOrden").text(data.nroOrden);
+        $("#nroOrden").attr('data-nro', data.nroOrden);
+        $("#nroSerieOrden").text('001');
+        $("#nroSerieOrden").attr('data-serie', '001');
+
     })
     .fail(function() {
         console.log("error");
@@ -53,7 +58,8 @@ obtenerNroOrdenCompra();
                                                                                                     
         //comprobamos si se pulsa una tecla
         $(".buscarProducto").keyup(function(e){
-               $("#findProducto").show();           
+               $("#findProducto").show();  
+
               //obtenemos el texto introducido en el campo de búsqueda
               consulta = $(".buscarProducto").val();
                                                                            
@@ -89,7 +95,91 @@ obtenerNroOrdenCompra();
                     }
               });
                                                                                   
+                                                                          
+        });
+
+        //comprobamos si se pulsa una tecla
+        $(".buscarCliente").keyup(function(e){
+               $("#findCliente").show();  
+
+              //obtenemos el texto introducido en el campo de búsqueda
+              consulta = $(".buscarCliente").val();
                                                                            
+              //hace la búsqueda
+                                                                                  
+              $.ajax({
+                    type: "POST",
+                    url: "index.php?r=ventas/AjaxBuscarCliente",
+                    data: {
+                        query:consulta
+                    },
+                    beforeSend: function(){
+                          //imagen de carga
+                          //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
+                    },
+                    error: function(){
+                          console.log('error');     
+                    },
+                    success: function(data){  
+                    var html = "";
+
+                $("#findCliente").find("option").remove();
+                 
+                $.each(data, function(index, value) {
+
+                    html += '<option value="'+value.idCliente+'">'+value.RazSoc_Cli+'</option>';
+                });
+                
+                $("#findCliente").append(html);  
+
+                          
+                                                             
+                    }
+              });
+                                                                                  
+                                                                          
+        });
+
+        //comprobamos si se pulsa una tecla
+        $(".buscarProveedor").keyup(function(e){
+               $("#findProveedor").show();  
+
+              //obtenemos el texto introducido en el campo de búsqueda
+              consulta = $(".buscarProveedor").val();
+                                                                           
+              //hace la búsqueda
+                                                                                  
+              $.ajax({
+                    type: "POST",
+                    url: "index.php?r=compras/AjaxBuscarProveedor",
+                    data: {
+                        query:consulta
+                    },
+                    beforeSend: function(){
+                          //imagen de carga
+                          //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
+                    },
+                    error: function(){
+                          console.log('error');     
+                    },
+                    success: function(data){  
+                    var html = "";
+
+                $("#findProveedor").find("option").remove();
+                 
+                $.each(data, function(index, value) {
+
+                    html += '<option value="'+value.idProveedor+'">'+value.RazSoc_Prov+'</option>';
+                });
+                
+                $("#findProveedor").append(html);  
+
+                          
+                                                             
+                    }
+              });
+                                                                                  
+                                                                          
         });
 
 $("#findProducto").click(function() {
@@ -104,7 +194,9 @@ $("#findProducto").click(function() {
          data=response.output;
          $("#fac_idProducto").val(data.idProducto);
          $("#fac_desc_Prod").val(data.desc_Prod);
-         $("#fac_desc_Prod").attr('data-id', data.idProducto);;
+         $("#fac_desc_Prod").attr('data-id', data.idProducto);
+         $("#fac_CantProd").attr('data-stock', data.stock);
+         $("#fac_CantProd").attr('max', data.stock);
          $("#fac_Precio").val(data.Precio);
     })
     .fail(function() {
@@ -116,6 +208,59 @@ $("#findProducto").click(function() {
     
 $(this).hide();
 });
+
+$("#findCliente").click(function() {
+    var idCliente=$(this).val();
+
+    $.ajax({
+        url: 'index.php?r=ventas/AjaxObtenerCliente',
+        type: 'POST',        
+        data: {idCliente:parseInt(idCliente)},
+    })
+    .done(function(response) {
+         data=response.output;
+        
+         $("#fac_RazSoc_Cli").val(data.RazSoc_Cli);
+         $("#fac_RazSoc_Cli").attr('data-id', data.idCliente);
+        
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    .always(function() {
+        //console.log("complete");
+    });
+    
+$(this).hide();
+});
+
+$("#findProveedor").click(function() {
+    var idProveedor=$(this).val();
+
+    $.ajax({
+        url: 'index.php?r=compras/AjaxObtenerProveedor',
+        type: 'POST',        
+        data: {idProveedor:parseInt(idProveedor)},
+    })
+    .done(function(response) {
+         data=response.output;
+        
+         $("#fac_RazSoc_Prov").val(data.RazSoc_Prov);
+         $("#fac_RazSoc_Prov").attr('data-id', data.idProveedor);
+        
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    .always(function() {
+        //console.log("complete");
+    });
+    
+$(this).hide();
+});
+
+
+
 
 $( '#fac_CantProd' ).click(function(){
     var cant=$( this ).val();
@@ -250,7 +395,7 @@ clearInputs();
 
         $('#DetalleFactura tbody').on( 'click', 'button', function () {
   var table = $('#DetalleFactura').DataTable();
-        table.row( $(this).parents('tr') ).remove().draw( false );;
+        table.row( $(this).parents('tr') ).remove().draw( false );
         //alert( data[0] +"'s salary is: "+ data[ 4 ] );
         sumarValores();
 
@@ -289,7 +434,7 @@ $.ajax({
 
   var nroSerie=$("#nroSerie").attr('data-serie');
   var nroFactura=$("#nroFactura").attr('data-nro');
-  var idCliente=$("#idCliente").val();
+  var idCliente=$("#fac_RazSoc_Cli").attr('data-id');
   var idEmpleado=$("#idEmpleado").val();
   var subTotal=$("#subTotal").val();
   var IGV=$("#igv").val();
@@ -317,8 +462,8 @@ $.ajax({
 })
 .always(function() {
    var table = $('#DetalleFactura').tableToJSON();
-var nroSerie=$("#nroSerie").val();
-  var nroFactura=$("#nroFactura").val();
+  var nroSerie=$("#nroSerie").attr('data-serie');
+  var nroFactura=$("#nroFactura").attr('data-nro');
 
 
 $.ajax({
@@ -332,6 +477,7 @@ $.ajax({
 })
 .done(function() {
     console.log("success");
+   // location.reload();
 })
 .fail(function() {
     console.log("error");
@@ -345,9 +491,10 @@ $.ajax({
 }); 
 
 $('#add_OrdenCompra').click( function() {
-  var nroSerie=$("#nroSerie").val();
-  var nroOrden=$("#nroOrden").val();
-  var idProveedor=$("#idProveedor").val();
+
+  var nroSerie=$("#nroSerieOrden").attr('data-serie');
+  var nroOrden=$("#nroOrden").attr('data-nro');
+  var idProveedor=$("#fac_RazSoc_Prov").attr('data-id');
   var idEmpleado=$("#idEmpleado").val();
   var subTotal=$("#subTotal").val();
   var IGV=$("#igv").val();
@@ -375,8 +522,8 @@ $.ajax({
 })
 .always(function() {
   var table = $('#DetalleFactura').tableToJSON();
-var nroSerie=$("#nroSerie").val();
-  var nroFactura=$("#nroFactura").val();
+var nroSerie=$("#nroSerieOrden").attr('data-serie');
+  var nroOrden=$("#nroOrden").attr('data-nro');
 
 
 $.ajax({
@@ -390,6 +537,7 @@ $.ajax({
 })
 .done(function() {
     console.log("success");
+    location.reload();
 })
 .fail(function() {
     console.log("error");

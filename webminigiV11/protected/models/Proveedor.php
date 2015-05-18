@@ -17,7 +17,14 @@
 class Proveedor extends CActiveRecord
 {
 
+	public function BuscarProveedor($query){
 
+$sql = "SELECT idProveedor,RazSoc_Prov FROM Proveedor WHERE RazSoc_Prov LIKE '%".$query."%'";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
 		/**
 	* Se listan las personas por catalogo
 	**/

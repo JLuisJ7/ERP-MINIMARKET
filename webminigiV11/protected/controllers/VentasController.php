@@ -1,7 +1,17 @@
 <?php
 class VentasController extends Controller{
 
+	public function actionAjaxBuscarCliente(){
+		$query = $_POST['query'];
+		
 	
+		$clientes = Cliente::model()->BuscarCliente($query);
+
+		Util::renderJSON($clientes);
+	}
+
+
+
 	public function actionregistrarFactura(){
 
 		$this->render("registrarFactura");

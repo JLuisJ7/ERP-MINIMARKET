@@ -1,6 +1,16 @@
 <?php
 class ComprasController extends Controller{
 
+	public function actionAjaxBuscarProveedor(){
+		$query = $_POST['query'];
+		
+	
+		$proveedores = Proveedor::model()->BuscarProveedor($query);
+
+		Util::renderJSON($proveedores);
+	}
+
+
 public function actionAjaxAgregarOrdenCompra(){
 
 
