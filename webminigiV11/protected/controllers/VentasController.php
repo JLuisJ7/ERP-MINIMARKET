@@ -110,14 +110,20 @@ $array = json_decode($json);
 
 $nroSerie=$_POST['nroSerie'];
 $nroFact=$_POST['nroFact'];
-	
+$nro_documento=$_POST['nroFact'];
+$tipo_documento="1";
+$tipo="S";	
 foreach($array as $obj){
 			$idProducto=$obj->Codigo;
 			$cantidad=$obj->Cantidad;
 			$Precio=$obj->Precio;			
+			$Total=$obj->Importe;			
  Detallefactura::model() -> agregarDetalleFactura($nroSerie,$nroFact,$idProducto,$cantidad,$Precio);
 
+ Inventario::model() -> agregarInventario($tipo_documento,$nroSerie,$nro_documento,$tipo,$idProducto,$cantidad,$Precio,$Total);
+
 }
+
 //$array_string=mysql_escape_string(serialize($array));
 
       

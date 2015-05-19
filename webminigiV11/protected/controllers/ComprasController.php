@@ -38,14 +38,19 @@ $array = json_decode($json);
 
 $nroSerie=$_POST['nroSerie'];
 $nroOrden=$_POST['nroOrden'];
-	
+$nro_documento=$_POST['nroOrden'];
+$tipo_documento="2";
+$tipo="E";	
 foreach($array as $obj){
 			$idProducto=$obj->Codigo;
 			$cantidad=$obj->Cantidad;
-			$Precio=$obj->Precio;			
+			$Precio=$obj->Precio;	
+			$Total=$obj->Importe;			
  DetalleOrdenCompra::model() -> agregarDetalleOrdenCompra($nroSerie,$nroOrden,$idProducto,$cantidad,$Precio);
 
+ Inventario::model() -> agregarInventario($tipo_documento,$nroSerie,$nro_documento,$tipo,$idProducto,$cantidad,$Precio,$Total);
 }
+
 }
 	public function actionAjaxObtenerNroOrden(){
 		// Condicion de empleados = 18

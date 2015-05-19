@@ -7,28 +7,23 @@ select * from producto;
 select * from Factura as f
 inner join Detallefactura as df ON f.nroSerie=df.nroSerie and f.nroFact=df.nroFact
 
-CREATE TRIGGER Inventario
-AFTER INSERT ON DetalleFactura 
-FOR EACH ROW
-
-  UPDATE Producto 
-     SET stock = stock + NEW.cantidad
-   WHERE idProducto = NEW.idProducto
-   
-select *from inventario;
-create table Inventario(
-idMovimiento int unsigned AUTO_INCREMENT primary key,
-tipo_documento char(1),
-serie char(3),
-nro_documento int unsigned,
-fecha datetime,
-idproducto int,
-cantidad int unsigned,
-valor_unitario numeric(8,2),
-total numeric(8,2)
+CREATE TABLE Inventario (
+  idMovimiento int unsigned AUTO_INCREMENT PRIMARY KEY,
+  tipo_documento char(1) ,
+  serie char(3) ,
+  nro_documento int unsigned ,
+  fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
+  tipo char(1),
+  idproducto int,
+  cantidad int(10) unsigned ,
+  valor_unitario decimal(8,2) ,
+  total decimal(8,2)
 );
 
-alter table Inventario add constraint FK_inv_prod  FOREIGN KEY(idProducto) REFERENCES Producto(idProducto);
+alter table Inventario add CONSTRAINT fk_Inv_Prod FOREIGN KEY (idProducto) references Producto(idProducto);
+
+select * from Inventario;
+select * from Producto;
 
 
 drop table OrdenCompra;
