@@ -22,13 +22,13 @@ $this->breadcrumbs=array(
                   <h3 class='box-title'><i class="fa fa-user"></i> Listado de Facturas</h3>
                 </div>
                 <div class="box-body">
-                  <table class="table table-striped table-hover" id="listaOrdenesC" style="">
+                  <table class="table table-striped table-bordered" id="listaOrdenesC" style="">
                     <thead>
                       <tr>                        
                         <th style="vertical-align: middle;" >Serie</th>
                         <th style="vertical-align: middle;" >Nro.</th>
                         <th style="vertical-align: middle;" >Proveedor</th>
-                        <th style="vertical-align: middle;" >Empleado</th>
+                        <!-- <th style="vertical-align: middle;" >Empleado</th> -->
                         <th style="vertical-align: middle;" >Fecha</th>
                         <th style="vertical-align: middle;" >Subtotal</th>
                         <th style="vertical-align: middle;" >IGV</th>
@@ -50,7 +50,7 @@ $this->breadcrumbs=array(
               <!-- Cabecera -->
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" onclick="$('#myModalFacturaDetallada').modal('hide');" ><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalOrdenCDetalladaLabel">Orden de Compra<img class="loading-small-precarga" style="display: none;" src="<?php echo Yii::app()->theme->baseUrl;?>/dist/img/loading.gif" /></h4>
+                <h4 class="modal-title" id="myModalOrdenCDetalladaLabel">Detalle de la Orden de Compra : <b><span id="serie-OrdenC"></span></b><img class="loading-small-precarga" style="display: none;" src="<?php echo Yii::app()->theme->baseUrl;?>/dist/img/loading.gif" /></h4>
               </div>
               
               <div class="modal-body" style="background-color:#fff;">

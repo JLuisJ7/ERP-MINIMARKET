@@ -22,7 +22,7 @@ $this->breadcrumbs=array(
                   <h3 class='box-title'><i class="fa fa-user"></i> Listado de Clientes</h3>
                 </div>
                 <div class="box-body">
-                  <table class="table table-striped table-hover" id="listaClientes" style="">
+                  <table class="table table-striped table-bordered" id="listaClientes" style="">
                     <thead>
                       <tr>
                         <!--th style="vertical-align: middle;">#</th-->
@@ -192,7 +192,7 @@ $this->breadcrumbs=array(
 
    <div class="form-group">
                     <div class="col-md-5 col-md-offset-3">
-                      <button type="submit" class="btn btn-primary">Registrar</button>
+                      <button type="submit" class="btn btn-primary">Actualizar</button>
                       <button   id="cerrarmodal" class="btn btn-primary"    data-dismiss="modal" rel="tooltip" title="Cerrar"
                       >Cerrar</button>
                     </div>

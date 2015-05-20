@@ -113,7 +113,7 @@ var OrdenCore = {
                 {"mData": "nroSerie", "sClass": "alignCenter"},
                 {"mData": "nroOrden", "sClass": "alignCenter"},
                 {"mData": "Proveedor", "sClass": "alignCenter"},
-                {"mData": "Empleado", "sClass": "alignCenter"},                
+                //{"mData": "Empleado", "sClass": "alignCenter"},                
                 {"mData": "Fecha", "sClass": "alignCenter"},
                 {"mData": "subTotal", "sClass": "alignCenter"},
                 {"mData": "IGV", "sClass": "alignCenter"},
@@ -141,6 +141,7 @@ var OrdenCore = {
         });
     },    
     obtenerDetalle : function(nroSerie,nroOrden){
+        $("#serie-OrdenC").text(nroSerie+'-'+nroOrden);
         $.ajax({
             url: 'index.php?r=compras/AjaxObtenerDetalle',
             type: 'POST',            
@@ -197,7 +198,7 @@ var FactCore = {
         var me = this;
         
         Util.createGrid('#listaFacturas',{
-            toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoProveedor">Nuevo Proveedor</a>',
+            toolButons:'',
             url:'index.php?r=ventas/ajaxListadoFacturas',
             "order": [[ 0, 'asc' ]],
 
@@ -206,7 +207,7 @@ var FactCore = {
                 {"mData": "nroSerie", "sClass": "alignCenter"},
                 {"mData": "nroFact", "sClass": "alignCenter"},
                 {"mData": "Cliente", "sClass": "alignCenter"},
-                {"mData": "Empleado", "sClass": "alignCenter"},                
+                //{"mData": "Empleado", "sClass": "alignCenter"},                
                 {"mData": "Fecha", "sClass": "alignCenter"},
                 {"mData": "SubTotal", "sClass": "alignCenter"},
                 {"mData": "IGV", "sClass": "alignCenter"},
@@ -226,7 +227,6 @@ var FactCore = {
                 
                 $('.verDetalle').click(function() {
                     me.obtenerDetalle($(this).attr('data-nroSerie'),$(this).attr('data-nroFact'));
-                    
                 });
 
             }
@@ -234,6 +234,8 @@ var FactCore = {
         });
     },    
     obtenerDetalle : function(nroSerie,nroFact){
+        $("#serie-factura").text(nroSerie+'-'+nroFact);
+
         $.ajax({
             url: 'index.php?r=ventas/AjaxObtenerDetalle',
             type: 'POST',            
@@ -601,7 +603,7 @@ var ProvCore = {
                     "mData": 'idProveedor',
                     "bSortable": false,
                     "bFilterable": false,
-                    "width": "150px",
+                    //"width": "150px",
                     "mRender": function(o) {
                         return '<a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-warning btn-sm editarProveedor"><i class="fa fa-pencil"></i></a> <a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-danger btn-sm suspenderProveedor"><i class="fa fa-trash-o"></i></a>';
                     }
@@ -974,7 +976,7 @@ var FnCore = {
                     "mData": 'idCliente',
                     "bSortable": false,
                     "bFilterable": false,
-                    "width": "150px",
+                    //"width": "150px",
                     "mRender": function(o) {
                         return '<a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-warning btn-sm editarCliente"><i class="fa fa-pencil"></i></a> <a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-danger btn-sm suspenderCliente"><i class="fa fa-trash-o"></i></a>';
                     }
@@ -1342,7 +1344,7 @@ var ProdCore = {
                     "mData": 'idProducto',
                     "bSortable": false,
                     "bFilterable": false,
-                    "width": "150px",
+                    //"width": "150px",
                     "mRender": function(o) {
                         return '<a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-warning btn-sm editarProducto"><i class="fa fa-pencil"></i></a> <a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-danger btn-sm suspenderProducto"><i class="fa fa-trash-o"></i></a>';
                     }

@@ -1,6 +1,23 @@
 <?php
 class AlmacenController extends Controller{
 
+public function actionAjaxContadorProductosAgotados(){
+		// Condicion de empleados = 18
+		$productos = Producto::model()->ContadorProductosAgotados();
+		header('Content-Type: application/json; charset="UTF-8"');
+    	echo CJSON::encode(array('output'=>$productos[0]));
+		
+	}
+
+	public function actionAjaxListaProductosAgotados(){
+		// Condicion de empleados = 18
+		$productos = Producto::model()->ListaProductosAgotados();
+		header('Content-Type: application/json; charset="UTF-8"');
+    	
+    	Util::renderJSON($productos);
+		
+	}
+
 public function actionAjaxListadoInventario(){
 		
 		$inventario = Inventario::model()->listadoInventario();
@@ -81,11 +98,20 @@ public function actionAjaxListarCategorias(){
 		header('Content-Type: application/json; charset="UTF-8"');
     	echo CJSON::encode(array('output'=>$productos[0]));
 	}
-	public function actionAjaxBuscarProducto(){
+	public function actionAjaxBuscarProductoVenta(){
 		$query = $_POST['query'];
 		
 	
-		$productos = Producto::model()->BuscarProducto($query);
+		$productos = Producto::model()->BuscarProductoVenta($query);
+
+		Util::renderJSON($productos);
+	}
+
+	public function actionAjaxBuscarProductoCompra(){
+		$query = $_POST['query'];
+		
+	
+		$productos = Producto::model()->BuscarProductoCompra($query);
 
 		Util::renderJSON($productos);
 	}

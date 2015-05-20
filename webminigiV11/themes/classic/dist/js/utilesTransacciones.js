@@ -19,6 +19,56 @@
     .always(function() {
         console.log("complete");
     });
+    }; 
+
+  function obtenerProductosAgotados(){
+         $.ajax({
+        url: 'index.php?r=almacen/AjaxContadorProductosAgotados',
+        type: 'POST',        
+    })
+    .done(function(response) {   
+     data=response.output;     
+        //console.log(data.nroFact);
+
+        $(".countAgotados").text(data.numero);
+       
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    .always(function() {
+        console.log("complete");
+    }); 
+
+    $.ajax({
+        url: 'index.php?r=almacen/AjaxListaProductosAgotados',
+        type: 'POST',        
+    })
+    .done(function(response) {   
+     data=response;     
+        console.log(data);
+
+        var html = "";
+
+                $("#ListaProductoAgotados").find("li").remove();
+                 
+                $.each(data, function(index, value) {
+
+                    //html += '<option value="'+value.idProducto+'">'+value.desc_Prod+'</option>';
+                    html +='<li><a href="#"><i class="fa fa-exclamation-triangle"></i> '+value.desc_Prod+', S/. '+value.Precio+'</a></li>';
+                });
+                
+                $("#ListaProductoAgotados").append(html);  
+
+       
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    .always(function() {
+        console.log("complete");
+    });
+
     };
 
   function obtenerNroOrdenCompra(){
@@ -46,7 +96,7 @@
     };
 
 $(document).ready(function(){
-
+ obtenerProductosAgotados()
 obtenerNroFactura();
 obtenerNroOrdenCompra();
     
@@ -54,20 +104,62 @@ obtenerNroOrdenCompra();
         var consulta;
                                                                           
          //hacemos focus al campo de búsqueda
-        $(".buscarProducto").focus();
+        //$(".buscarProductoVenta").focus();
                                                                                                     
         //comprobamos si se pulsa una tecla
-        $(".buscarProducto").keyup(function(e){
+        $(".buscarProductoVenta").keyup(function(e){
                $("#findProducto").show();  
 
               //obtenemos el texto introducido en el campo de búsqueda
-              consulta = $(".buscarProducto").val();
+              consulta = $(".buscarProductoVenta").val();
                                                                            
               //hace la búsqueda
                                                                                   
               $.ajax({
                     type: "POST",
-                    url: "index.php?r=almacen/AjaxBuscarProducto",
+                    url: "index.php?r=almacen/AjaxBuscarProductoVenta",
+                    data: {
+                        query:consulta
+                    },
+                    beforeSend: function(){
+                          //imagen de carga
+                          //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
+                    },
+                    error: function(){
+                          console.log('error');     
+                    },
+                    success: function(data){  
+                    var html = "";
+
+                $("#findProducto").find("option").remove();
+                 
+                $.each(data, function(index, value) {
+
+                    html += '<option value="'+value.idProducto+'">'+value.desc_Prod+'</option>';
+                });
+                
+                $("#findProducto").append(html);  
+
+                          
+                                                             
+                    }
+              });
+                                                                                  
+                                                                          
+        });
+
+        //comprobamos si se pulsa una tecla
+        $(".buscarProductoCompra").keyup(function(e){
+               $("#findProducto").show();  
+
+              //obtenemos el texto introducido en el campo de búsqueda
+              consulta = $(".buscarProductoCompra").val();
+                                                                           
+              //hace la búsqueda
+                                                                                  
+              $.ajax({
+                    type: "POST",
+                    url: "index.php?r=almacen/AjaxBuscarProductoCompra",
                     data: {
                         query:consulta
                     },
@@ -477,7 +569,7 @@ $.ajax({
 })
 .done(function() {
     console.log("success");
-   // location.reload();
+   location.reload();
 })
 .fail(function() {
     console.log("error");

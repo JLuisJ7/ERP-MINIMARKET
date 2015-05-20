@@ -62,7 +62,7 @@ $this->breadcrumbs=array(
 					</select>
 
 				  </div>
-				  <div class="form-group">
+				  <div class="form-group" style="display:none;">
 				    <label for="">Empleado</label>
 				    <input type="text" class="form-control" id="idEmpleado" value="1">
 				  </div>		 
@@ -81,7 +81,7 @@ $this->breadcrumbs=array(
 			   
 			    <div class="input-group">
                         
-                       <input type="text" class="form-control buscarProducto"  data-id="" id="fac_desc_Prod" placeholder="" style="min-width: 200px;" autocomplete="off">
+                       <input type="text" class="form-control buscarProductoVenta"  data-id="" id="fac_desc_Prod" placeholder="" style="min-width: 200px;" autocomplete="off">
                        <span class="input-group-btn">
         <button class="btn btn-default" type="button"><i class="fa fa-search-plus"></i></button>
       </span>

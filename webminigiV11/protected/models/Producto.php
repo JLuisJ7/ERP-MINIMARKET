@@ -21,6 +21,24 @@
  */
 class Producto extends CActiveRecord
 {
+	public function ContadorProductosAgotados(){
+
+$sql = "select count(*) as numero from producto where stock=0;";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
+
+	public function ListaProductosAgotados(){
+
+$sql = "select *  from producto where stock=0;";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
+
 	/**
 	* Se listan las personas por catalogo
 	**/
@@ -33,9 +51,18 @@ $sql = "select idProducto,desc_Prod,presentacion,tipoProd,stock,m.nomMarca,c.nom
 		return Yii::app()->db->createCommand($sql)->queryAll();
 	}
 
-public function BuscarProducto($query){
+public function BuscarProductoVenta($query){
 
-$sql = "SELECT idProducto,desc_Prod FROM Producto WHERE desc_Prod LIKE '%".$query."%'";
+$sql = "SELECT idProducto,desc_Prod FROM Producto WHERE stock>0 and desc_Prod LIKE '%".$query."%'";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
+
+public function BuscarProductoCompra($query){
+
+$sql = "SELECT idProducto,desc_Prod FROM Producto WHERE  desc_Prod LIKE '%".$query."%'";
 	
 
 

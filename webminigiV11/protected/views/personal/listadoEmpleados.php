@@ -22,7 +22,7 @@ $this->breadcrumbs=array(
                   <h3 class='box-title'><i class="fa fa-user"></i> Listado de Empleados</h3>
                 </div>
                 <div class="box-body">
-                  <table class="table table-striped table-hover" id="listaEmpleados">
+                  <table class="table table-striped table-bordered" id="listaEmpleados">
                     <thead>
                       <tr>
                         <!--th style="vertical-align: middle;">#</th-->
