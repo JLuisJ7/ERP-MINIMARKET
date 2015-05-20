@@ -18,6 +18,14 @@
 class Detalleordencompra extends CActiveRecord
 {
 
+public function obtenerDetallexOrden($nroSerie,$nroOrden){
+
+		$sql = "select  p.desc_Prod,cantidad,doc.precio,(cantidad*doc.precio) as importe  from detalleordencompra doc INNER JOIN  Producto as p ON p.idProducto=doc.idProducto where  nroSerie='".$nroSerie."' and nroOrden=".$nroOrden;
+	
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
+
 	public function agregarDetalleOrdenCompra($nroSerie,$nroOrden,$idProducto,$cantidad,$Precio){
 
 		$resultado = array('valor'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');

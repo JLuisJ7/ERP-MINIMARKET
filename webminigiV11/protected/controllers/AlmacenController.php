@@ -1,5 +1,19 @@
 <?php
 class AlmacenController extends Controller{
+
+public function actionAjaxListadoInventario(){
+		
+		$inventario = Inventario::model()->listadoInventario();
+
+		Util::renderJSON($inventario);
+	}
+
+	public function actionInventario(){
+
+		$this->render("Inventario");
+	}
+
+
 	public function actionAjaxListadoProductos(){
 		// Condicion de empleados = 18
 		$productos = Producto::model()->listadoProductos();

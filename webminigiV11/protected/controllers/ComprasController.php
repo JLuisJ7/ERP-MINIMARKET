@@ -1,6 +1,28 @@
 <?php
 class ComprasController extends Controller{
 
+public function actionAjaxObtenerDetalle(){
+		
+
+    	$nroSerie = $_POST['nroSerie'];
+		$nroOrden = $_POST['nroOrden'];
+		$detalle = DetalleOrdenCompra::model()->obtenerDetallexOrden($nroSerie,$nroOrden);
+			Util::renderJSON($detalle);
+		
+	}
+
+public function actionajaxListadoOrdenesC(){
+		
+		$ordenes = OrdenCompra::model()->listadoOrdenesC();
+
+		Util::renderJSON($ordenes);
+	}
+
+public function actionordenesCompra(){
+
+		$this->render("ordenesCompra");
+	}
+
 	public function actionAjaxBuscarProveedor(){
 		$query = $_POST['query'];
 		

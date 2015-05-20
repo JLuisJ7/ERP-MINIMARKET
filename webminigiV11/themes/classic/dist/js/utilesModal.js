@@ -55,8 +55,142 @@ var Util = {
     }
 };
 /*
-    INICIO FactCore
+    INICIO InventCore
 */
+var InventCore = {
+
+    loadInventario: function(){
+        var me = this;
+        
+        Util.createGrid('#listaInventario',{
+            toolButons:'',
+            url:'index.php?r=almacen/ajaxListadoInventario',
+            //"order": [[ 0, 'desc' ]],
+            columns:[
+               
+                {"mData": "idMovimiento", "sClass": "alignCenter"},
+                {"mData": "documento", "sClass": "alignCenter"},
+                {"mData": "serie", "sClass": "alignCenter"},
+                {"mData": "nro_documento", "sClass": "alignCenter"},
+                {"mData": "fecha", "sClass": "alignCenter"},
+                {"mData": "Tipo", "sClass": "alignCenter"},                
+                {"mData": "producto", "sClass": "alignCenter"},
+                {"mData": "cantidad", "sClass": "alignCenter"},
+                {"mData": "valor_unitario", "sClass": "alignCenter"},
+                {"mData": "total", "sClass": "alignCenter"}
+            ],
+            fnDrawCallback: function() {
+                
+                $('.verDetalle').click(function() {
+                    me.obtenerDetalle($(this).attr('data-nroSerie'),$(this).attr('data-nroFact'));
+                    
+                });
+
+            }
+
+        });
+    },
+    initListadoInventario: function() {       
+        
+        this.loadInventario();
+
+    }
+
+}
+
+var OrdenCore = {
+
+    loadOrdenesC: function(){
+        var me = this;
+        
+        Util.createGrid('#listaOrdenesC',{
+            toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoProveedor">Nuevo Proveedor</a>',
+            url:'index.php?r=compras/ajaxListadoOrdenesC',
+            "order": [[ 0, 'asc' ]],
+
+            columns:[
+               
+                {"mData": "nroSerie", "sClass": "alignCenter"},
+                {"mData": "nroOrden", "sClass": "alignCenter"},
+                {"mData": "Proveedor", "sClass": "alignCenter"},
+                {"mData": "Empleado", "sClass": "alignCenter"},                
+                {"mData": "Fecha", "sClass": "alignCenter"},
+                {"mData": "subTotal", "sClass": "alignCenter"},
+                {"mData": "IGV", "sClass": "alignCenter"},
+                {"mData": "Total", "sClass": "alignCenter"},
+               
+                {
+                    "mData": null,
+                    "bSortable": false,
+                    "bFilterable": false,
+                     "mRender": function (data, type, row) {
+                  /*return row.nroSerie +', '+ row.nroFact;*/
+                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.nroSerie + '" data-nroOrden="' + row.nroOrden + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a> ';
+                }
+                }
+            ],
+            fnDrawCallback: function() {
+                
+                $('.verDetalle').click(function() {
+                    me.obtenerDetalle($(this).attr('data-nroSerie'),$(this).attr('data-nroOrden'));
+                    
+                });
+
+            }
+
+        });
+    },    
+    obtenerDetalle : function(nroSerie,nroOrden){
+        $.ajax({
+            url: 'index.php?r=compras/AjaxObtenerDetalle',
+            type: 'POST',            
+            data: {
+                nroSerie: nroSerie,
+                nroOrden:nroOrden
+            },
+        })
+        .done(function(response) {
+            
+                
+            console.log(response);
+             var table = $('#OrdenCDetallada').DataTable( {
+                "paging":   false,
+        "ordering": false,
+        "info":     false,
+        "bFilter": false,
+        "data": response,
+
+                "columns": [
+                   
+                    { "data": "desc_Prod" },
+                    { "data": "cantidad" },
+                    { "data": "precio" },
+                    { "data": "importe" }
+                ]               
+            } );
+            
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+           $('#myModalOrdenCDetallada').modal('show');
+        });
+        
+    },
+    initListadoOrdenesC: function() {       
+         $('#myModalOrdenCDetallada').on('hidden.bs.modal', function() {
+         var table = $('#OrdenCDetallada').DataTable();
+ 
+            
+            table.destroy();
+                     
+        });
+        this.loadOrdenesC();
+
+    }
+
+}
 var FactCore = {
 
     loadFacturas: function(){
@@ -84,7 +218,7 @@ var FactCore = {
                     "bFilterable": false,
                      "mRender": function (data, type, row) {
                   /*return row.nroSerie +', '+ row.nroFact;*/
-                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.nroSerie + '" data-nroFact="' + row.nroFact + '" class="btn btn-warning btn-sm verDetalle">Ver</a> ';
+                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.nroSerie + '" data-nroFact="' + row.nroFact + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a> ';
                 }
                 }
             ],
@@ -149,7 +283,8 @@ var FactCore = {
 
     }
 
-}/*
+}
+/*
     INICIO ProvCore
 */
 var ProvCore = {

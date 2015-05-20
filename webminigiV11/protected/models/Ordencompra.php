@@ -23,6 +23,15 @@
 class Ordencompra extends CActiveRecord
 {
 
+public function listadoOrdenesC(){
+
+$sql = "select nroSerie,nroOrden,prov.RazSoc_Prov as Proveedor,idEmpleado as Empleado,DATE_FORMAT(FechaOrden,'%d-%m-%Y') as Fecha,subTotal,IGV,Total from ordencompra as oc inner join proveedor as prov ON prov.idProveedor=oc.idProveedor ";
+	
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	
+	}
+
 
 	public function agregarOrdenCompra($nroSerie,$nroOrden,$idProveedor,$idEmpleado,$subTotal,$IGV,$Total){
 
