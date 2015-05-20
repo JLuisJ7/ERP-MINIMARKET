@@ -55,9 +55,7 @@ $this->breadcrumbs=array(
               </div>
               
               <div class="modal-body" style="background-color:#fff;">
-                <div>Fecha:</div>
-                <div>Cliente:</div>
-
+                
 				<table  class="table table-striped table-bordered" cellspacing="0" width="100%" id="FacturaDetallada" style="">
 		            <thead>
 		              <tr>
@@ -70,9 +68,7 @@ $this->breadcrumbs=array(
 		              </tr>
 		            </thead>
          		 </table>
-             <div>Subtotal</div>
-             <div>IGV</div>
-             <div>Total</div>
+             
              	
 
               </div><!-- /.modal-body -->             

@@ -29,7 +29,7 @@ $this->breadcrumbs=array(
             <div class="col-lg-7">
             	<label>Factura</label>
               <div class="input-group">              	
-                <div class="input-group-addon">
+                <div class="input-group-addon" style="border: 1px solid;">
                   <span id="nroSerie" data-serie=""></span>-<span id="nroFactura" data-nro=""></span>
                 </div>                
               </div>
@@ -82,9 +82,9 @@ $this->breadcrumbs=array(
 			    <div class="input-group">
                         
                        <input type="text" class="form-control buscarProductoVenta"  data-id="" id="fac_desc_Prod" placeholder="" style="min-width: 200px;" autocomplete="off">
-                       <span class="input-group-btn">
+                       <!-- <span class="input-group-btn">
         <button class="btn btn-default" type="button"><i class="fa fa-search-plus"></i></button>
-      </span>
+      </span> -->
                       </div>
 			 <select multiple class="form-control" id="findProducto" style="position:absolute;z-index:1000;display:none;min-width: 200px;">
 				</select>
@@ -128,7 +128,7 @@ $this->breadcrumbs=array(
             </thead>          
 
           </table>
-        <button id="add_DetalleFact">Agregar Detalle</button>
+      
         <div class="row">
   		<div class="col-md-3 col-md-offset-9">
   			<div class="form-group">

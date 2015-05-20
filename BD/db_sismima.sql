@@ -1,4 +1,48 @@
-kCREATE DEFINER=`serveracme`@`localhost` FUNCTION `initcap`(cadena VARCHAR(100)) RETURNS varchar(100) CHARSET latin1
+-- phpMyAdmin SQL Dump
+-- version 4.2.11
+-- http://www.phpmyadmin.net
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 21-05-2015 a las 01:24:17
+-- Versión del servidor: 5.6.21
+-- Versión de PHP: 5.6.3
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Base de datos: `db_sismima`
+--
+
+DELIMITER $$
+--
+-- Procedimientos
+--
+CREATE DEFINER=`serveracme`@`localhost` PROCEDURE `sp_registrarProducto`(
+  desc_Prod varchar(100) ,
+  presentacion varchar(20) ,
+  tipoProd char(1),
+  stock int(11) ,
+  idMarca int(11)  ,
+  idCategoria int(11)  ,
+  estadoProd char(1),
+  Precio numeric(8,2)  
+)
+BEGIN
+insert into Producto(desc_Prod,presentacion,tipoProd,stock,idMarca,idCategoria,estadoProd,Precio) 
+values(desc_Prod,presentacion,tipoProd,stock,idMarca,idCategoria,estadoProd,Precio);
+END$$
+
+--
+-- Funciones
+--
+CREATE DEFINER=`serveracme`@`localhost` FUNCTION `initcap`(cadena VARCHAR(100)) RETURNS varchar(100) CHARSET latin1
 BEGIN 
 DECLARE pos INT DEFAULT 0; 
 DECLARE tmp VARCHAR(100) 
@@ -14,9 +58,9 @@ REPEAT SET pos = LOCATE(' ', cadena);
  SET cadena = RIGHT(cadena,CHAR_LENGTH(cadena)-pos); 
 UNTIL CHAR_LENGTH(cadena) = 0 END REPEAT; 
 RETURN result; 
-END
+END$$
 
-
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -25,7 +69,7 @@ END
 --
 
 CREATE TABLE IF NOT EXISTS `admcatalogo` (
-  `ide_elemento` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`ide_elemento` int(10) unsigned NOT NULL,
   `ide_grupo` int(10) unsigned NOT NULL,
   `des_nombre` varchar(250) NOT NULL,
   `ide_estado` char(1) NOT NULL,
@@ -34,9 +78,8 @@ CREATE TABLE IF NOT EXISTS `admcatalogo` (
   `des_usu_modifica` varchar(250) DEFAULT NULL,
   `fec_modifica` datetime DEFAULT NULL,
   `cod_sunat` varchar(10) DEFAULT NULL,
-  `des_abrev` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`ide_elemento`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
+  `des_abrev` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `admcatalogo`
@@ -88,10 +131,9 @@ INSERT INTO `admcatalogo` (`ide_elemento`, `ide_grupo`, `des_nombre`, `ide_estad
 --
 
 CREATE TABLE IF NOT EXISTS `admgrcatalogo` (
-  `ide_grupo` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `des_nombre` varchar(250) NOT NULL,
-  PRIMARY KEY (`ide_grupo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+`ide_grupo` int(10) unsigned NOT NULL,
+  `des_nombre` varchar(250) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `admgrcatalogo`
@@ -114,7 +156,7 @@ INSERT INTO `admgrcatalogo` (`ide_grupo`, `des_nombre`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `admopcion` (
-  `ide_opcion` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`ide_opcion` int(10) unsigned NOT NULL,
   `ide_modulo` int(10) unsigned NOT NULL,
   `des_nombre` varchar(250) NOT NULL,
   `des_ruta` varchar(250) DEFAULT NULL,
@@ -125,9 +167,8 @@ CREATE TABLE IF NOT EXISTS `admopcion` (
   `des_usu_modifica` varchar(250) DEFAULT NULL,
   `fec_modifica` datetime DEFAULT NULL,
   `des_icon` varchar(45) DEFAULT NULL,
-  `ind_orden` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`ide_opcion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+  `ind_orden` int(10) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `admopcion`
@@ -135,19 +176,23 @@ CREATE TABLE IF NOT EXISTS `admopcion` (
 
 INSERT INTO `admopcion` (`ide_opcion`, `ide_modulo`, `des_nombre`, `des_ruta`, `ind_padre`, `ide_estado`, `des_usu_registra`, `fec_registra`, `des_usu_modifica`, `fec_modifica`, `des_icon`, `ind_orden`) VALUES
 (1, 2, 'MODULO DE VENTAS', '--', 0, '1', 'lalipazaga@sismima.com', '2015-04-18 22:04:06', NULL, NULL, 'tags', 1),
-(2, 2, 'REGISTRO DE VENTAS', '/ventas/registraVenta', 1, '1', 'lalipazaga@sismima.com', '2015-04-18 22:07:13', NULL, NULL, '', 0),
+(2, 2, 'REGISTRO DE VENTAS', 'ventas/registraVenta', 1, '1', 'lalipazaga@sismima.com', '2015-04-18 22:07:13', NULL, NULL, '', 0),
 (3, 3, 'MODULO DE COMPRAS', '--', 0, '1', 'lalipazaga@sismima.com', '2015-04-18 22:10:18', NULL, NULL, 'shopping-cart', 2),
-(4, 3, 'REGISTRO DE COMPRAS', '/compras/registraCompra', 3, '1', 'lalipazaga@sismima.com', '2015-04-18 22:10:58', NULL, NULL, '', 0),
-(5, 2, 'CLIENTES', 'index.php/ventas/listadoClientes', 1, '1', 'lalipazaga@sismima.com', '2015-04-19 05:23:58', NULL, NULL, '', 0),
-(6, 3, 'PROVEEDORES', '/compras/listadoProveedores', 3, '1', 'lalipazaga@sismima.com', '2015-04-19 18:06:58', NULL, NULL, '', 0),
+(4, 3, 'REGISTRO DE COMPRAS', 'compras/registraCompra', 3, '1', 'lalipazaga@sismima.com', '2015-04-18 22:10:58', NULL, NULL, '', 0),
+(5, 2, 'CLIENTES', 'ventas/listadoClientes', 1, '1', 'lalipazaga@sismima.com', '2015-04-19 05:23:58', NULL, NULL, '', 0),
+(6, 3, 'PROVEEDORES', 'compras/listadoProveedores', 3, '1', 'lalipazaga@sismima.com', '2015-04-19 18:06:58', NULL, NULL, '', 0),
 (7, 5, 'CONTROL DE ALMACEN', '--', 0, '1', 'lalipazaga@sismima.com', '2015-04-19 18:15:58', NULL, NULL, 'tasks', 3),
-(8, 5, 'PRODUCTOS', 'index.php/almacen/listadoProductos', 7, '1', 'lalipazaga@sismima.com', '2015-04-19 18:20:58', NULL, NULL, NULL, 0),
+(8, 5, 'PRODUCTOS', 'almacen/listadoProductos', 7, '1', 'lalipazaga@sismima.com', '2015-04-19 18:20:58', NULL, NULL, NULL, 0),
 (9, 9, 'SEGURIDAD', '--', 0, '1', 'lalipazaga@sismima.com', '2015-04-19 21:11:21', NULL, NULL, 'lock', 10),
-(10, 9, 'PARAMETROS GENERALES', '/seguridad/parametrosGenerales', 9, '1', 'lalipazaga@sismima.com', '2015-04-19 21:12:13', NULL, NULL, NULL, 0),
+(10, 9, 'PARAMETROS GENERALES', 'seguridad/parametrosGenerales', 9, '1', 'lalipazaga@sismima.com', '2015-04-19 21:12:13', NULL, NULL, NULL, 0),
 (11, 6, 'MODULO DE PERSONAL', '--', 0, '1', 'lalipazaga@sismima.com', '2015-04-19 22:32:19', NULL, NULL, 'users', 4),
-(12, 6, 'EMPLEADOS', 'index.php/personal/listadoEmpleados', 11, '1', 'lalipazaga@sismima.com', '2015-04-19 22:34:19', NULL, NULL, NULL, 0),
-(13, 9, 'USUARIOS', '/seguridad/listaUsuarios', 9, '1', 'lalipazaga@sismima.com', '2015-04-19 23:41:11', NULL, NULL, NULL, NULL),
-(14, 9, 'REGISTRA PERSONAS', '/seguridad/listadoPersonas', 9, '1', 'lalipazaga@sismima.com', '2015-04-26 05:30:18', NULL, NULL, NULL, NULL);
+(12, 6, 'EMPLEADOS', 'personal/listadoEmpleados', 11, '1', 'lalipazaga@sismima.com', '2015-04-19 22:34:19', NULL, NULL, NULL, 0),
+(13, 9, 'USUARIOS', 'seguridad/listaUsuarios', 9, '1', 'lalipazaga@sismima.com', '2015-04-19 23:41:11', NULL, NULL, NULL, NULL),
+(14, 9, 'REGISTRA PERSONAS', 'seguridad/listadoPersonas', 9, '1', 'lalipazaga@sismima.com', '2015-04-26 05:30:18', NULL, NULL, NULL, NULL),
+(15, 2, 'Generar Factura', 'ventas/registrarFactura', 1, '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, NULL, NULL),
+(16, 2, 'Facturas', 'ventas/facturas', 1, '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, NULL, NULL),
+(17, 5, 'INVENTARIO', 'almacen/Inventario', 7, '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, NULL, NULL),
+(18, 3, 'Ordenes de Compra', 'compras/ordenesCompra', 3, '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -156,10 +201,9 @@ INSERT INTO `admopcion` (`ide_opcion`, `ide_modulo`, `des_nombre`, `des_ruta`, `
 --
 
 CREATE TABLE IF NOT EXISTS `admrol` (
-  `ide_rol` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `des_nombre` varchar(250) NOT NULL,
-  PRIMARY KEY (`ide_rol`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+`ide_rol` int(10) unsigned NOT NULL,
+  `des_nombre` varchar(250) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `admrol`
@@ -178,11 +222,10 @@ INSERT INTO `admrol` (`ide_rol`, `des_nombre`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `admrolopcion` (
-  `ide_rolopcion` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`ide_rolopcion` int(10) unsigned NOT NULL,
   `ide_opcion` int(10) unsigned NOT NULL,
-  `ide_rol` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`ide_rolopcion`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `ide_rol` int(10) unsigned NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -191,11 +234,9 @@ CREATE TABLE IF NOT EXISTS `admrolopcion` (
 --
 
 CREATE TABLE IF NOT EXISTS `categoria` (
-  `idCategoria` int(11) NOT NULL AUTO_INCREMENT,
-  `nomCategoria` varchar(50) NOT NULL,
-  PRIMARY KEY (`idCategoria`),
-  UNIQUE KEY `nomCategoria` (`nomCategoria`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+`idCategoria` int(11) NOT NULL,
+  `nomCategoria` varchar(50) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `categoria`
@@ -219,7 +260,7 @@ INSERT INTO `categoria` (`idCategoria`, `nomCategoria`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `cliente` (
-  `idCliente` int(11) NOT NULL AUTO_INCREMENT,
+`idCliente` int(11) NOT NULL,
   `RazSoc_Cli` varchar(250) NOT NULL,
   `tipoPersona_Cli` char(1) NOT NULL,
   `ruc_Cli` char(11) NOT NULL,
@@ -227,18 +268,199 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `telefono_Cli` char(9) NOT NULL,
   `email_Cli` varchar(50) DEFAULT NULL,
   `fec_reg_Cli` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `estado_Cli` char(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`idCliente`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `estado_Cli` char(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `cliente`
 --
 
 INSERT INTO `cliente` (`idCliente`, `RazSoc_Cli`, `tipoPersona_Cli`, `ruc_Cli`, `direccion_Cli`, `telefono_Cli`, `email_Cli`, `fec_reg_Cli`, `estado_Cli`) VALUES
-(1, 'adsasd', '0', '10111111111', 'sda', '123456789', 'sadd', '2015-04-30 03:03:03', '0'),
-(2, 'adsasd', '0', '1011111111', 'sda', '123456789', 'sadd', '2015-04-30 03:03:13', '0'),
-(3, 'adsadsa', '0', '456456', 'dfs', '4564', 'dfsfds', '2015-04-30 03:18:15', '1');
+(1, 'ORIHUELA LOZANO JEAN PAUL', '0', '10400409761', 'Av Arequipa 785', '944659233', 'orihuelalozano@gmail.com', '2015-05-07 06:39:03', '1'),
+(2, 'Comercial HINOZTROSA', '1', '20321568795', 'Los Olivos #725', '987456259', 'hinoztrosa@hotmail.com', '2015-05-14 01:52:18', '1'),
+(3, 'ORIHUELA LOZANO JEAN PAUL', '0', '10400409761', 'Av Arequipa 785', '944659233', 'orihuelalozano@gmail.com', '2015-05-18 15:17:13', '1'),
+(4, 'juan rasputin', '0', '54123654872', 'Av arenales 712', '994512454', 'hadsha2@gmail.com', '2015-05-18 15:17:14', '1'),
+(5, 'ANA MARCIA LOZANO', '0', '10214578421', 'SALAVERRY 55', '965454213', 'IWDKW@gmail.com', '2015-05-18 15:17:14', '1'),
+(6, 'JUAN CARRASCO VALDES', '1', '54421325412', 'ATE VITARTE', '654512587', 'JUAN_54@gmail.com', '2015-05-18 15:17:14', '0'),
+(7, 'MARIA SOLORZANO RAMIRES', '1', '65441245778', 'Av ZARATE 845', '956412584', 'MARIARIKA@gmail.com', '2015-05-18 15:17:14', '0'),
+(8, 'JUAN CARLOS BARBARAN', '1', '45412457894', 'Av SALAVERRY 7', '994512478', 'ELPALETAZO@gmail.com', '2015-05-18 15:17:14', '0'),
+(9, 'LUIS BARBARAN ANEXO', '0', '14547856912', 'AV CHIMU 65', '944659233', 'OTROPALETAZO@gmail.com', '2015-05-18 15:17:14', '1'),
+(10, 'MIA KALIFA SABLE', '1', '65441245633', 'Av CUBA 785', '993451478', 'RIKA889@gmail.com', '2015-05-18 15:17:14', '0'),
+(11, 'JEAN PAUL SANTA MARIA', '1', '10465421561', 'Av parinacochas', '944665413', 'jean@gmail.com', '2015-05-18 15:17:14', '1'),
+(12, 'estrada ramirez', '0', '32145409761', 'juan miraflores 785', '944632143', 'loestrada@gmail.com', '2015-05-18 15:17:14', '1'),
+(13, 'arrelucea roberto', '0', '10400321451', 'Av miroquesada 785', '932564533', 'robert@gmail.com', '2015-05-18 15:17:14', '0'),
+(14, 'mirian cortes', '1', '64475123654', 'Av carlos izaguirre', '954687542', 'miri@gmail.com', '2015-05-18 15:17:14', '1'),
+(15, 'lupita guerrero ramos', '0', '65478409761', 'Av 28 julio', '943214563', 'lupe@gmail.com', '2015-05-18 15:17:14', '0'),
+(16, 'obregon salsedo marita', '1', '35778125454', 'Av aviacion', '964578451', 'breon@gmail.com', '2015-05-18 15:17:14', '1'),
+(17, 'CHIPANA EBRIO', '0', '10400456471', 'Av carlos izaguirre', '936559233', 'chipanin@gmail.com', '2015-05-18 15:17:14', '0'),
+(18, 'carrasco jorge', '0', '10400405421', 'Av Arenales', '946547233', 'jorge@gmail.com', '2015-05-18 15:17:14', '1'),
+(19, 'mika rita', '0', '10000464781', 'Av humbolt', '932559233', 'jariin@gmail.com', '2015-05-18 15:17:14', '1'),
+(20, 'sacarias paz', '0', '10654784581', 'Av 6 agosto', '932512233', 'sacar@gmail.com', '2015-05-18 15:17:14', '0'),
+(21, 'matias flores', '1', '45470464781', 'Av mariategui', '932211233', 'mardfd@gmail.com', '2015-05-18 15:17:14', '1'),
+(22, 'solorzano noel', '0', '65400464781', 'Av cabildo', '554759233', 'solsl@gmail.com', '2015-05-18 15:17:14', '1'),
+(23, 'matias fernandes carrasco', '1', '65478464781', 'Av los cabitos', '547859233', 'ahh@gmail.com', '2015-05-18 15:17:14', '0'),
+(24, 'luz salsedo', '0', '65421464781', 'Av carlos valdes', '987559233', 'luser@gmail.com', '2015-05-18 15:17:14', '1'),
+(25, 'marcos valencia', '0', '65403547892', 'la molina', '987159233', 'cdgsl@gmail.com', '2015-05-18 15:17:14', '1'),
+(26, 'carrasco asco gabriel', '0', '98745124875', 'Av 3 postes', '994784213', 'carras@gmail.com', '2015-05-18 15:17:14', '0'),
+(27, 'osvaldo martinez luis', '1', '99774512367', 'magdalena', '657759213', 'osvita@gmail.com', '2015-05-18 15:17:14', '1'),
+(28, 'rondon salazar', '0', '65745464781', 'jesus maria', '554654733', 'rondin@gmail.com', '2015-05-18 15:17:14', '1'),
+(29, 'Bebeto romario', '1', '87314574781', 'Av mexico', '992457841', 'bebe@gmail.com', '2015-05-18 15:17:14', '0'),
+(30, 'americo gutierres', '0', '65897451235', 'zarate', '654759233', 'amer@gmail.com', '2015-05-18 15:17:14', '1'),
+(31, 'jean carlos valdes', '1', '65745464781', 'Av isaan', '995787435', 'jean@gmail.com', '2015-05-18 15:17:15', '0'),
+(32, 'ramires juana rique', '0', '64784236541', 'paradero flecha', '995778421', 'ramos@gmail.com', '2015-05-18 15:17:15', '1'),
+(33, 'jimena oyos ana', '0', '97754136487', 'manzanilla', '554657845', 'jime@gmail.com', '2015-05-18 15:17:15', '0'),
+(34, 'matilde cuba ana', '1', '36784464781', 'feliciano calle 5', '995464512', 'mati@gmail.com', '2015-05-18 15:17:15', '1'),
+(35, 'gustavo bueno juan', '0', '85452369875', 'Av elias cuba', '597543457', 'gusty@gmail.com', '2015-05-18 15:17:15', '0'),
+(36, 'luana sana rina', '0', '87842136458', 'Av peres tello', '994759233', 'luan@gmail.com', '2015-05-18 15:17:15', '1'),
+(37, 'mirta salsedo malki', '0', '65770464781', 'Av poste 4', '997754214', 'mirtin@gmail.com', '2015-05-18 15:17:15', '1'),
+(38, 'jony velasques salas', '0', '65657784581', 'cercado lima', '654759233', 'cowa@gmail.com', '2015-05-18 15:17:15', '1'),
+(39, 'terreros castillo brando', '0', '65784247841', 'jr cuzco', '995459233', 'pornin@gmail.com', '2015-05-18 15:17:15', '1'),
+(40, 'jordano bravo vasques', '0', '65470464781', 'Av argentina', '999759233', 'redemon@gmail.com', '2015-05-18 15:17:15', '1'),
+(41, 'keny vera rivas', '1', '98774512478', 'los olivo', '654759233', 'poetasi@gmail.com', '2015-05-18 15:17:15', '1'),
+(42, 'marita milagros roque', '0', '65400464781', 'los olivos', '995647233', 'mia@gmail.com', '2015-05-18 15:17:15', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detallefactura`
+--
+
+CREATE TABLE IF NOT EXISTS `detallefactura` (
+  `nroSerie` char(3) NOT NULL,
+  `nroFact` int(10) unsigned NOT NULL,
+  `idProducto` int(11) NOT NULL,
+  `cantidad` int(10) unsigned NOT NULL,
+  `precio` decimal(8,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `detallefactura`
+--
+
+INSERT INTO `detallefactura` (`nroSerie`, `nroFact`, `idProducto`, `cantidad`, `precio`) VALUES
+('001', 1, 1, 20, '2.00'),
+('001', 1, 30, 5, '1.50'),
+('001', 1, 34, 1, '1.50'),
+('001', 2, 2, 10, '5.00');
+
+--
+-- Disparadores `detallefactura`
+--
+DELIMITER //
+CREATE TRIGGER `ActualizarStock` AFTER INSERT ON `detallefactura`
+ FOR EACH ROW UPDATE Producto 
+     SET stock = stock - NEW.cantidad
+   WHERE idProducto = NEW.idProducto
+//
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalleordencompra`
+--
+
+CREATE TABLE IF NOT EXISTS `detalleordencompra` (
+  `nroSerie` char(3) NOT NULL,
+  `nroOrden` int(10) unsigned NOT NULL,
+  `idProducto` int(11) NOT NULL,
+  `cantidad` int(10) unsigned NOT NULL,
+  `precio` decimal(8,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `detalleordencompra`
+--
+
+INSERT INTO `detalleordencompra` (`nroSerie`, `nroOrden`, `idProducto`, `cantidad`, `precio`) VALUES
+('001', 1, 2, 20, '5.00');
+
+--
+-- Disparadores `detalleordencompra`
+--
+DELIMITER //
+CREATE TRIGGER `ActualizarStockCompra` AFTER INSERT ON `detalleordencompra`
+ FOR EACH ROW UPDATE Producto 
+     SET stock = stock + NEW.cantidad
+   WHERE idProducto = NEW.idProducto
+//
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `empleado`
+--
+
+CREATE TABLE IF NOT EXISTS `empleado` (
+`idEmpleado` int(10) unsigned NOT NULL,
+  `apePat` varchar(50) DEFAULT NULL,
+  `apeMat` varchar(50) DEFAULT NULL,
+  `nombres` varchar(50) DEFAULT NULL,
+  `fechaNac` date DEFAULT NULL,
+  `DNI` char(8) DEFAULT NULL,
+  `telefono` char(9) DEFAULT NULL,
+  `sexo` char(1) DEFAULT NULL,
+  `fechaReg` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `estado` char(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `factura`
+--
+
+CREATE TABLE IF NOT EXISTS `factura` (
+  `nroSerie` char(3) NOT NULL,
+  `nroFact` int(10) unsigned NOT NULL DEFAULT '0',
+  `idCliente` int(11) DEFAULT NULL,
+  `idEmpleado` int(11) DEFAULT NULL,
+  `fechEmic` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `subTotal` decimal(8,2) NOT NULL,
+  `IGV` decimal(8,2) NOT NULL,
+  `Total` decimal(8,2) NOT NULL,
+  `estadoFact` char(1) DEFAULT '1',
+  `fechaElim` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `factura`
+--
+
+INSERT INTO `factura` (`nroSerie`, `nroFact`, `idCliente`, `idEmpleado`, `fechEmic`, `subTotal`, `IGV`, `Total`, `estadoFact`, `fechaElim`) VALUES
+('001', 1, 2, 1, '2015-05-20 23:12:55', '49.00', '8.82', '57.82', '1', NULL),
+('001', 2, 5, 1, '2015-05-20 23:13:40', '50.00', '9.00', '59.00', '1', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `inventario`
+--
+
+CREATE TABLE IF NOT EXISTS `inventario` (
+`idMovimiento` int(10) unsigned NOT NULL,
+  `tipo_documento` char(1) DEFAULT NULL,
+  `serie` char(3) DEFAULT NULL,
+  `nro_documento` int(10) unsigned DEFAULT NULL,
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tipo` char(1) DEFAULT NULL,
+  `idproducto` int(11) DEFAULT NULL,
+  `cantidad` int(10) unsigned DEFAULT NULL,
+  `valor_unitario` decimal(8,2) DEFAULT NULL,
+  `total` decimal(8,2) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `inventario`
+--
+
+INSERT INTO `inventario` (`idMovimiento`, `tipo_documento`, `serie`, `nro_documento`, `fecha`, `tipo`, `idproducto`, `cantidad`, `valor_unitario`, `total`) VALUES
+(1, '1', '001', 1, '2015-05-20 23:12:55', 'S', 1, 20, '2.00', '40.00'),
+(2, '1', '001', 1, '2015-05-20 23:12:56', 'S', 30, 5, '1.50', '7.50'),
+(3, '1', '001', 1, '2015-05-20 23:12:56', 'S', 34, 1, '1.50', '1.50'),
+(4, '1', '001', 2, '2015-05-20 23:13:40', 'S', 2, 10, '5.00', '50.00'),
+(5, '2', '001', 1, '2015-05-20 23:14:36', 'E', 2, 20, '5.00', '100.00');
 
 -- --------------------------------------------------------
 
@@ -247,11 +469,9 @@ INSERT INTO `cliente` (`idCliente`, `RazSoc_Cli`, `tipoPersona_Cli`, `ruc_Cli`, 
 --
 
 CREATE TABLE IF NOT EXISTS `marca` (
-  `idMarca` int(11) NOT NULL AUTO_INCREMENT,
-  `nomMarca` varchar(100) NOT NULL,
-  PRIMARY KEY (`idMarca`),
-  UNIQUE KEY `nomMarca` (`nomMarca`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+`idMarca` int(11) NOT NULL,
+  `nomMarca` varchar(100) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `marca`
@@ -263,6 +483,7 @@ INSERT INTO `marca` (`idMarca`, `nomMarca`) VALUES
 (1, 'Gloria'),
 (9, 'Inka Kola'),
 (3, 'Karinto'),
+(10, 'Lavaghi'),
 (2, 'Nestle'),
 (6, 'Pura Vida'),
 (7, 'San Luis'),
@@ -271,11 +492,37 @@ INSERT INTO `marca` (`idMarca`, `nomMarca`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `ordencompra`
+--
+
+CREATE TABLE IF NOT EXISTS `ordencompra` (
+  `nroSerie` char(3) NOT NULL,
+  `nroOrden` int(10) unsigned NOT NULL,
+  `idProveedor` int(11) DEFAULT NULL,
+  `idEmpleado` int(11) DEFAULT NULL,
+  `FechaOrden` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `subTotal` decimal(8,2) DEFAULT NULL,
+  `IGV` decimal(8,2) DEFAULT NULL,
+  `Total` decimal(8,2) DEFAULT NULL,
+  `estadoOrden` char(1) DEFAULT '1',
+  `fechaElim` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `ordencompra`
+--
+
+INSERT INTO `ordencompra` (`nroSerie`, `nroOrden`, `idProveedor`, `idEmpleado`, `FechaOrden`, `subTotal`, `IGV`, `Total`, `estadoOrden`, `fechaElim`) VALUES
+('001', 1, 3, 1, '2015-05-20 23:14:35', '100.00', '18.00', '118.00', '1', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `producto`
 --
 
 CREATE TABLE IF NOT EXISTS `producto` (
-  `idProducto` int(11) NOT NULL AUTO_INCREMENT,
+`idProducto` int(11) NOT NULL,
   `desc_Prod` varchar(100) NOT NULL,
   `presentacion` varchar(20) NOT NULL,
   `tipoProd` char(1) NOT NULL DEFAULT '1',
@@ -284,17 +531,51 @@ CREATE TABLE IF NOT EXISTS `producto` (
   `idCategoria` int(11) DEFAULT NULL,
   `fecha_creacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `estadoProd` char(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`idProducto`),
-  KEY `fk_producto_categoria` (`idCategoria`),
-  KEY `fk_producto_marca` (`idMarca`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `Precio` decimal(8,2) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `producto`
 --
 
-INSERT INTO `producto` (`idProducto`, `desc_Prod`, `presentacion`, `tipoProd`, `stock`, `idMarca`, `idCategoria`, `fecha_creacion`, `estadoProd`) VALUES
-(1, 'asdas', 'lata', '1', 5, 1, 1, '2015-04-30 03:03:38', '1');
+INSERT INTO `producto` (`idProducto`, `desc_Prod`, `presentacion`, `tipoProd`, `stock`, `idMarca`, `idCategoria`, `fecha_creacion`, `estadoProd`, `Precio`) VALUES
+(1, 'Leche Gloria', 'Lata', '0', 6, 1, 4, '2015-05-07 06:34:02', '1', '2.00'),
+(2, 'Aceite de Olivo', 'Botella', '1', 30, 3, 5, '2015-05-07 22:25:31', '1', '5.00'),
+(3, 'Cereales', 'bolsa', '1', 111, 8, 8, '2015-05-07 22:25:31', '1', '3.00'),
+(4, 'Leche Soy Vida', 'lata', '1', 120, 4, 4, '2015-05-07 22:27:31', '1', '1.50'),
+(5, 'Leche Gloria', 'Lata', '0', 0, 1, 4, '2015-05-17 04:35:59', '1', '2.00'),
+(6, 'te', 'CAJA', '0', 30, 1, 4, '2015-05-17 04:47:16', '1', '2.00'),
+(7, 'Leche Gloria', 'Lata', '0', 45, 1, 4, '2015-05-17 04:48:36', '1', '2.00'),
+(8, 'Aceite Friol', 'Botella', '1', 34, 3, 5, '2015-05-17 04:48:36', '1', '5.00'),
+(9, 'Cereales', 'bolsa', '1', 94, 8, 8, '2015-05-17 04:48:37', '1', '3.00'),
+(10, 'Leche Soy Vida', 'lata', '1', 0, 4, 4, '2015-05-17 04:48:37', '1', '1.50'),
+(11, 'Leche Gloria', 'Lata', '0', 45, 1, 4, '2015-05-17 04:49:11', '1', '2.00'),
+(12, 'Aceite Friol', 'Botella', '1', 36, 3, 5, '2015-05-17 04:49:11', '1', '5.00'),
+(13, 'Cereales', 'bolsa', '1', 104, 8, 8, '2015-05-17 04:49:12', '1', '3.00'),
+(14, 'Leche Soy Vida', 'lata', '1', 150, 4, 4, '2015-05-17 04:49:12', '1', '1.50'),
+(15, 'Inca Kola 1Litro', 'Botella', '0', 44, 9, 5, '2015-05-17 04:49:12', '1', '3.00'),
+(16, 'Cerveza Klosterbier Rhönbräu', 'Botella', '1', 36, 3, 5, '2015-05-17 04:49:12', '1', '5.00'),
+(17, 'Licor Cloudberry', 'Botella', '1', 94, 8, 8, '2015-05-17 04:49:12', '1', '3.00'),
+(18, 'caviar rojo', 'Botella', '1', 142, 4, 5, '2015-05-17 04:49:12', '1', '1.50'),
+(19, 'Cerveza Outback', 'Lata', '0', 23, 1, 5, '2015-05-17 04:49:12', '1', '2.00'),
+(20, 'Chocolate blanco', 'Botella', '1', 0, 3, 7, '2015-05-17 04:49:12', '1', '5.00'),
+(21, 'Empanada de carne', 'bolsa', '1', 82, 8, 6, '2015-05-17 04:49:12', '1', '3.00'),
+(22, 'Sublime', 'bolsa', '1', 144, 4, 7, '2015-05-17 04:49:12', '1', '1.50'),
+(23, 'Leche condensada', 'Lata', '0', 33, 1, 7, '2015-05-17 04:49:12', '1', '2.00'),
+(24, 'oreo', 'bolsa', '1', 30, 3, 2, '2015-05-17 04:49:12', '1', '5.00'),
+(25, 'charada', 'bolsa', '1', 94, 8, 2, '2015-05-17 04:49:12', '1', '3.00'),
+(26, 'papa lays', 'lata', '1', 144, 4, 6, '2015-05-17 04:49:12', '1', '1.50'),
+(27, 'piqueo', 'Lata', '0', 45, 1, 6, '2015-05-17 04:49:12', '1', '2.00'),
+(28, 'pezidury', 'Botella', '1', 36, 3, 1, '2015-05-17 04:49:12', '1', '5.00'),
+(29, 'sevix', 'bolsa', '1', 104, 8, 3, '2015-05-17 04:49:12', '1', '3.00'),
+(30, 'Milo', 'lata', '1', 139, 4, 4, '2015-05-17 04:49:12', '1', '1.50'),
+(31, 'don victorio', 'bolsa', '0', 45, 1, 9, '2015-05-17 04:49:12', '1', '2.00'),
+(32, 'fideo anita', 'bolsa', '1', 0, 3, 9, '2015-05-17 04:49:12', '1', '5.00'),
+(33, 'Cifrut', 'Botella', '1', 84, 8, 5, '2015-05-17 04:49:12', '1', '3.00'),
+(34, 'Coca Cola', 'Botella', '1', 139, 4, 5, '2015-05-17 04:49:12', '1', '1.50'),
+(35, 'platano', 'Lata', '0', 45, 1, 8, '2015-05-17 04:49:12', '1', '2.00'),
+(36, 'pera', 'Botella', '1', 36, 3, 8, '2015-05-17 04:49:12', '1', '5.00'),
+(37, 'fresa', 'bolsa', '1', 94, 8, 8, '2015-05-17 04:49:12', '1', '3.00');
 
 -- --------------------------------------------------------
 
@@ -303,7 +584,7 @@ INSERT INTO `producto` (`idProducto`, `desc_Prod`, `presentacion`, `tipoProd`, `
 --
 
 CREATE TABLE IF NOT EXISTS `proveedor` (
-  `idProveedor` int(11) NOT NULL AUTO_INCREMENT,
+`idProveedor` int(11) NOT NULL,
   `RazSoc_Prov` varchar(250) NOT NULL,
   `tipoPersona_Prov` char(1) NOT NULL,
   `ruc_Prov` char(11) NOT NULL,
@@ -311,9 +592,59 @@ CREATE TABLE IF NOT EXISTS `proveedor` (
   `telefono_Prov` char(9) NOT NULL,
   `email_Prov` varchar(50) DEFAULT NULL,
   `fec_reg_Prov` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `estado_Prov` char(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`idProveedor`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `estado_Prov` char(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `proveedor`
+--
+
+INSERT INTO `proveedor` (`idProveedor`, `RazSoc_Prov`, `tipoPersona_Prov`, `ruc_Prov`, `direccion_Prov`, `telefono_Prov`, `email_Prov`, `fec_reg_Prov`, `estado_Prov`) VALUES
+(1, 'ALDRA E.I.R.L.', '1', '20492988627', 'Av Arequipa #790', '956859256', 'aldra@hotmail.com', '2015-05-07 06:40:27', '1'),
+(2, 'ALDRA E.I.R.L.', '1', '20492988627', 'Av Arequipa #790', '956859256', 'aldra@hotmail.com', '2015-05-17 03:04:03', '1'),
+(3, 'D''MATOS SAC', '1', '59684782668', 'Av Peru #870', '996559856', 'dmastos@hotmail.com', '2015-05-17 03:04:04', '1'),
+(4, 'TRANSROWI', '1', '89658235263', 'Av SanJuan #960', '958925956', 'transrowi@hotmail.com', '2015-05-17 03:04:04', '1'),
+(5, 'ALICORP', '1', '89278157284', 'Avenida Argentina, 4793', '985674282', 'alicorp@hotmail.com', '2015-05-17 03:04:04', '1'),
+(6, 'GRUPO JIMENEZ', '1', '58698752469', 'Calle Garcilaso de la Vega, 12', '992687963', 'grupojimenez@hotmail.com', '2015-05-17 03:04:04', '1'),
+(7, 'Austral Group S.A', '1', '20202020202', 'Av. Victor Andres Belaunde, San Isidro', '7107000', 'australgroup@hotmail.com', '2015-05-17 03:04:04', '1'),
+(8, 'Petro Peru S.A', '1', '36521471552', 'Av. 28 de Julio, Lima', '3215468', 'petroperu@hotmail.com', '2015-05-17 03:04:04', '1'),
+(9, 'Mi Farma S.A', '1', '58874112522', 'Av. Bolivar, Pueblo Libre', '2541022', 'mifarma@hotmail.com', '2015-05-17 03:04:04', '1'),
+(10, 'Movistar S.A', '1', '47474555525', 'Av. Antonio de Sucre 693, Pueblo Libre', '5857474', 'movistar@hotmail.com', '2015-05-17 03:04:04', '1'),
+(11, 'Entel S.A', '1', '85412521414', 'Av. Antonio de Sucre 900, San juan', '2020255', 'entel@hotmail.com', '2015-05-17 03:04:04', '1'),
+(12, 'ComCenter S.A', '1', '25254014140', 'Av. Arequipa 5280, Miraflores', '6669854', 'comcenter@hotmail.com', '2015-05-17 03:04:04', '1'),
+(13, 'Ambev Peru S.A', '1', '25874101410', 'Av. Tarapaca, Lurigancho', '5241410', 'ambevperu@hotmail.com', '2015-05-17 03:04:04', '1'),
+(14, 'Cosapi S.A', '1', '65255587401', 'Av. Salaverry, Miraflores', '3555841', 'cosapi@hotmail.com', '2015-05-17 03:04:04', '1'),
+(15, 'Luz del Sur S.A', '1', '58410002511', 'Av. La marina 2000, San Miguel', '2414000', 'luzdelsur@hotmail.com', '2015-05-17 03:04:04', '1'),
+(16, 'Electro Peru S.A', '1', '25870411410', 'Av. Arequipa 6980, Miraflores', '2587410', 'electroperu@hotmail.com', '2015-05-17 03:04:04', '1'),
+(17, 'Quimica Suiza S.A', '1', '25401455251', 'Av. Canada, Lince', '3655005', 'quimicasuiza@hotmail.com', '2015-05-17 03:04:04', '1'),
+(18, 'Clinica Internacional S.A', '1', '25655520011', 'Av. Canada,  San Borja', '5541241', 'clinicainternacional@hotmail.com', '2015-05-17 03:04:04', '1'),
+(19, 'Credicop S.A', '1', '25414014141', 'Av. Javier Prado, Miraflores ', '2541411', 'credicorp@hotmail.com', '2015-05-17 03:04:04', '1'),
+(20, 'Mi Banco S.A', '1', '14052410141', 'Av. Arequipa 5698, Miraflores', '1474147', 'mibanco@hotmail.com', '2015-05-17 03:04:04', '1'),
+(21, 'CrediFast S.A', '1', '14700000251', 'Av. Salaverry, Miraflores 5978', '2510141', 'credifast@hotmail.com', '2015-05-17 03:04:04', '1'),
+(22, 'Nacion Bank S.A', '1', '14700255021', 'Av. Javier Prado, Miraflores ', '2651410', 'nacionbank@hotmail.com', '2015-05-17 03:04:04', '1'),
+(23, 'Shopping Word S.A', '1', '14700010114', 'Av. Canada, Lince 3658', '2587414', 'shoppingword@hotmail.com', '2015-05-17 03:04:04', '1'),
+(24, 'Aceros Arequipa S.A', '1', '14444777741', 'Av. salaverry 8569, Miraflores', '1444772', 'acerosarequipa@hotmail.com', '2015-05-17 03:04:04', '0'),
+(25, 'Topy Top S.A', '1', '14477788853', 'Av. La marina 7800, San Miguel', '1444222', 'topytop@hotmail.com', '2015-05-17 03:04:04', '1'),
+(26, 'Mi Tienda S.A', '1', '58777444111', 'Av. Canada, Lince 8975, San Miguel', '8887741', 'mitienda@hotmail.com', '2015-05-17 03:04:04', '1'),
+(27, 'Baby Happy S.A', '1', '65656985411', 'Av. La marina 9423, San Miguel', '4777412', 'babyhappu@hotmail.com', '2015-05-17 03:04:04', '1'),
+(28, 'Zapatillas Word S.A', '1', '14785000251', 'Av. Salaverry, Miraflores 3568', '8741256', 'zapatillasword@hotmail.com', '2015-05-17 03:04:04', '1'),
+(29, 'San Fernando S.A', '1', '20100154308', 'Av. Caminos del Inca 1012, Surco', '994193000', 'sanfernando@hotmail.com', '2015-05-17 03:04:04', '1'),
+(30, 'Laive S.A', '1', '20100095450', 'Av. Nicolas De Piérola, Ate Vitarte', '996187600', 'laive@hotmail.com', '2015-05-17 03:04:04', '1'),
+(31, 'Rimac Seguros y Reaseguros', '1', '20100041953', 'Av. Paseo de la República 3505, San Isidro', '994111000', 'rimacseguros@hotmail.com', '2015-05-17 03:04:04', '1'),
+(32, 'El Pacifico Peruano Seguros y Reaseguros S.A', '1', '20100035392', 'Av. Juan de Arona 830, San isidro', '985135000', 'pacificoseguros@hotmail.com', '2015-05-17 03:04:04', '1'),
+(33, 'Saga Falabella S.A', '1', '20100128056', 'Av. Arequipa 5280, Miraflores', '982037070', 'sagafalabella@hotmail.com', '2015-05-17 03:04:04', '1'),
+(34, 'Empresa de Distrib. Elect. De Lima Norte S.A.A', '1', '20269985900', 'Av. Antonio de Sucre 693, Pueblo Libre', '995612001', 'eldernor@hotmail.com', '2015-05-17 03:04:04', '1'),
+(35, 'Tiendas por departamentos Ripley S.A', '1', '20337564373', 'Av. La marina 2000, San Miguel', '995663569', 'riplay@hotmail.com', '2015-05-17 03:04:05', '1'),
+(36, 'Wong S.A', '1', '20333541541', 'Av. La marina 2000, San Miguel', '982514255', 'wong@hotmail.com', '2015-05-17 03:04:05', '1'),
+(37, 'Metro S.a', '1', '20202020202', 'Av. Antonio de Sucre 693, Pueblo Libre', '992121212', 'metro@hotmail.com', '2015-05-17 03:04:05', '1'),
+(38, 'The House S.A', '1', '12212500201', 'Av. Salaverry, Miraflores', '992425254', 'house@hotmail.com', '2015-05-17 03:04:05', '1'),
+(39, 'Taxis Fast S.A', '1', '12212500201', 'Av. Arequipa 5280, Miraflores', '994246465', 'taxifast@hotmail.com', '2015-05-17 03:04:05', '1'),
+(40, 'Oechsle S.A', '1', '77788545100', 'Av. Wilson 3250', '981414155', 'oechsle@hotmail.com', '2015-05-17 03:04:05', '1'),
+(41, 'PesAtun S.A', '1', '75758855558', 'Av. Juan de Arona 920, San Isidro', '995464748', 'pesatun@hotmail.com', '2015-05-17 03:04:05', '1'),
+(42, 'Auto Word S.A', '1', '25544411400', 'Av. Salaverry, Miraflores', '984145888', 'autoword@hotmail.com', '2015-05-17 03:04:05', '1'),
+(43, 'CityBank S.A', '1', '45454225525', 'Av. Larco Mar , Mirafloes', '998562025', 'citibank@hotmail.com', '2015-05-17 03:04:05', '1'),
+(44, 'SeguriMax S.A', '1', '58587774410', 'Av. Salaverry, Miraflores', '992323666', 'segurimax@hotmail.com', '2015-05-17 03:04:05', '1'),
+(45, 'CompeInka S.A', '1', '36569555550', 'Urb. Santa Catalina, La victoria', '992134000', 'cpeinka@hotmail.com', '2015-05-17 03:04:05', '1');
 
 -- --------------------------------------------------------
 
@@ -364,7 +695,7 @@ INSERT INTO `sisdepartamento` (`ide_departamento`, `des_nombre`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `sisdireccion` (
-  `ide_direccion` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`ide_direccion` int(10) unsigned NOT NULL,
   `ide_persona` int(10) unsigned NOT NULL,
   `ide_tipodireccion` int(10) unsigned NOT NULL,
   `ind_ubigeo` char(6) NOT NULL,
@@ -372,9 +703,8 @@ CREATE TABLE IF NOT EXISTS `sisdireccion` (
   `nom_via` varchar(100) NOT NULL,
   `ide_zona` char(2) DEFAULT NULL,
   `des_zona` varchar(100) DEFAULT NULL,
-  `des_referencia` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`ide_direccion`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `des_referencia` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2237,7 +2567,7 @@ INSERT INTO `sisdistrito` (`ide_departamento`, `ide_provincia`, `ide_distrito`, 
 --
 
 CREATE TABLE IF NOT EXISTS `sispersona` (
-  `ide_persona` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`ide_persona` int(10) unsigned NOT NULL,
   `des_nombres` varchar(250) DEFAULT NULL,
   `des_apepat` varchar(250) DEFAULT NULL,
   `des_apemat` varchar(250) DEFAULT NULL,
@@ -2251,9 +2581,8 @@ CREATE TABLE IF NOT EXISTS `sispersona` (
   `ide_sexo` int(10) unsigned DEFAULT NULL,
   `ide_estcivil` int(10) unsigned DEFAULT NULL,
   `fec_nacimiento` date DEFAULT NULL,
-  `ide_estado` char(1) NOT NULL,
-  PRIMARY KEY (`ide_persona`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+  `ide_estado` char(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `sispersona`
@@ -2268,11 +2597,19 @@ INSERT INTO `sispersona` (`ide_persona`, `des_nombres`, `des_apepat`, `des_apema
 (6, 'JOSE LUIS', 'MANDUJANO', 'BUENO', NULL, '42568974', 10, '4528967', 'jmandujano@hotmail.com', 12, 18, 21, 23, '1987-04-28', '1'),
 (7, 'EMILIANO', 'MALLQUI', 'AGUILAR', NULL, '06242471', 10, '971945325', 'emiliano@gmail.com', 12, 18, 21, 23, '1980-02-18', '1'),
 (8, 'EUSEBIO', 'AGUILAR', 'CALDERON', NULL, '19817929', 10, '972665965', 'eusebio458@gmail.com', 12, 18, 21, 24, '1982-06-23', '1'),
-(9, 'LEONELA', 'ESPINOZA', 'AVILA', NULL, '15201863', 10, '972610665', 'leonela789@gmail.com', 12, 18, 22, 23, '1986-12-14', '0'),
+(9, 'LEONELA', 'ESPINOZA', 'AVILA', NULL, '15201863', 10, '972610665', 'leonela789@gmail.com', 12, 18, 22, 23, '1986-12-14', '1'),
 (10, 'JOAQUIN', 'PACCO', 'HUAMAN', NULL, '20963858', 10, '977020265', 'joaquinrt45@gmail.com', 12, 18, 21, 23, '1981-11-10', '1'),
 (11, 'ELEUTERIO', 'LAZARO', 'PAITAN', NULL, '19910024', 10, '978545730', 'eleuterio4587@gmail.com', 12, 18, 21, 24, '1980-12-18', '1'),
 (12, 'JULIA CUNCA', 'BRAVO', 'LAURA', NULL, '19993743', 10, '972830265', 'julia.cunca@gmail.com', 12, 18, 22, 23, '1983-03-14', '1'),
-(13, 'JULIA', 'CHAVEZ', 'FERNANDEZ', NULL, '25462984', 10, '974925325', 'julia4789@gmail.com', 12, 18, 22, 23, '1985-09-17', '1');
+(13, 'JULIA', 'CHAVEZ', 'FERNANDEZ', NULL, '25462984', 10, '974925325', 'julia4789@gmail.com', 12, 18, 22, 23, '1985-09-17', '1'),
+(14, 'MAURO', 'CUTIPA', 'FLORES', '', '44305724', 10, '3556458', 'prueba@sismima.com', 12, 18, 21, 26, '1987-08-12', '1'),
+(15, 'ELEUTERIO', 'LAZARO', 'PAITAN', '', '19910024', 10, '978545730', 'eleuterio4587@gmail.com', 12, 18, 21, 24, '1980-11-17', '1'),
+(16, 'ELEUTERIO', 'LAZARO', 'PAITAN', '', '19910024', 10, '978545730', 'eleuterio4587@gmail.com', 12, 18, 21, 24, '1980-10-16', '1'),
+(17, 'MAURO', 'CUTIPA', 'FLORES', '', '44305724', 10, '3556458', 'prueba@sismima.com', 12, 18, 21, 28, '1987-07-11', '1'),
+(18, 'Jose Luis', 'Ayala ', 'Benito', NULL, '71886624', 1, '123456789', 'luis@gmail.com', 12, 18, 21, 28, '1996-07-10', '1'),
+(19, 'JOSE LUIS', 'AYALA ', 'BENITO', '', '71886624', 10, '123456789', 'luis@gmail.com', 12, 18, 21, 23, '1996-06-09', '1'),
+(20, 'JOSE LUIS', 'AYALA ', 'BENITO', '', '71886624', 10, '123456789', 'luis@gmail.com', 12, 18, 21, 23, '1996-06-09', '1'),
+(21, 'LEONELA', 'ESPINOZA', 'AVILA', '', '15201863', 10, '972610665', 'leonela789@gmail.com', 12, 18, 21, 24, '1986-11-13', '1');
 
 -- --------------------------------------------------------
 
@@ -2494,13 +2831,12 @@ INSERT INTO `sisprovincia` (`ide_departamento`, `ide_provincia`, `des_nombre`) V
 --
 
 CREATE TABLE IF NOT EXISTS `sisusuario` (
-  `ide_usuario` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`ide_usuario` int(10) unsigned NOT NULL,
   `des_usuario` varchar(50) NOT NULL,
   `des_password` varchar(50) NOT NULL,
   `ide_rol` int(10) unsigned NOT NULL,
-  `ide_persona` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`ide_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `ide_persona` int(10) unsigned NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `sisusuario`
@@ -2546,8 +2882,7 @@ INSERT INTO `sisvia` (`ide_via`, `des_nombre`) VALUES
 CREATE TABLE IF NOT EXISTS `siszona` (
   `ide_zona` char(2) NOT NULL,
   `des_abrev` varchar(5) NOT NULL,
-  `des_nombre` varchar(50) NOT NULL,
-  PRIMARY KEY (`ide_zona`)
+  `des_nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -2567,14 +2902,370 @@ INSERT INTO `siszona` (`ide_zona`, `des_abrev`, `des_nombre`) VALUES
 ('10', 'CAS.', 'CASERÍO'),
 ('11', 'FND.', 'FUNDO');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_profiles`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_profiles` (
+`user_id` int(11) NOT NULL,
+  `lastname` varchar(50) NOT NULL DEFAULT '',
+  `firstname` varchar(50) NOT NULL DEFAULT ''
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `tbl_profiles`
+--
+
+INSERT INTO `tbl_profiles` (`user_id`, `lastname`, `firstname`) VALUES
+(1, 'Admin', 'Administrator'),
+(2, 'Demo', 'Demo');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_profiles_fields`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_profiles_fields` (
+`id` int(10) NOT NULL,
+  `varname` varchar(50) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `field_type` varchar(50) NOT NULL,
+  `field_size` varchar(15) NOT NULL DEFAULT '0',
+  `field_size_min` varchar(15) NOT NULL DEFAULT '0',
+  `required` int(1) NOT NULL DEFAULT '0',
+  `match` varchar(255) NOT NULL DEFAULT '',
+  `range` varchar(255) NOT NULL DEFAULT '',
+  `error_message` varchar(255) NOT NULL DEFAULT '',
+  `other_validator` varchar(5000) NOT NULL DEFAULT '',
+  `default` varchar(255) NOT NULL DEFAULT '',
+  `widget` varchar(255) NOT NULL DEFAULT '',
+  `widgetparams` varchar(5000) NOT NULL DEFAULT '',
+  `position` int(3) NOT NULL DEFAULT '0',
+  `visible` int(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `tbl_profiles_fields`
+--
+
+INSERT INTO `tbl_profiles_fields` (`id`, `varname`, `title`, `field_type`, `field_size`, `field_size_min`, `required`, `match`, `range`, `error_message`, `other_validator`, `default`, `widget`, `widgetparams`, `position`, `visible`) VALUES
+(1, 'lastname', 'Last Name', 'VARCHAR', '50', '3', 1, '', '', 'Incorrect Last Name (length between 3 and 50 characters).', '', '', '', '', 1, 3),
+(2, 'firstname', 'First Name', 'VARCHAR', '50', '3', 1, '', '', 'Incorrect First Name (length between 3 and 50 characters).', '', '', '', '', 0, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_users`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_users` (
+`id` int(11) NOT NULL,
+  `username` varchar(20) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `activkey` varchar(128) NOT NULL DEFAULT '',
+  `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `lastvisit_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `superuser` int(1) NOT NULL DEFAULT '0',
+  `status` int(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `tbl_users`
+--
+
+INSERT INTO `tbl_users` (`id`, `username`, `password`, `email`, `activkey`, `create_at`, `lastvisit_at`, `superuser`, `status`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'webmaster@example.com', '9a24eff8c15a6a141ece27eb6947da0f', '2015-05-19 05:44:20', '0000-00-00 00:00:00', 1, 1),
+(2, 'demo', 'fe01ce2a7fbac8fafaed7c982a04e229', 'demo@example.com', '099f825543f7850cc038b90aaff39fac', '2015-05-19 05:44:20', '0000-00-00 00:00:00', 0, 1);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `admcatalogo`
+--
+ALTER TABLE `admcatalogo`
+ ADD PRIMARY KEY (`ide_elemento`);
+
+--
+-- Indices de la tabla `admgrcatalogo`
+--
+ALTER TABLE `admgrcatalogo`
+ ADD PRIMARY KEY (`ide_grupo`);
+
+--
+-- Indices de la tabla `admopcion`
+--
+ALTER TABLE `admopcion`
+ ADD PRIMARY KEY (`ide_opcion`);
+
+--
+-- Indices de la tabla `admrol`
+--
+ALTER TABLE `admrol`
+ ADD PRIMARY KEY (`ide_rol`);
+
+--
+-- Indices de la tabla `admrolopcion`
+--
+ALTER TABLE `admrolopcion`
+ ADD PRIMARY KEY (`ide_rolopcion`);
+
+--
+-- Indices de la tabla `categoria`
+--
+ALTER TABLE `categoria`
+ ADD PRIMARY KEY (`idCategoria`), ADD UNIQUE KEY `nomCategoria` (`nomCategoria`);
+
+--
+-- Indices de la tabla `cliente`
+--
+ALTER TABLE `cliente`
+ ADD PRIMARY KEY (`idCliente`);
+
+--
+-- Indices de la tabla `detallefactura`
+--
+ALTER TABLE `detallefactura`
+ ADD KEY `fk_Fac_detFac` (`nroSerie`,`nroFact`), ADD KEY `fk_DetFac_Prod` (`idProducto`);
+
+--
+-- Indices de la tabla `detalleordencompra`
+--
+ALTER TABLE `detalleordencompra`
+ ADD KEY `fk_ord_detord` (`nroSerie`,`nroOrden`), ADD KEY `fk_Detord_Prod` (`idProducto`);
+
+--
+-- Indices de la tabla `empleado`
+--
+ALTER TABLE `empleado`
+ ADD PRIMARY KEY (`idEmpleado`);
+
+--
+-- Indices de la tabla `factura`
+--
+ALTER TABLE `factura`
+ ADD PRIMARY KEY (`nroSerie`,`nroFact`), ADD KEY `fk_Fac_Cli` (`idCliente`);
+
+--
+-- Indices de la tabla `inventario`
+--
+ALTER TABLE `inventario`
+ ADD PRIMARY KEY (`idMovimiento`), ADD KEY `fk_Inv_Prod` (`idproducto`);
+
+--
+-- Indices de la tabla `marca`
+--
+ALTER TABLE `marca`
+ ADD PRIMARY KEY (`idMarca`), ADD UNIQUE KEY `nomMarca` (`nomMarca`);
+
+--
+-- Indices de la tabla `ordencompra`
+--
+ALTER TABLE `ordencompra`
+ ADD PRIMARY KEY (`nroSerie`,`nroOrden`), ADD KEY `fk_ord_Prov` (`idProveedor`);
+
+--
+-- Indices de la tabla `producto`
+--
+ALTER TABLE `producto`
+ ADD PRIMARY KEY (`idProducto`), ADD KEY `fk_producto_categoria` (`idCategoria`), ADD KEY `fk_producto_marca` (`idMarca`);
+
+--
+-- Indices de la tabla `proveedor`
+--
+ALTER TABLE `proveedor`
+ ADD PRIMARY KEY (`idProveedor`);
+
+--
+-- Indices de la tabla `sisdireccion`
+--
+ALTER TABLE `sisdireccion`
+ ADD PRIMARY KEY (`ide_direccion`);
+
+--
+-- Indices de la tabla `sispersona`
+--
+ALTER TABLE `sispersona`
+ ADD PRIMARY KEY (`ide_persona`);
+
+--
+-- Indices de la tabla `sisusuario`
+--
+ALTER TABLE `sisusuario`
+ ADD PRIMARY KEY (`ide_usuario`);
+
+--
+-- Indices de la tabla `siszona`
+--
+ALTER TABLE `siszona`
+ ADD PRIMARY KEY (`ide_zona`);
+
+--
+-- Indices de la tabla `tbl_profiles`
+--
+ALTER TABLE `tbl_profiles`
+ ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indices de la tabla `tbl_profiles_fields`
+--
+ALTER TABLE `tbl_profiles_fields`
+ ADD PRIMARY KEY (`id`), ADD KEY `varname` (`varname`,`widget`,`visible`);
+
+--
+-- Indices de la tabla `tbl_users`
+--
+ALTER TABLE `tbl_users`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `username` (`username`), ADD UNIQUE KEY `email` (`email`), ADD KEY `status` (`status`), ADD KEY `superuser` (`superuser`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `admcatalogo`
+--
+ALTER TABLE `admcatalogo`
+MODIFY `ide_elemento` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
+--
+-- AUTO_INCREMENT de la tabla `admgrcatalogo`
+--
+ALTER TABLE `admgrcatalogo`
+MODIFY `ide_grupo` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT de la tabla `admopcion`
+--
+ALTER TABLE `admopcion`
+MODIFY `ide_opcion` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
+--
+-- AUTO_INCREMENT de la tabla `admrol`
+--
+ALTER TABLE `admrol`
+MODIFY `ide_rol` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT de la tabla `admrolopcion`
+--
+ALTER TABLE `admrolopcion`
+MODIFY `ide_rolopcion` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `categoria`
+--
+ALTER TABLE `categoria`
+MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT de la tabla `cliente`
+--
+ALTER TABLE `cliente`
+MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
+--
+-- AUTO_INCREMENT de la tabla `empleado`
+--
+ALTER TABLE `empleado`
+MODIFY `idEmpleado` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `inventario`
+--
+ALTER TABLE `inventario`
+MODIFY `idMovimiento` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT de la tabla `marca`
+--
+ALTER TABLE `marca`
+MODIFY `idMarca` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT de la tabla `producto`
+--
+ALTER TABLE `producto`
+MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
+--
+-- AUTO_INCREMENT de la tabla `proveedor`
+--
+ALTER TABLE `proveedor`
+MODIFY `idProveedor` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=46;
+--
+-- AUTO_INCREMENT de la tabla `sisdireccion`
+--
+ALTER TABLE `sisdireccion`
+MODIFY `ide_direccion` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `sispersona`
+--
+ALTER TABLE `sispersona`
+MODIFY `ide_persona` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
+--
+-- AUTO_INCREMENT de la tabla `sisusuario`
+--
+ALTER TABLE `sisusuario`
+MODIFY `ide_usuario` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `tbl_profiles`
+--
+ALTER TABLE `tbl_profiles`
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `tbl_profiles_fields`
+--
+ALTER TABLE `tbl_profiles_fields`
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `tbl_users`
+--
+ALTER TABLE `tbl_users`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- Restricciones para tablas volcadas
 --
 
 --
+-- Filtros para la tabla `detallefactura`
+--
+ALTER TABLE `detallefactura`
+ADD CONSTRAINT `fk_DetFac_Prod` FOREIGN KEY (`idProducto`) REFERENCES `producto` (`idProducto`),
+ADD CONSTRAINT `fk_Fac_detFac` FOREIGN KEY (`nroSerie`, `nroFact`) REFERENCES `factura` (`nroSerie`, `nroFact`);
+
+--
+-- Filtros para la tabla `detalleordencompra`
+--
+ALTER TABLE `detalleordencompra`
+ADD CONSTRAINT `fk_Detord_Prod` FOREIGN KEY (`idProducto`) REFERENCES `producto` (`idProducto`),
+ADD CONSTRAINT `fk_ord_detord` FOREIGN KEY (`nroSerie`, `nroOrden`) REFERENCES `ordencompra` (`nroSerie`, `nroOrden`);
+
+--
+-- Filtros para la tabla `factura`
+--
+ALTER TABLE `factura`
+ADD CONSTRAINT `fk_Fac_Cli` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idCliente`);
+
+--
+-- Filtros para la tabla `inventario`
+--
+ALTER TABLE `inventario`
+ADD CONSTRAINT `fk_Inv_Prod` FOREIGN KEY (`idproducto`) REFERENCES `producto` (`idProducto`);
+
+--
+-- Filtros para la tabla `ordencompra`
+--
+ALTER TABLE `ordencompra`
+ADD CONSTRAINT `fk_ord_Prov` FOREIGN KEY (`idProveedor`) REFERENCES `proveedor` (`idProveedor`);
+
+--
 -- Filtros para la tabla `producto`
 --
 ALTER TABLE `producto`
-  ADD CONSTRAINT `fk_producto_marca` FOREIGN KEY (`idMarca`) REFERENCES `marca` (`idMarca`),
-  ADD CONSTRAINT `fk_producto_categoria` FOREIGN KEY (`idCategoria`) REFERENCES `categoria` (`idCategoria`);
+ADD CONSTRAINT `fk_producto_categoria` FOREIGN KEY (`idCategoria`) REFERENCES `categoria` (`idCategoria`),
+ADD CONSTRAINT `fk_producto_marca` FOREIGN KEY (`idMarca`) REFERENCES `marca` (`idMarca`);
 
+--
+-- Filtros para la tabla `tbl_profiles`
+--
+ALTER TABLE `tbl_profiles`
+ADD CONSTRAINT `user_profile_id` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`id`) ON DELETE CASCADE;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

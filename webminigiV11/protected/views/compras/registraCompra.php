@@ -29,7 +29,7 @@ $this->breadcrumbs=array(
             <div class="col-lg-7">
             	<label>Orde de Compra</label>
               <div class="input-group">              	
-                <div class="input-group-addon">
+                <div class="input-group-addon" style="border: 1px solid;">
                   <span id="nroSerieOrden" data-serie=""></span>-<span id="nroOrden" data-nro=""></span>
                 </div>                
               </div>
@@ -67,9 +67,9 @@ $this->breadcrumbs=array(
 			    <div class="input-group">
                         
                        <input type="text" class="form-control buscarProductoCompra"  data-id="" id="fac_desc_Prod" placeholder="" style="min-width: 200px;" autocomplete="off">
-                       <span class="input-group-btn">
+                       <!-- <span class="input-group-btn">
         <button class="btn btn-default" type="button"><i class="fa fa-search-plus"></i></button>
-      </span>
+      </span> -->
                       </div>
 			 <select multiple class="form-control" id="findProducto" style="position:absolute;z-index:1000;display:none;min-width: 200px;">
 				</select>
@@ -116,15 +116,15 @@ $this->breadcrumbs=array(
   		<div class="col-md-4 col-md-offset-8">
   			<div class="form-group">
 		    	<label for="subTotal">SubTotal</label>
-		    	<input type="text" class="form-control" id="subTotal" placeholder="">
+		    	<input type="text" class="form-control" id="subTotal" placeholder="" disabled>
 			</div>
 			<div class="form-group">
 			    <label for="igv">IGV</label>
-			    <input type="text" class="form-control" id="igv" placeholder="">
+			    <input type="text" class="form-control" id="igv" placeholder="" disabled>
 			</div>
 			<div class="form-group">
 			    <label for="Total">Total</label>
-			    <input type="text" class="form-control" id="Total" placeholder="">
+			    <input type="text" class="form-control" id="Total" placeholder="" disabled>
 			</div> 
 			<div class="form-group">			  
 			    <button id="add_OrdenCompra" class="btn btn-primary btn-lg"><i class="fa fa-floppy-o"></i> Registrar Orden de Compra</button> 

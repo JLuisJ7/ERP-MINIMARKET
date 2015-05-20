@@ -1,4 +1,201 @@
-﻿select  p.desc_Prod,cantidad,df.precio,(cantidad*df.precio) as importe from DetalleFactura as df
+﻿Drop table DetalleFactura;
+drop table Factura;
+drop table inventario;
+drop table detalleordencompra;
+drop table ordencompra;
+
+CREATE TABLE Inventario (
+  idMovimiento int unsigned AUTO_INCREMENT PRIMARY KEY,
+  tipo_documento char(1) ,
+  serie char(3) ,
+  nro_documento int unsigned ,
+  fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
+  tipo char(1),
+  idproducto int,
+  cantidad int(10) unsigned ,
+  valor_unitario decimal(8,2) ,
+  total decimal(8,2)
+);
+alter table Inventario add CONSTRAINT fk_Inv_Prod FOREIGN KEY (idProducto) references Producto(idProducto);
+
+   
+Create table OrdenCompra(
+nroSerie char(3) not null,
+nroOrden int unsigned NOT NULL,
+idProveedor int,
+idEmpleado int,
+FechaOrden TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+subTotal numeric(8,2),
+IGV numeric(8,2),
+Total numeric(8,2),
+estadoOrden char(1) default 1,
+fechaElim date default NULL
+);
+create TABLE DetalleOrdenCompra(
+nroSerie Char(3) not  null, 
+nroOrden int unsigned NOT NULL,
+idProducto int  NOT NULL,
+cantidad INT unsigned NOT NULL,
+precio NUMERIC ( 8, 2 ) NOT NULL
+);
+
+
+alter table OrdenCompra add constraint pk_seri_num_ord  PRIMARY KEY(nroSerie,nroOrden);
+
+alter table OrdenCompra add CONSTRAINT fk_ord_Prov FOREIGN KEY (idProveedor) references Proveedor(idProveedor);
+alter table DetalleOrdenCompra add CONSTRAINT fk_ord_detord FOREIGN KEY (nroSerie,nroOrden) references OrdenCompra(nroSerie,nroOrden);
+alter table DetalleOrdenCompra add CONSTRAINT fk_Detord_Prod FOREIGN KEY (idProducto) references Producto(idProducto);
+
+
+
+
+create TABLE Factura (
+nroSerie char(3) not null,
+nroFact int  unsigned,
+idCliente int,
+idEmpleado int,
+fechEmic TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+subTotal NUMERIC ( 8, 2 ) NOT NULL,
+IGV NUMERIC (8, 2 ) NOT NULL,
+Total NUMERIC ( 8, 2 ) NOT NULL,
+estadoFact char(1) default 1,
+fechaElim date DEFAULT Null
+);
+
+create TABLE DetalleFactura(
+nroSerie Char(3) not  null, 
+nroFact int unsigned NOT NULL,
+idProducto int  NOT NULL,
+cantidad INT unsigned NOT NULL,
+precio NUMERIC ( 8, 2 ) NOT NULL
+);
+
+
+alter table Factura add constraint pk_seri_num_fact  PRIMARY KEY(nroSerie,nroFact);
+
+alter table Factura add CONSTRAINT fk_Fac_Cli FOREIGN KEY (idCliente) references Cliente(idCliente);
+alter table DetalleFactura add CONSTRAINT fk_Fac_detFac FOREIGN KEY (nroSerie,nroFact) references Factura(nroSerie,nroFact);
+alter table DetalleFactura add CONSTRAINT fk_DetFac_Prod FOREIGN KEY (idProducto) references Producto(idProducto);
+
+--  from Detallefactura;
+CREATE TRIGGER ActualizarStock
+AFTER INSERT ON DetalleFactura 
+FOR EACH ROW
+  UPDATE Producto 
+     SET stock = stock - NEW.cantidad
+   WHERE idProducto = NEW.idProducto
+
+CREATE TRIGGER ActualizarStockCompra
+AFTER INSERT ON DetalleOrdenCompra 
+FOR EACH ROW
+  UPDATE Producto 
+     SET stock = stock + NEW.cantidad
+   WHERE idProducto = NEW.idProducto
+   
+
+create table Producto(
+idProducto int AUTO_INCREMENT PRIMARY KEY,
+desc_Prod varchar(100) NOT NULL,
+presentacion varchar(20) NOT NULL,
+tipoProd char(1) NOT  NULL DEFAULT '1',
+stock int NOT NULL,
+idMarca int ,
+idCategoria int,
+fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+estadoProd char(1) not null DEFAULT '1'
+);
+ALTER TABLE PRoducto ADD Precio numeric(8,2);
+
+
+
+
+
+
+
+create table Cliente(
+idCliente int AUTO_INCREMENT primary key,
+RazSoc_Cli varchar(250) not null,
+tipoPersona_Cli char(1) not null,
+ruc_Cli char(11) not null,
+direccion_Cli varchar(150) not null,
+telefono_Cli char(9) not null,
+email_Cli varchar(50),
+fec_reg_Cli TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+estado_Cli char(1) not null DEFAULT '1'
+);
+
+create table Proveedor(
+idProveedor int AUTO_INCREMENT primary key,
+RazSoc_Prov varchar(250) not null,
+tipoPersona_Prov char(1) not null,
+ruc_Prov char(11) not null,
+direccion_Prov varchar(150) not null,
+telefono_Prov char(9) not null,
+email_Prov varchar(50),
+fec_reg_Prov TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+estado_Prov char(1) not null DEFAULT '1'
+);
+
+
+create table Marca(
+idMarca int AUTO_INCREMENT PRIMARY KEY,
+nomMarca varchar(100) unique not null
+);
+create table Categoria(
+idCategoria int AUTO_INCREMENT PRIMARY KEY,
+nomCategoria varchar(50) unique not null
+);
+/*
+----------------------------------------------------------------------------------------------
+*/
+
+
+
+
+
+select  *from Detallefactura;
+select  * from cliente;
+select nroSerie,nroFact,CONCAT(nroSerie,'-',nroFact) as Factura,c.RazSoc_Cli as Cliente,idEmpleado as Empleado,DATE_FORMAT(FechEmic,'%d-%m-%Y') as Fecha,SubTotal,IGV,Total 
+from factura as f
+inner join Cliente as c ON c.idCliente=f.idCliente;
+SELECT * from Producto;
+
+select nroSerie,nroOrden,prov.RazSoc_Prov as Proveedor,idEmpleado as Empleado,DATE_FORMAT(FechaOrden,'%d-%m-%Y') as Fecha,subTotal,IGV,Total from ordencompra as oc inner join proveedor as prov ON prov.idProveedor=oc.idProveedor  
+
+
+select  p.desc_Prod,cantidad,df.precio,(cantidad*df.precio) as importe from DetalleFactura as df
+INNER JOIN Producto as p ON p.idProducto=df.idProducto
+where nroSerie='001' and nroFact=33;
+
+select  p.desc_Prod,cantidad,doc.precio,(cantidad*doc.precio) as importe  from detalleordencompra doc INNER JOIN  Producto as p ON p.idProducto=doc.idProducto where nroSerie='001' and nroOrden=1;
+
+
+select idMovimiento,IF(tipo_documento = '1', 'Factura','Orden de Compra') as documento,serie,nro_documento,
+DATE_FORMAT(fecha,'%d-%m-%Y') as fecha, IF(tipo = 'S', 'Salida','Entrada') AS Tipo,p.desc_Prod as producto,cantidad,valor_unitario,total 
+from Inventario as i
+INNER JOIN Producto as p ON p.idProducto=i.idProducto
+
+
+select count(*) as numero from producto where stock=0;
+
+
+
+select *  from producto where stock=0
+
+create table Empleado(
+idEmpleado int unsigned AUTO_INCREMENT PRIMARY KEY,
+apePat varchar(50),
+apeMat varchar(50),
+nombres varchar(50),
+fechaNac date,
+DNI char(8),
+telefono char(9),
+sexo char(1),
+fechaReg TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+estado char(1) DEFAULT '1'
+);
+
+select  p.desc_Prod,cantidad,df.precio,(cantidad*df.precio) as importe from DetalleFactura as df
 INNER JOIN Producto as p ON p.idProducto=df.idProducto
 where nroSerie='001' and nroFact=18;
 
@@ -56,35 +253,6 @@ FOR EACH ROW
      SET stock = stock + NEW.cantidad
    WHERE idProducto = NEW.idProducto
    
-   
-Create table OrdenCompra(
-nroSerie char(3) not null,
-nroOrden int unsigned NOT NULL,
-idProveedor int,
-idEmpleado int,
-FechaOrden TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-subTotal numeric(8,2),
-IGV numeric(8,2),
-Total numeric(8,2),
-estadoOrden char(1) default 1,
-fechaElim date default NULL
-);
-create TABLE DetalleOrdenCompra(
-nroSerie Char(3) not  null, 
-nroOrden int unsigned NOT NULL,
-idProducto int  NOT NULL,
-cantidad INT unsigned NOT NULL,
-precio NUMERIC ( 8, 2 ) NOT NULL
-);
-
-
-alter table OrdenCompra add constraint pk_seri_num_ord  PRIMARY KEY(nroSerie,nroOrden);
-
-alter table OrdenCompra add CONSTRAINT fk_ord_Prov FOREIGN KEY (idProveedor) references Proveedor(idProveedor);
-alter table DetalleOrdenCompra add CONSTRAINT fk_ord_detord FOREIGN KEY (nroSerie,nroOrden) references OrdenCompra(nroSerie,nroOrden);
-alter table DetalleOrdenCompra add CONSTRAINT fk_Detord_Prod FOREIGN KEY (idProducto) references Producto(idProducto);
-
-
 
 create TABLE DetalleFactura(
 nroSerie Char(3) not  null, 
@@ -114,13 +282,6 @@ alter table Factura add CONSTRAINT fk_Fac_Cli FOREIGN KEY (idCliente) references
 alter table DetalleFactura add CONSTRAINT fk_Fac_detFac FOREIGN KEY (nroSerie,nroFact) references Factura(nroSerie,nroFact);
 alter table DetalleFactura add CONSTRAINT fk_DetFac_Prod FOREIGN KEY (idProducto) references Producto(idProducto);
 
---  from Detallefactura;
-CREATE TRIGGER ActualizarStock
-AFTER INSERT ON DetalleFactura 
-FOR EACH ROW
-  UPDATE Producto 
-     SET stock = stock - NEW.cantidad
-   WHERE idProducto = NEW.idProducto
 
 
 
@@ -323,3 +484,8 @@ select * from sispersona;
 select * from DetalleOrdenCompra;
 
 select * from  Producto;
+
+
+
+
+
