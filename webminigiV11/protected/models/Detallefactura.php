@@ -18,6 +18,14 @@
 class Detallefactura extends CActiveRecord
 {
 
+	public function obtenerDetallexFact($nroSerie,$nroFact){
+
+		$sql = "select  p.desc_Prod,cantidad,df.precio,(cantidad*df.precio) as importe from DetalleFactura as df INNER JOIN Producto as p ON p.idProducto=df.idProducto where nroSerie='".$nroSerie."' and nroFact=".$nroFact;
+	
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
+
 	public function agregarDetalleFactura($nroSerie,$nroFact,$idProducto,$cantidad,$Precio){
 
 		$resultado = array('valor'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');

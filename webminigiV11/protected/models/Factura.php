@@ -23,6 +23,15 @@
 class Factura extends CActiveRecord
 {
 
+	public function listadoFacturas(){
+
+$sql = "select nroSerie,nroFact,c.RazSoc_Cli as Cliente,idEmpleado as Empleado,DATE_FORMAT(FechEmic,'%d-%m-%Y') as Fecha,SubTotal,IGV,Total from factura as f inner join Cliente as c ON c.idCliente=f.idCliente";
+	
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	
+	}
+
 public function ObtenerNroFactura(){
 
 $sql = "select count(nroFact)+1 as nroFact from factura";

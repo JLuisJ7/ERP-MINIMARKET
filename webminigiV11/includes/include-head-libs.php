@@ -78,3 +78,15 @@
       <script src="<?php echo Yii::app()->theme->baseUrl;?>/dist/js/utilesTransacciones.js" type="text/javascript"></script>
       <script src="http://lightswitch05.github.io/table-to-json/javascripts/jquery.tabletojson.min.js" type="text/javascript"></script>
     
+    <style type="text/css" class="init">
+
+td.details-control {
+    background: url('<?php echo Yii::app()->theme->baseUrl;?>/dist/img/details_open.png') no-repeat center center;
+    cursor: pointer;
+    
+}
+tr.shown td.details-control {
+    background: url('<?php echo Yii::app()->theme->baseUrl;?>/dist/img/details_close.png') no-repeat center center;
+}
+
+    </style>

@@ -1,4 +1,18 @@
-﻿select * from Factura;
+﻿select  p.desc_Prod,cantidad,df.precio,(cantidad*df.precio) as importe from DetalleFactura as df
+INNER JOIN Producto as p ON p.idProducto=df.idProducto
+where nroSerie='001' and nroFact=18;
+
+
+
+
+select  *from factura;
+select  * from cliente;
+select nroSerie,nroFact,CONCAT(nroSerie,'-',nroFact) as Factura,c.RazSoc_Cli as Cliente,idEmpleado as Empleado,DATE_FORMAT(FechEmic,'%d-%m-%Y') as Fecha,SubTotal,IGV,Total 
+from factura as f
+inner join Cliente as c ON c.idCliente=f.idCliente;
+
+
+select * from Factura;
 select * from DetalleFactura;
 select * from ordencompra;
 select * from detalleordencompra;

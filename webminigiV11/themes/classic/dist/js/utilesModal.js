@@ -55,6 +55,101 @@ var Util = {
     }
 };
 /*
+    INICIO FactCore
+*/
+var FactCore = {
+
+    loadFacturas: function(){
+        var me = this;
+        
+        Util.createGrid('#listaFacturas',{
+            toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoProveedor">Nuevo Proveedor</a>',
+            url:'index.php?r=ventas/ajaxListadoFacturas',
+            "order": [[ 0, 'asc' ]],
+
+            columns:[
+               
+                {"mData": "nroSerie", "sClass": "alignCenter"},
+                {"mData": "nroFact", "sClass": "alignCenter"},
+                {"mData": "Cliente", "sClass": "alignCenter"},
+                {"mData": "Empleado", "sClass": "alignCenter"},                
+                {"mData": "Fecha", "sClass": "alignCenter"},
+                {"mData": "SubTotal", "sClass": "alignCenter"},
+                {"mData": "IGV", "sClass": "alignCenter"},
+                {"mData": "Total", "sClass": "alignCenter"},
+               
+                {
+                    "mData": null,
+                    "bSortable": false,
+                    "bFilterable": false,
+                     "mRender": function (data, type, row) {
+                  /*return row.nroSerie +', '+ row.nroFact;*/
+                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.nroSerie + '" data-nroFact="' + row.nroFact + '" class="btn btn-warning btn-sm verDetalle">Ver</a> ';
+                }
+                }
+            ],
+            fnDrawCallback: function() {
+                
+                $('.verDetalle').click(function() {
+                    me.obtenerDetalle($(this).attr('data-nroSerie'),$(this).attr('data-nroFact'));
+                    
+                });
+
+            }
+
+        });
+    },    
+    obtenerDetalle : function(nroSerie,nroFact){
+        $.ajax({
+            url: 'index.php?r=ventas/AjaxObtenerDetalle',
+            type: 'POST',            
+            data: {
+                nroSerie: nroSerie,
+                nroFact:nroFact
+            },
+        })
+        .done(function(response) {
+            
+                
+            console.log(response);
+             var table = $('#FacturaDetallada').DataTable( {
+                "paging":   false,
+        "ordering": false,
+        "info":     false,
+        "bFilter": false,
+        "data": response,
+
+                "columns": [
+                   
+                    { "data": "desc_Prod" },
+                    { "data": "cantidad" },
+                    { "data": "precio" },
+                    { "data": "importe" }
+                ]               
+            } );
+            
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+           $('#myModalFacturaDetallada').modal('show');
+        });
+        
+    },
+    initListadoFacturas: function() {       
+         $('#myModalFacturaDetallada').on('hidden.bs.modal', function() {
+         var table = $('#FacturaDetallada').DataTable();
+ 
+            
+            table.destroy();
+                     
+        });
+        this.loadFacturas();
+
+    }
+
+}/*
     INICIO ProvCore
 */
 var ProvCore = {

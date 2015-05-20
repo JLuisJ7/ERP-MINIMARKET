@@ -16,12 +16,28 @@ class VentasController extends Controller{
 
 		$this->render("registrarFactura");
 	}
+
+	public function actionFacturas(){
+
+		$this->render("Facturas");
+	}
+
+
 	public function actionAjaxListadoClientes(){
-		// Condicion de empleados = 18
+		
 		$clientes = Cliente::model()->listadoClientes();
 
 		Util::renderJSON($clientes);
 	}
+	public function actionAjaxListadoFacturas(){
+		
+		$facturas = Factura::model()->listadoFacturas();
+
+		Util::renderJSON($facturas);
+	}
+
+
+
 	public function actionAjaxObtenerNroFactura(){
 		// Condicion de empleados = 18
 		$Factura = Factura::model()->ObtenerNroFactura();
@@ -45,6 +61,16 @@ class VentasController extends Controller{
 
 		header('Content-Type: application/json; charset="UTF-8"');
     	echo CJSON::encode(array('output'=>$clientes[0]));
+	}
+
+	public function actionAjaxObtenerDetalle(){
+		
+
+    	$nroSerie = $_POST['nroSerie'];
+		$nroFact = $_POST['nroFact'];
+		$detalle = Detallefactura::model()->obtenerDetallexFact($nroSerie,$nroFact);
+			Util::renderJSON($detalle);
+		
 	}
 
 	public function actionAjaxEditarCliente(){

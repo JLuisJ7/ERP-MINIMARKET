@@ -1,4 +1,4 @@
-
+ 
   function obtenerNroFactura(){
          $.ajax({
         url: 'index.php?r=ventas/AjaxObtenerNroFactura',
