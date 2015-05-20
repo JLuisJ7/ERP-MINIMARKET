@@ -976,7 +976,7 @@ var FnCore = {
                     "mData": 'idCliente',
                     "bSortable": false,
                     "bFilterable": false,
-                    //"width": "150px",
+                    // "width": "150px",
                     "mRender": function(o) {
                         return '<a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-warning btn-sm editarCliente"><i class="fa fa-pencil"></i></a> <a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-danger btn-sm suspenderCliente"><i class="fa fa-trash-o"></i></a>';
                     }
