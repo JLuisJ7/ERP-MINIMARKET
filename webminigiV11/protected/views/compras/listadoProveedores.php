@@ -22,21 +22,22 @@ $this->breadcrumbs=array(
                   <h3 class='box-title'><i class="fa fa-user"></i> Listado de Proveedores</h3>
                 </div>
                 <div class="box-body">
-                  <table class="table table-striped table-bordered" id="listaProveedores" style="">
+                  
+                   <table class="table table-striped" id="listaProveedores" style="">
                     <thead>
-                      <tr>
+                      <tr >
                         <!--th style="vertical-align: middle;">#</th-->
-                        <th style="vertical-align: middle;" >Nombres o Razón Social</th>
-                        <th style="vertical-align: middle;" >Persona</th>
-                        <th style="vertical-align: middle;" >Ruc</th>
-                        <th style="vertical-align: middle;" >Fecha de Registro</th>
-                        <th style="vertical-align: middle;" >Dirección</th>
-                        <th style="vertical-align: middle;" >Telefono</th>
-                        <th style="vertical-align: middle;" >Correo Electronico</th>
-                        <th style="vertical-align: middle;" >&nbsp;</th>
+                        <th>Nombres o Razón Social</th>                        
+                        <th>Ruc</th>                        
+                        <th>Dirección</th>
+                        <th>Telefono</th>
+                        <th>Correo Electronico</th>
+                        <th></th>
                       </tr>
                     </thead>                 
                   </table>
+                  
+                  
 
 
                 </div>

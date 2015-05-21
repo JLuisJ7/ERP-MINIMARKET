@@ -26,10 +26,8 @@ $this->breadcrumbs=array(
                     <thead>
                       <tr>
                         <!--th style="vertical-align: middle;">#</th-->
-                        <th style="vertical-align: middle;" >Nombres o Razón Social</th>
-                        <th style="vertical-align: middle;" >Persona</th>
+                        <th style="vertical-align: middle;" >Nombres o Razón Social</th>                        
                         <th style="vertical-align: middle;" >Ruc</th>
-                        <th style="vertical-align: middle;" >Fecha de Registro</th>
                         <th style="vertical-align: middle;" >Dirección</th>
                         <th style="vertical-align: middle;" >Telefono</th>
                         <th style="vertical-align: middle;" >Correo Electronico</th>

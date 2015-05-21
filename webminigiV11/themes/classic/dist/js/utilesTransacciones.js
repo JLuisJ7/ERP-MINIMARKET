@@ -19,6 +19,55 @@
     .always(function() {
         console.log("complete");
     });
+    };
+
+    function obtenerParamGeneral(idParametro,idcampo){
+         $.ajax({
+        url: 'index.php?r=utilitarios/AjaxObtenerParametroGeneral',
+        type: 'POST',
+        data:{
+          idParametro:idParametro
+        }        
+    })
+    .done(function(response) {   
+     data=response.output;     
+        console.log(data);
+
+        $("#"+idcampo+"").val(data.valor_Param)
+         $("#"+idcampo+"").attr('data-id',data.idParametro);
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    .always(function() {
+        console.log("complete");
+    });
+    };
+
+    function actualizarParamGeneral(idcampo){
+        var idParametro=$("#"+idcampo+"").attr('data-id');
+        var valor_Param=$("#"+idcampo+"").val();
+         $.ajax({
+        url: 'index.php?r=utilitarios/AjaxActualizarParametroGeneral',
+        type: 'POST',
+        data:{
+          idParametro:idParametro,
+          valor_Param:valor_Param
+        }        
+    })
+    .done(function(response) {   
+     data=response.output;     
+        console.log(data);
+obtenerParamGeneral(idParametro,idcampo);
+       
+        
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    .always(function() {
+        console.log("complete");
+    });
     }; 
 
   function obtenerProductosAgotados(){
@@ -96,6 +145,17 @@
     };
 
 $(document).ready(function(){
+
+
+  $("#ActualizarIGV").click(function() {
+      actualizarParamGeneral("IGV");
+  });
+
+  $("#ActualizarTipoCambio").click(function() {
+      actualizarParamGeneral("TipoCambio");
+  });
+
+
  obtenerProductosAgotados()
 obtenerNroFactura();
 obtenerNroOrdenCompra();

@@ -584,9 +584,9 @@ var ProvCore = {
             url:'index.php?r=Compras/ajaxListadoProveedores',
             columns:[
                 {"mData": "RazSoc_Prov", "sClass": "alignCenter"},
-                {"mData": "tipoPersona_Prov", "sClass": "alignCenter"},
+                //{"mData": "tipoPersona_Prov", "sClass": "alignCenter"},
                 {"mData": "ruc_Prov", "sClass": "alignCenter"},
-                {
+                /*{
                     "mData": "fec_reg_Prov", 
                     "mRender": function(o){
                         var f = new Date(o);
@@ -595,7 +595,7 @@ var ProvCore = {
 
                         return dia+"/"+mes+"/"+f.getFullYear();
                     }
-                },
+                },*/
                 {"mData": "direccion_Prov", "sClass": "alignCenter"},
                 {"mData": "telefono_Prov", "sClass": "alignCenter"},
                 {"mData": "email_Prov", "sClass": "alignCenter"},
@@ -603,7 +603,7 @@ var ProvCore = {
                     "mData": 'idProveedor',
                     "bSortable": false,
                     "bFilterable": false,
-                    //"width": "150px",
+                    //"width": "auto",
                     "mRender": function(o) {
                         return '<a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-warning btn-sm editarProveedor"><i class="fa fa-pencil"></i></a> <a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-danger btn-sm suspenderProveedor"><i class="fa fa-trash-o"></i></a>';
                     }
@@ -957,9 +957,9 @@ var FnCore = {
             url:'index.php?r=Ventas/ajaxListadoClientes',
             columns:[
                 {"mData": "RazSoc_Cli", "sClass": "alignCenter"},
-                {"mData": "tipoPersona_Cli", "sClass": "alignCenter"},
+                //{"mData": "tipoPersona_Cli", "sClass": "alignCenter"},
                 {"mData": "ruc_Cli", "sClass": "alignCenter"},
-                {
+                /*{
                     "mData": "fec_reg_Cli", 
                     "mRender": function(o){
                         var f = new Date(o);
@@ -968,7 +968,7 @@ var FnCore = {
 
                         return dia+"/"+mes+"/"+f.getFullYear();
                     }
-                },
+                },*/
                 {"mData": "direccion_Cli", "sClass": "alignCenter"},
                 {"mData": "telefono_Cli", "sClass": "alignCenter"},
                 {"mData": "email_Cli", "sClass": "alignCenter"},

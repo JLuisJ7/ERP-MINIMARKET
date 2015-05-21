@@ -44,7 +44,7 @@ $sql = "select *  from producto where stock=0;";
 	**/
 public function listadoProductos(){
 
-$sql = "select idProducto,desc_Prod,presentacion,tipoProd,stock,m.nomMarca,c.nomCategoria,estadoProd,precio  from producto as p inner join Categoria as c ON c.idCategoria=p.idCategoria inner join Marca as m ON m.idMarca=p.idMarca where estadoProd=1 order by desc_Prod asc";
+$sql = "select idProducto,desc_Prod,presentacion,IF(tipoProd = '1', 'No Perecible','Perecible') as tipoProd,stock,m.nomMarca,c.nomCategoria,estadoProd,precio  from producto as p inner join Categoria as c ON c.idCategoria=p.idCategoria inner join Marca as m ON m.idMarca=p.idMarca where estadoProd=1 order by desc_Prod asc";
 	
 
 
