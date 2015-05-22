@@ -5,12 +5,17 @@ class CListaMenu extends CApplicationComponent{
 
 	public function init(){}
 
-	public function listadoPrincipal(){
+	// HE HECHO CAMBIOS DESDE AQUI // SOLO EL IDROL ================================
+	public function listadoPrincipal($idRol){
 
 		$lista = array(array('label'=>'NAVEGACIÓN PRINCIPAL', 'itemOptions'=>array('class'=>'header treeview')));
 		//array_push($lista, array('label'=>'Inicio', 'url'=>array('#'), 'itemOptions'=>array('class'=>'active')));
+		//echo "El id usuario alcanzado es: ".$idUsuario;
 
-		$dataOpciones = AdmOpcion::model()->listarOpcionesPorCatalogo(2);
+		// HE HECHO CAMBIOS DESDE AQUI ======================================
+		$dataOpciones = AdmOpcion::model()->listarOpcionesPorCatalogo(2, $idRol);
+		// HASTA AQUI =========================================================
+
         foreach ($dataOpciones as $opcion) {
         	$subOpciones = array();
         	$numSubItems = 0;

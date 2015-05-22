@@ -33,9 +33,14 @@ class UsuarioServiceImpl implements UsuarioService {
             //throw new Exception('La Clave es incorrecta.');
             return array('success' => FALSE,'message'=>'La Clave es incorrecta.');
         }
+
+        // HIZE CAMBIOS DESDE AQUI ==============================================
+        $usuarioSistema = $this->obtenerUsuarioByLoginUser($loginUser, 1);
+        $dataUsuario = $this->obtenerDataUsuario($usuario['ide_persona']);
      
         $data = array();
-        $data['usuario'] = $usuario;
+        $data['usuario'] = $usuarioSistema;
+        $data['datausuario'] = $dataUsuario;
         $data['success'] = TRUE;
       
         return $data;
@@ -46,10 +51,24 @@ class UsuarioServiceImpl implements UsuarioService {
       @author Lizandro Alipazaga <lalipazaga.sys@gmail.com>
       Metodo que obtiene el usuario por el des Login
      **/
-    public function obtenerUsuarioByLoginUser($loginUser) {
+    public function obtenerUsuarioByLoginUser($loginUser, $tipo=0) {
         $usuarioCriteria = new CDbCriteria();
+
+        // HIZE CAMBIOS DESDE AQUI =================================
+        if($tipo==1){
+            $usuarioCriteria->select = 'des_usuario, ide_rol';
+        }        
         $usuarioCriteria->addSearchCondition('des_usuario', $loginUser);
         $usuario = SisUsuario::model()->find($usuarioCriteria);
+        if(empty($usuario)){return NULL;}
+        return $usuario->attributes;
+    }
+    // HIZE CAMBIOS DESDE AQUI ================================================
+    // ACTUALIZA TODO ESTE METODO
+    public function obtenerDataUsuario($idePersona) {
+        $usuarioCriteria = new CDbCriteria();
+        $usuarioCriteria->addSearchCondition('ide_persona', $idePersona);
+        $usuario = SisPersona::model()->find($usuarioCriteria);
         if(empty($usuario)){return NULL;}
         return $usuario->attributes;
     }

@@ -97,7 +97,7 @@ $this->breadcrumbs=array(
 				  </div>
 				  <div class="form-group">
 				    <label for="">Cantidad</label><br>
-				    <input type="number" data-stock="" class="form-control" id="fac_CantProd" min="0" max="">			    
+				    <input type="number" data-stock="" class="form-control" id="fac_CantProd" value="" min="1" max="">			    
 				  </div>
 				  <div class="form-group">
 				    <label for="">Importe</label><br>

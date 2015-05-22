@@ -20,13 +20,14 @@ class AdmOpcion extends CActiveRecord
 	/**
 	* Se listan los menus segun catalogo
 	**/
-	public function listarOpcionesPorCatalogo($ideGrupoCatalogo){
+	public function listarOpcionesPorCatalogo($ideGrupoCatalogo, $idRol){
 		$sql = "";
 
 		$sql .= "SELECT op.ide_opcion, initcap(LOWER(op.des_nombre)) AS des_nombre, op.des_ruta, op.ind_padre, op.des_icon ";
 		$sql .= "FROM admopcion op ";
 		$sql .= "INNER JOIN admcatalogo ca ON ca.ide_elemento = op.ide_modulo ";
-		$sql .= "WHERE ca.ide_grupo=".$ideGrupoCatalogo." AND ca.ide_estado=1 AND op.ide_estado=1 ";
+		$sql .= "INNER JOIN admrolopcion ro ON ro.ide_opcion = op.ide_opcion ";
+		$sql .= "WHERE ca.ide_grupo=".$ideGrupoCatalogo." AND ca.ide_estado=1 AND ro.ide_rol=".$idRol." AND op.ide_estado=1 ";
 		$sql .= "ORDER BY op.ind_orden ASC";
 
 		return $this->findAllBySql($sql);

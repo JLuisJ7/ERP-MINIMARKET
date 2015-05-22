@@ -4,6 +4,7 @@ drop table inventario;
 drop table detalleordencompra;
 drop table ordencompra;
 
+
 CREATE TABLE Inventario (
   idMovimiento int unsigned AUTO_INCREMENT PRIMARY KEY,
   tipo_documento char(1) ,
@@ -93,23 +94,6 @@ FOR EACH ROW
    WHERE idProducto = NEW.idProducto
    
 
-create table Producto(
-idProducto int AUTO_INCREMENT PRIMARY KEY,
-desc_Prod varchar(100) NOT NULL,
-presentacion varchar(20) NOT NULL,
-tipoProd char(1) NOT  NULL DEFAULT '1',
-stock int NOT NULL,
-idMarca int ,
-idCategoria int,
-fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-estadoProd char(1) not null DEFAULT '1'
-);
-ALTER TABLE PRoducto ADD Precio numeric(8,2);
-
-
-
-
-
 
 
 create table Cliente(
@@ -136,6 +120,22 @@ fec_reg_Prov TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 estado_Prov char(1) not null DEFAULT '1'
 );
 
+create table Producto(
+idProducto int AUTO_INCREMENT PRIMARY KEY,
+desc_Prod varchar(100) NOT NULL,
+presentacion varchar(20) NOT NULL,
+tipoProd char(1) NOT  NULL DEFAULT '1',
+stock int NOT NULL,
+idMarca int ,
+idCategoria int,
+fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+estadoProd char(1) not null DEFAULT '1',
+Precio numeric(8,2),
+idProveedor int 
+);
+
+
+
 
 create table Marca(
 idMarca int AUTO_INCREMENT PRIMARY KEY,
@@ -145,6 +145,12 @@ create table Categoria(
 idCategoria int AUTO_INCREMENT PRIMARY KEY,
 nomCategoria varchar(50) unique not null
 );
+
+alter table Producto add CONSTRAINT fk_producto_categoria FOREIGN KEY (idCategoria) references Categoria(idCategoria);
+alter table Producto add CONSTRAINT fk_producto_marca FOREIGN KEY (idMarca) references Marca(idMarca);
+alter table Producto add CONSTRAINT fk_producto_proveedor FOREIGN KEY (idProveedor) references Proveedor(idProveedor);
+
+
 /*
 ----------------------------------------------------------------------------------------------
 */
@@ -321,7 +327,9 @@ stock int NOT NULL,
 idMarca int ,
 idCategoria int,
 fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-estadoProd char(1) not null DEFAULT '1'
+estadoProd char(1) not null DEFAULT '1',
+Precio numeric(8,2),
+idProveedor int
 );
 ALTER TABLE PRoducto ADD Precio numeric(8,2);
 
