@@ -74,9 +74,11 @@ foreach($array as $obj){
 }
 
 }
-	public function actionAjaxObtenerNroOrden(){
+	public function actionAjaxObtenerNroComprobante(){
 		// Condicion de empleados = 18
-		$OrdenCompra = OrdenCompra::model()->ObtenerNroOrden();
+		$nroSerie = $_POST['nroSerie'];
+
+		$OrdenCompra = OrdenCompra::model()->ObtenerNroOrden($nroSerie);
 		header('Content-Type: application/json; charset="UTF-8"');
     	echo CJSON::encode(array('output'=>$OrdenCompra[0]));
 		

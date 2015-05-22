@@ -1,25 +1,28 @@
  
-  function obtenerNroFactura(){
+  function obtenerNroComprobante(modulo,idNroComp,idserie){
+    var nroSerie=$("#"+idserie+"").attr('data-param');
          $.ajax({
-        url: 'index.php?r=ventas/AjaxObtenerNroFactura',
-        type: 'POST',        
+        url: 'index.php?r='+modulo+'/AjaxObtenerNroComprobante',
+        type: 'POST',
+        data:{
+          nroSerie:nroSerie
+        }        
     })
     .done(function(response) {   
      data=response.output;     
-        //console.log(data.nroFact);
+        //console.log(data.nroComp);
 
-        $("#nroFactura").text(data.nroFact);
-        $("#nroFactura").attr('data-nro', data.nroFact);
-        $("#nroSerie").text('001');
-        $("#nroSerie").attr('data-serie', '001');
+        $("#"+idNroComp+"").text(data.nroComp);
+        $("#"+idNroComp+"").attr('data-nro', data.nroComp);      
     })
     .fail(function() {
-        console.log("error");
+        //console.log("error");
     })
     .always(function() {
-        console.log("complete");
+        //console.log("complete");
     });
-    };
+ };
+
 
     function obtenerParamGeneral(idParametro,idcampo){
          $.ajax({
@@ -31,18 +34,48 @@
     })
     .done(function(response) {   
      data=response.output;     
-        console.log(data);
+        //console.log(data);
 
         $("#"+idcampo+"").val(data.valor_Param)
          $("#"+idcampo+"").attr('data-id',data.idParametro);
     })
     .fail(function() {
-        console.log("error");
+        //console.log("error");
     })
     .always(function() {
-        console.log("complete");
+        //console.log("complete");
     });
     };
+
+    function obtenerParametro(idParametro,tipo,id){
+      var serie;
+         $.ajax({
+        url: 'index.php?r=utilitarios/AjaxObtenerParametroGeneral',
+        type: 'POST',
+        data:{
+          idParametro:idParametro
+        }        
+    })
+    .done(function(response) {   
+     data=response.output;     
+       if (tipo=="T") {
+          $("#"+id+"").text(data.valor_Param)
+         $("#"+id+"").attr('data-param',data.valor_Param);
+       }else if (tipo=="I") {
+         
+         $("#"+id+"").attr('data-param',data.valor_Param);
+       };
+      
+    })
+    .fail(function() {
+        //console.log("error");
+    })
+    .always(function() {
+        //console.log("complete");
+    });
+    
+    };
+
 
     function actualizarParamGeneral(idcampo){
         var idParametro=$("#"+idcampo+"").attr('data-id');
@@ -57,16 +90,16 @@
     })
     .done(function(response) {   
      data=response.output;     
-        console.log(data);
+        //console.log(data);
 obtenerParamGeneral(idParametro,idcampo);
        
         
     })
     .fail(function() {
-        console.log("error");
+        //console.log("error");
     })
     .always(function() {
-        console.log("complete");
+       // console.log("complete");
     });
     }; 
 
@@ -83,10 +116,10 @@ obtenerParamGeneral(idParametro,idcampo);
        
     })
     .fail(function() {
-        console.log("error");
+        //console.log("error");
     })
     .always(function() {
-        console.log("complete");
+        //console.log("complete");
     }); 
 
     $.ajax({
@@ -95,7 +128,7 @@ obtenerParamGeneral(idParametro,idcampo);
     })
     .done(function(response) {   
      data=response;     
-        console.log(data);
+        //console.log(data);
 
         var html = "";
 
@@ -112,53 +145,32 @@ obtenerParamGeneral(idParametro,idcampo);
        
     })
     .fail(function() {
-        console.log("error");
+        //console.log("error");
     })
     .always(function() {
-        console.log("complete");
+        //console.log("complete");
     });
 
     };
 
-  function obtenerNroOrdenCompra(){
-         $.ajax({
-        url: 'index.php?r=compras/AjaxObtenerNroOrden',
-        type: 'POST',        
-    })
-    .done(function(response) {   
-     data=response.output;     
-        console.log(data.nroOrden);
-
-       // $("#nroOrden").val(data.nroOrden);
-        $("#nroOrden").text(data.nroOrden);
-        $("#nroOrden").attr('data-nro', data.nroOrden);
-        $("#nroSerieOrden").text('001');
-        $("#nroSerieOrden").attr('data-serie', '001');
-
-    })
-    .fail(function() {
-        console.log("error");
-    })
-    .always(function() {
-        console.log("complete");
-    });
-    };
+ 
 
 $(document).ready(function(){
 
 
-  $("#ActualizarIGV").click(function() {
-      actualizarParamGeneral("IGV");
+  $(".ActualizarParametro").click(function() {
+    var campo=$(this).attr('data-input');
+      actualizarParamGeneral(campo);
   });
 
-  $("#ActualizarTipoCambio").click(function() {
+  /*$("#ActualizarTipoCambio").click(function() {
       actualizarParamGeneral("TipoCambio");
-  });
+  });*/
 
 
  obtenerProductosAgotados()
-obtenerNroFactura();
-obtenerNroOrdenCompra();
+// obtenerNroFactura();
+// obtenerNroOrdenCompra();
     
                                 
         var consulta;
@@ -473,7 +485,9 @@ $(document).ready(function() {
 
    $("#subTotal").val((total*1).toFixed(2));
 
-   $("#igv").val((total*0.18).toFixed(2));
+ var param_igv=$("#igv").attr('data-param');
+   $("#igv").val((total*param_igv).toFixed(2));
+
    var igv= $("#igv").val();
    var subtotal=$("#subTotal").val();
    $("#Total").val((parseFloat(subtotal)+parseFloat(igv)).toFixed(2)); 
@@ -584,7 +598,7 @@ $.ajax({
  $('#add_Factura').click( function() {
 
 
-  var nroSerie=$("#nroSerie").attr('data-serie');
+  var nroSerie=$("#nroSerie").attr('data-param');
   var nroFactura=$("#nroFactura").attr('data-nro');
   var idCliente=$("#fac_RazSoc_Cli").attr('data-id');
   var idEmpleado=$("#idEmpleado").val();
@@ -614,7 +628,7 @@ $.ajax({
 })
 .always(function() {
    var table = $('#DetalleFactura').tableToJSON();
-  var nroSerie=$("#nroSerie").attr('data-serie');
+  var nroSerie=$("#nroSerie").attr('data-param');
   var nroFactura=$("#nroFactura").attr('data-nro');
 
 
@@ -644,7 +658,7 @@ $.ajax({
 
 $('#add_OrdenCompra').click( function() {
 
-  var nroSerie=$("#nroSerieOrden").attr('data-serie');
+  var nroSerie=$("#nroSerie").attr('data-param');
   var nroOrden=$("#nroOrden").attr('data-nro');
   var idProveedor=$("#fac_RazSoc_Prov").attr('data-id');
   var idEmpleado=$("#idEmpleado").val();
@@ -674,7 +688,7 @@ $.ajax({
 })
 .always(function() {
   var table = $('#DetalleFactura').tableToJSON();
-var nroSerie=$("#nroSerieOrden").attr('data-serie');
+var nroSerie=$("#nroSerie").attr('data-param');
   var nroOrden=$("#nroOrden").attr('data-nro');
 
 

@@ -38,9 +38,9 @@ class VentasController extends Controller{
 
 
 
-	public function actionAjaxObtenerNroFactura(){
-		// Condicion de empleados = 18
-		$Factura = Factura::model()->ObtenerNroFactura();
+	public function actionAjaxObtenerNroComprobante(){
+		$nroSerie = $_POST['nroSerie'];
+		$Factura = Factura::model()->ObtenerNroFactura($nroSerie);
 		header('Content-Type: application/json; charset="UTF-8"');
     	echo CJSON::encode(array('output'=>$Factura[0]));
 		

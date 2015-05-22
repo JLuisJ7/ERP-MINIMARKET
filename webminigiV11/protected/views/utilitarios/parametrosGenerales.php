@@ -42,19 +42,39 @@ $this->breadcrumbs=array(
 			    <div class="input-group">		      
 			      <input type="text" class="form-control" id="IGV" placeholder="">
 			      <span class="input-group-btn">
-			        <button class="btn btn-default" type="button" id="ActualizarIGV">Actualizar</button>
+			        <button class="btn btn-default ActualizarParametro" type="button" data-input="IGV">Actualizar</button>
 			      </span>
 			    </div><!-- /input-group -->
 			</div>
 		  </div><!-- /.col-lg-6 -->
 
 		  <div class="col-lg-6">
-		  	<h1>Tipo de Cambio</h1>
+        <h1>Tipo de Cambio</h1>
+        <div class="input-group">
+          
+          <input type="text" class="form-control" id="TipoCambio" placeholder="">
+          <span class="input-group-btn">
+            <button class="btn btn-default ActualizarParametro" type="button" data-input="TipoCambio">Actualizar</button>
+          </span>
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+      <div class="col-lg-6">
+        <h1>Serie Factura</h1>
+        <div class="input-group">
+          
+          <input type="text" class="form-control" id="SerieFactura" placeholder="">
+          <span class="input-group-btn">
+            <button class="btn btn-default ActualizarParametro" type="button" data-input="SerieFactura" >Actualizar</button>
+          </span>
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+      <div class="col-lg-6">
+		  	<h1>Serie Orden de Compra</h1>
 		    <div class="input-group">
 		      
-		      <input type="text" class="form-control" id="TipoCambio" placeholder="">
+		      <input type="text" class="form-control" id="SerieOrden" placeholder="">
 		      <span class="input-group-btn">
-		        <button class="btn btn-default" type="button" id="ActualizarTipoCambio">Actualizar</button>
+		        <button class="btn btn-default ActualizarParametro"  type="button" data-input="SerieOrden">Actualizar</button>
 		      </span>
 		    </div><!-- /input-group -->
 		  </div><!-- /.col-lg-6 -->
@@ -79,5 +99,7 @@ $this->breadcrumbs=array(
 <script>
 obtenerParamGeneral(1,"IGV");
 obtenerParamGeneral(2,"TipoCambio");
+obtenerParamGeneral(3,"SerieFactura");
+obtenerParamGeneral(4,"SerieOrden");
 
 </script>

@@ -30,7 +30,7 @@ $this->breadcrumbs=array(
             	<label>Factura</label>
               <div class="input-group">              	
                 <div class="input-group-addon" style="border: 1px solid;">
-                  <span id="nroSerie" data-serie=""></span>-<span id="nroFactura" data-nro=""></span>
+                  <span id="nroSerie" data-param="" ></span>-<span id="nroFactura" data-nro=""></span>
                 </div>                
               </div>
             </div>
@@ -137,7 +137,7 @@ $this->breadcrumbs=array(
 			</div>
 			<div class="form-group">
 			    <label for="igv">IGV</label>
-			    <input type="text" class="form-control" id="igv" placeholder="" disabled>
+			    <input type="text" class="form-control" id="igv" data-param="" placeholder="" disabled>
 			</div>
 			<div class="form-group">
 			    <label for="Total">Total</label>
@@ -159,3 +159,17 @@ $this->breadcrumbs=array(
     </div><!-- /.col -->
   </div><!-- /.row -->
 </section><!-- /.content -->
+
+<script>
+	
+	obtenerParametro(3,"T","nroSerie");
+	obtenerParametro(1,"I","igv");
+
+	$(document).ready(function(){
+		setTimeout(function(){
+			obtenerNroComprobante("ventas","nroFactura","nroSerie");
+		},300);
+
+	});
+	
+</script>

@@ -58,9 +58,9 @@ if(!$OrdenCompra->save()){
 		return $resultado;
 	}
 
-	public function ObtenerNroOrden(){
+	public function ObtenerNroOrden($nroSerie){
 
-$sql = "select count(nroOrden)+1 as nroOrden from OrdenCompra";
+$sql = "select count(nroOrden)+1 as nroComp from OrdenCompra where nroSerie='".$nroSerie."'";
 	
 
 

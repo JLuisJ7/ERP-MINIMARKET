@@ -32,9 +32,9 @@ $sql = "select nroSerie,nroFact,c.RazSoc_Cli as Cliente,idEmpleado as Empleado,D
 	
 	}
 
-public function ObtenerNroFactura(){
+public function ObtenerNroFactura($nroSerie){
 
-$sql = "select count(nroFact)+1 as nroFact from factura";
+$sql = "select count(nroFact)+1 as nroComp from factura where nroSerie='".$nroSerie."'";
 	
 
 

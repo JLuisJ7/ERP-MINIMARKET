@@ -53,7 +53,7 @@ $sql = "select * from Parametrogeneral where idParametro=".$idParametro;
 		// will receive user inputs.
 		return array(
 			array('desc_Param, valor_Param', 'required'),
-			array('valor_Param', 'numerical'),
+			array('valor_Param', 'length', 'max'=>10),
 			array('desc_Param', 'length', 'max'=>150),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
