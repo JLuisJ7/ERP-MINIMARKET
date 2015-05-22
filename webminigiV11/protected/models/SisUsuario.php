@@ -10,8 +10,18 @@
  * @property string $ide_rol
  * @property string $ide_persona
  */
-class SisUsuario extends CActiveRecord
+class Sisusuario extends CActiveRecord
 {
+
+	
+	public function listadoUsuarios(){
+
+$sql = "SELECT ide_usuario,des_usuario as Usuario,concat(p.des_nombres,' ',p.des_apepat,' ',p.des_apemat) as Empleado,r.des_nombre as Rol FROM sisusuario as u inner join admrol as r ON r.ide_rol=u.ide_rol inner join sispersona as p ON p.ide_persona=u.ide_persona";
+	
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	
+	}
 	/**
 	 * @return string the associated database table name
 	 */
@@ -29,8 +39,7 @@ class SisUsuario extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('des_usuario, des_password, ide_rol, ide_persona', 'required'),
-			array('des_usuario', 'length', 'max'=>50),
-			array('des_password', 'length', 'max'=>20),
+			array('des_usuario, des_password', 'length', 'max'=>50),
 			array('ide_rol, ide_persona', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -96,7 +105,7 @@ class SisUsuario extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return SisUsuario the static model class
+	 * @return Sisusuario the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

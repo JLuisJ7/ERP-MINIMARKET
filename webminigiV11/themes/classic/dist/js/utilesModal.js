@@ -78,21 +78,48 @@ var InventCore = {
                 {"mData": "cantidad", "sClass": "alignCenter"},
                 {"mData": "valor_unitario", "sClass": "alignCenter"},
                 {"mData": "total", "sClass": "alignCenter"}
-            ],
-            fnDrawCallback: function() {
-                
-                $('.verDetalle').click(function() {
-                    me.obtenerDetalle($(this).attr('data-nroSerie'),$(this).attr('data-nroFact'));
-                    
-                });
-
-            }
+            ]
 
         });
     },
     initListadoInventario: function() {       
         
         this.loadInventario();
+
+    }
+
+}
+var UserCore = {
+
+    loadUsuarios: function(){
+        var me = this;
+        
+        Util.createGrid('#listaUsuarios',{
+            toolButons:'',
+            url:'index.php?r=seguridad/ajaxListadoUsuarios',
+            //"order": [[ 0, 'desc' ]],
+            columns:[
+               
+                {"mData": "Empleado", "sClass": "alignCenter"},
+                {"mData": "Usuario", "sClass": "alignCenter"},
+                {"mData": "Rol", "sClass": "alignCenter"},
+                {
+                    "mData": null,
+                    "bSortable": false,
+                    "bFilterable": false,
+                     "mRender": function (data, type, row) {
+                  /*return row.nroSerie +', '+ row.nroFact;*/
+                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.ide_usuario + '" data-nroOrden="' + row.ide_usuario + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a> ';
+                }
+                }
+                
+            ]
+
+        });
+    },
+    initListadoUsuarios: function() {       
+        
+        this.loadUsuarios();
 
     }
 
