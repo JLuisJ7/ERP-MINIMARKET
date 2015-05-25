@@ -34,12 +34,13 @@
                 //$(".listaProveedores").find("option").remove();
                  
                 $.each(data, function(index, value) {
-
                  
-                    $("#Proveedores").append('<option value="'+value.idProveedor+'">'+value.RazSoc_Prov+'</option>');
+                   
+                     html += '<option value="'+value.idProveedor+'">'+value.RazSoc_Prov+'</option>';
 
                 });
-              
+               $("#fac_RazSoc_Prov").append("<option value=''>Seleccione Proveedor</option>");              
+                $("#fac_RazSoc_Prov").append(html);  
                 
             },
             dataType: 'json'
@@ -305,6 +306,64 @@ $.ajax({
                                                                                   
                                                                           
         });
+ $( "#fac_RazSoc_Prov" )
+  .change(function () {
+    var  idProveedor=$("#fac_RazSoc_Prov").val();
+   $.ajax({
+                    type: "POST",
+                    url: "index.php?r=almacen/AjaxProductosporProveedor",
+                    data: {
+                        idProveedor:idProveedor
+                    },
+                    beforeSend: function(){
+                          //imagen de carga
+                          //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
+                    },
+                    error: function(){
+                          console.log('error');     
+                    },
+                    success: function(data){  
+                    var html = "";
+
+                $("#fac_desc_Prod").find("option").remove();
+                 
+                $.each(data, function(index, value) {
+
+                    html += '<option value="'+value.idProducto+'">'+value.desc_Prod+'</option>';
+                });
+                $("#fac_desc_Prod").append("<option value=''>Seleccione Producto</option>");              
+                $("#fac_desc_Prod").append(html);  
+
+                          
+                                                             
+                    }
+              });
+  })
+  .change();
+
+  $( "#fac_desc_Prod" )
+  .change(function () {
+    var  idProducto=$("#fac_desc_Prod").val();
+   $.ajax({
+        url: 'index.php?r=almacen/AjaxObtenerProducto',
+        type: 'POST',        
+        data: {idProducto:parseInt(idProducto)},
+    })
+    .done(function(response) {
+         data=response.output;
+         
+         //$("#fac_CantProd").attr('data-stock', data.stock);
+         //$("#fac_CantProd").attr('max', data.stock);
+         $("#fac_Precio").val(data.Precio);
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    .always(function() {
+        //console.log("complete");
+    });
+  })
+  .change();
 
         //comprobamos si se pulsa una tecla
         $(".buscarCliente").keyup(function(e){
@@ -548,8 +607,9 @@ function clearInputs(){
   
 }
         $('#addRow').on( 'click', function () {
-        var id=$("#fac_desc_Prod").attr("data-id");
-        var desc=$("#fac_desc_Prod").val();
+        var id=$("#fac_desc_Prod").val();
+
+        var desc=$("#fac_desc_Prod option[value='"+id+"']").text();
         var cant=$("#fac_CantProd").val();
         var pre= $("#fac_Precio").val();
         var val=$("#fac_valorVenta").val();
@@ -704,7 +764,7 @@ $('#add_OrdenCompra').click( function() {
 
   var nroSerie=$("#nroSerie").attr('data-param');
   var nroOrden=$("#nroOrden").attr('data-nro');
-  var idProveedor=$("#fac_RazSoc_Prov").attr('data-id');
+  var idProveedor=$("#fac_RazSoc_Prov").val();
   var idEmpleado=$("#idEmpleado").val();
   var subTotal=$("#subTotal").val();
   var IGV=$("#igv").val();

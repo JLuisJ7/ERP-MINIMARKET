@@ -46,20 +46,21 @@ $this->breadcrumbs=array(
 				    <label for="nroOrden">nro Orden</label>
 				    <input type="text" class="form-control" id="nroOrden" disabled>
 				 		 </div> -->
-			     	<div class="form-group">
+			     	<!-- <div class="form-group">
 				    <label for="fac_RazSoc_Prov">Proveedor</label>
 				    <input type="text" class="form-control buscarProveedor" data-id="" id="fac_RazSoc_Prov" >
 				    <select multiple class="form-control" id="findProveedor" style="position:absolute;z-index:1000;display:none;">
 					</select>
 
-				  </div>
+				  </div> -->
 				 
     <div class="form-group">
-      <label class="" for="lunch">Proveedor: </label>
+      <label class="" for="fac_RazSoc_Prov">Proveedor: </label>
    
-      <select id="Proveedores" class="selectpicker form-control" data-live-search="true" title="Seleccione Un Proveedor" style="display:none;">
+      <select id="fac_RazSoc_Prov" class="selectpicker form-control" data-live-search="true" title="Seleccione Un Proveedor" style="display:none;">
         
       </select>
+
     </div>
  
 				  <div class="form-group" style="display:none;">
@@ -75,13 +76,11 @@ $this->breadcrumbs=array(
 			   
 			    <div class="input-group">
                         
-                       <input type="text" class="form-control buscarProductoCompra"  data-id="" id="fac_desc_Prod" placeholder="" style="min-width: 200px;" autocomplete="off">
-                       <!-- <span class="input-group-btn">
-        <button class="btn btn-default" type="button"><i class="fa fa-search-plus"></i></button>
-      </span> -->
+                       <select id="fac_desc_Prod" class=" form-control" >
+        
+      </select>
                       </div>
-			 <select multiple class="form-control" id="findProducto" style="position:absolute;z-index:1000;display:none;min-width: 200px;">
-				</select>
+			
 			  </div>
 				      		
 				  

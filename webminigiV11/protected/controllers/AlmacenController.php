@@ -98,6 +98,17 @@ public function actionAjaxListarCategorias(){
 		header('Content-Type: application/json; charset="UTF-8"');
     	echo CJSON::encode(array('output'=>$productos[0]));
 	}
+
+	public function actionAjaxProductosporProveedor(){
+		$idProveedor = $_POST['idProveedor'];
+		
+	
+		$productos = Producto::model()->obtenerProductoxProveedor($idProveedor);
+
+		Util::renderJSON($productos);
+	}
+
+
 	public function actionAjaxBuscarProductoVenta(){
 		$query = $_POST['query'];
 		

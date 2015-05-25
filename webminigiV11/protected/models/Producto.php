@@ -65,6 +65,15 @@ $sql = "SELECT idProducto,desc_Prod FROM Producto WHERE stock>0 and desc_Prod LI
 
 		return Yii::app()->db->createCommand($sql)->queryAll();
 	}
+	public function obtenerProductoxProveedor($idProveedor){
+		
+		
+		$sql="select * from Producto where idProveedor=".$idProveedor;
+		
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
+
 
 public function BuscarProductoCompra($query){
 
@@ -101,6 +110,8 @@ public function obtenerProductoxId($idProducto){
 
 		return Yii::app()->db->createCommand($sql)->queryAll();
 	}
+
+	
 	public function obtenerProductoxId_upd($idProducto){
 		
 		
