@@ -61,5 +61,13 @@ public function actionAjaxAgregarEmpleado(){
 		Util::renderJSON(array( 'success' => $respuesta ));
 	}
 
+public function actionAjaxActualizarEstadoEmpleado(){
+		$ide_persona = $_POST['ide_persona'];
+		$ide_estado = $_POST['ide_estado'];
+
+		$respuesta = Sispersona::model()->actualizarEstadoEmpleado($ide_persona, $ide_estado);
+
+		Util::renderJSON(array('success' => TRUE));
+	}
 
 }

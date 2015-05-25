@@ -1,6 +1,16 @@
 <?php
 class ComprasController extends Controller{
 
+	public function actionAjaxListarProveedores(){
+	
+		
+	
+		$proveedores = Proveedor::model()->findAll(array('order'=>'RazSoc_Prov'));
+
+		header('Content-Type: application/json; charset="UTF-8"');
+    	echo CJSON::encode($proveedores);
+}
+
 public function actionAjaxObtenerDetalle(){
 		
 

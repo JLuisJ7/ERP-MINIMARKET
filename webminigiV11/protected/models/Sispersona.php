@@ -96,6 +96,21 @@ $empleado->ide_estado=$ide_estado;
 		return $resultado;
 	}
 
+public function actualizarEstadoEmpleado($ide_persona, $ide_estado){
+		$resultado = array('data'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
+
+		$empleado = SisPersona::model()->findByPk($ide_persona);
+
+	
+			$empleado->ide_estado=$ide_estado;
+		
+			if(!$empleado->save()){
+				$resultado = array('data'=>0, 'message'=>'No hemos podido realizar su solicitud, intentelo nuevamente');
+			}
+		
+
+		return $resultado;
+	}
 	/*public $des_tipodocumento;
 	public $des_tipopersona;
 	public $des_sexo;

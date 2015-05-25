@@ -7,6 +7,7 @@
  * @property integer $idProducto
  * @property string $desc_Prod
  * @property string $presentacion
+ * @property integer $idProveedor
  * @property string $tipoProd
  * @property integer $stock
  * @property integer $idMarca
@@ -16,12 +17,17 @@
  * @property string $Precio
  *
  * The followings are the available model relations:
+ * @property Detallefactura[] $detallefacturas
+ * @property Detalleordencompra[] $detalleordencompras
+ * @property Inventario[] $inventarios
+ * @property Proveedor $idProveedor0
  * @property Categoria $idCategoria0
  * @property Marca $idMarca0
  */
 class Producto extends CActiveRecord
 {
-	public function ContadorProductosAgotados(){
+
+		public function ContadorProductosAgotados(){
 
 $sql = "select count(*) as numero from producto where stock=0;";
 	
@@ -108,7 +114,7 @@ public function obtenerProductoxId($idProducto){
 	/**
 	* Se elimina una persona
 	**/
-	public function actualizarProducto($idProducto,$desc_Prod,$presentacion,$tipoProd,$stock,$idMarca,$idCategoria,$estadoProd,$Precio){
+	public function actualizarProducto($idProducto,$desc_Prod,$presentacion,$tipoProd,$stock,$idProveedor,$idMarca,$idCategoria,$estadoProd,$Precio){
 		$resultado = array('valorupd'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
 
 		$producto = Producto::model()->findByPk($idProducto);
@@ -118,6 +124,7 @@ public function obtenerProductoxId($idProducto){
 	$producto->presentacion=$presentacion;
 	$producto->tipoProd=$tipoProd;
 	$producto->stock=$stock;
+	$producto->idProveedor=$idProveedor;
 	$producto->idMarca=$idMarca;
 	$producto->idCategoria=$idCategoria;
 	$producto->estadoProd=$estadoProd;
@@ -132,7 +139,7 @@ public function obtenerProductoxId($idProducto){
 
 		return $resultado;
 	}
-	public function agregarProducto($desc_Prod,$presentacion,$tipoProd,$stock,$idMarca,$idCategoria,$precio){
+	public function agregarProducto($desc_Prod,$presentacion,$tipoProd,$stock,$idProveedor,$idMarca,$idCategoria,$precio){
 		$resultado = array('valor'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
 
 		$producto=new Producto;
@@ -144,6 +151,7 @@ public function obtenerProductoxId($idProducto){
 			$producto->presentacion=$presentacion;
 			$producto->tipoProd=$tipoProd;
 			$producto->stock=$stock;
+			$producto->idProveedor=$idProveedor;
 			$producto->idMarca=$idMarca;
 			$producto->idCategoria=$idCategoria;
 			$producto->Precio=$precio;
@@ -170,9 +178,6 @@ public function obtenerProductoxId($idProducto){
 	/**
 	 * @return string the associated database table name
 	 */
-	/**
-	 * @return string the associated database table name
-	 */
 	public function tableName()
 	{
 		return 'producto';
@@ -186,8 +191,8 @@ public function obtenerProductoxId($idProducto){
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('desc_Prod, presentacion', 'required'),
-			array('stock, idMarca, idCategoria', 'numerical', 'integerOnly'=>true),
+			array('desc_Prod, presentacion, stock', 'required'),
+			array('idProveedor, stock, idMarca, idCategoria', 'numerical', 'integerOnly'=>true),
 			array('desc_Prod', 'length', 'max'=>100),
 			array('presentacion', 'length', 'max'=>20),
 			array('tipoProd, estadoProd', 'length', 'max'=>1),
@@ -195,7 +200,7 @@ public function obtenerProductoxId($idProducto){
 			array('fecha_creacion', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idProducto, desc_Prod, presentacion, tipoProd, stock, idMarca, idCategoria, fecha_creacion, estadoProd, Precio', 'safe', 'on'=>'search'),
+			array('idProducto, desc_Prod, presentacion, idProveedor, tipoProd, stock, idMarca, idCategoria, fecha_creacion, estadoProd, Precio', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -207,8 +212,12 @@ public function obtenerProductoxId($idProducto){
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'categoria' => array(self::BELONGS_TO, 'Categoria', 'idCategoria'),
-			'marca' => array(self::BELONGS_TO, 'Marca', 'idMarca'),
+			'detallefacturas' => array(self::HAS_MANY, 'Detallefactura', 'idProducto'),
+			'detalleordencompras' => array(self::HAS_MANY, 'Detalleordencompra', 'idProducto'),
+			'inventarios' => array(self::HAS_MANY, 'Inventario', 'idproducto'),
+			'idProveedor0' => array(self::BELONGS_TO, 'Proveedor', 'idProveedor'),
+			'idCategoria0' => array(self::BELONGS_TO, 'Categoria', 'idCategoria'),
+			'idMarca0' => array(self::BELONGS_TO, 'Marca', 'idMarca'),
 		);
 	}
 
@@ -221,6 +230,7 @@ public function obtenerProductoxId($idProducto){
 			'idProducto' => 'Id Producto',
 			'desc_Prod' => 'Desc Prod',
 			'presentacion' => 'Presentacion',
+			'idProveedor' => 'Id Proveedor',
 			'tipoProd' => 'Tipo Prod',
 			'stock' => 'Stock',
 			'idMarca' => 'Id Marca',
@@ -252,6 +262,7 @@ public function obtenerProductoxId($idProducto){
 		$criteria->compare('idProducto',$this->idProducto);
 		$criteria->compare('desc_Prod',$this->desc_Prod,true);
 		$criteria->compare('presentacion',$this->presentacion,true);
+		$criteria->compare('idProveedor',$this->idProveedor);
 		$criteria->compare('tipoProd',$this->tipoProd,true);
 		$criteria->compare('stock',$this->stock);
 		$criteria->compare('idMarca',$this->idMarca);

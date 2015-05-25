@@ -1082,6 +1082,44 @@ closeWin: function(id) {
             }
 
         });
+    },    
+     confirmSuspenderEmpleado: function(idEmpleado){
+        var me = this;
+        bootbox.dialog({
+            message: "Confirme la acción de Suspender Empleado.",
+            title: "¿Seguro de Suspender al Empleado?",
+            buttons: {
+                main: {
+                    label: "Si",
+                    className: "btn-success",
+                    callback: function() {
+                        console.log('Suspendiendo Empleado');
+
+                        $.ajax({
+                            type: "POST",
+                            url: 'index.php?r=personal/AjaxActualizarEstadoEmpleado',
+                            data: {ide_persona: idEmpleado,ide_estado:0},
+                            success: function(response) {
+                                console.log(response);
+                                if (response.success) {
+                                    me.loadEmpleados();
+                                    bootbox.hideAll();
+                                }
+                            }
+                        });
+
+                        return false;
+                    }
+                },
+                danger: {
+                    label: "No",
+                    className: "btn-danger",
+                    callback: function() {
+                        bootbox.hideAll();
+                    }
+                }
+            }
+        });
     },
     obtenerEmpleado: function(idEmpleado){
         $.ajax({
@@ -1420,6 +1458,11 @@ closeWin: function(id) {
              $('#update_EmpleadoForm').bootstrapValidator('resetForm', true);
                      
         });
+        $('#myModalNuevoEmpleado').on('hidden.bs.modal', function() {
+         
+             $('#newEmpleadoForm').bootstrapValidator('resetForm', true);
+                     
+        });
     }
 
 }
@@ -1449,6 +1492,7 @@ var ProdCore = {
                 $("#edit_tipoProd option[value='"+data.tipoProd+"']").attr('selected','selected');
                 $("#edit_ListaMarcas option[value='"+data.idMarca+"']").attr('selected','selected');
                 $("#edit_ListaCategorias option[value='"+data.idCategoria+"']").attr('selected','selected');
+                $("#edit_ListaProveedores").val(data.idProveedor);
                 if(data.estadoProd==1){
                     $("#edit_estadoProd").prop('checked', true);
                     $('#edit_textEstado').text('en Catálogo');
@@ -1544,7 +1588,13 @@ var ProdCore = {
                                 }
                             }
                         },
-                        edit_ListaMarcas : {
+                        edit_ListaProveedores : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Deve seleccionar una Marca'
+                                }
+                            }
+                        },edit_ListaMarcas : {
                             validators : {
                                 notEmpty : {
                                     message : 'Deve seleccionar una Marca'
@@ -1581,6 +1631,7 @@ var ProdCore = {
                         var tipoProd =$("#edit_tipoProd").val();
                         var stock =$("#edit_stock").val();
                         var Precio =$("#edit_Precio").val();
+                        var idProveedor =$("#edit_ListaProveedores").val();
                         var idMarca =$("#edit_ListaMarcas").val();
                         var idCategoria =$("#edit_ListaCategorias").val();
                         if($("#edit_estadoProd").is(':checked')) {
@@ -1598,6 +1649,7 @@ var ProdCore = {
                                 presentacion:presentacion,
                                 tipoProd    :tipoProd,
                                 stock:stock,
+                                idProveedor:idProveedor,
                                 idMarca:idMarca,
                                 idCategoria:idCategoria,
                                 estadoProd:estadoProd,
@@ -1663,6 +1715,13 @@ var ProdCore = {
                                 }
                             }
                         },
+                        ListaProveedores : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Deve seleccionar un Proveedor'
+                                }
+                            }
+                        },
                         ListaMarcas : {
                             validators : {
                                 notEmpty : {
@@ -1700,6 +1759,7 @@ var ProdCore = {
                         var tipoProd =$("#tipoProd").val();
                         var stock =$("#add_stock").val();
                         var precio =$("#add_Precio").val();
+                        var idProveedor =$("#ListaProveedores").val();
                         var idMarca =$("#ListaMarcas").val();
                         var idCategoria =$("#ListaCategorias").val();
                                              
@@ -1712,6 +1772,7 @@ var ProdCore = {
                                 presentacion:presentacion,
                                 tipoProd:tipoProd,
                                 stock:stock,
+                                idProveedor:idProveedor,
                                 idMarca:idMarca,
                                 idCategoria:idCategoria,
                                 precio:precio
@@ -1795,6 +1856,30 @@ var ProdCore = {
 
         });
     
+    },  
+    loadProveedor: function(){
+
+        $.ajax({
+            type: "POST",
+            url: 'index.php?r=compras/AjaxListarProveedores',
+            //sync:false,           
+            success: function(data) {
+                var html = "";
+
+                $(".listaProveedores").find("option").remove();
+                 
+                $.each(data, function(index, value) {
+
+                    html += '<option value="'+value.idProveedor+'">'+value.RazSoc_Prov+'</option>';
+                });
+                $(".listaProveedores").append("<option value=''>Seleccione Proveedor</option>");
+                $(".listaProveedores").append(html);
+
+            },
+            dataType: 'json'
+
+        });
+    
     },    
     loadCategoria: function(){
 
@@ -1836,6 +1921,7 @@ var ProdCore = {
         
          me.loadCategoria();
            me.loadMarca();
+           me.loadProveedor();
         this.loadListadoProductos();
 
     }

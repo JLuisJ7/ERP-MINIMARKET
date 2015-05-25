@@ -171,7 +171,7 @@ $this->breadcrumbs=array(
                   <div class="col-lg-7">
                   <div class="checkbox">
                   <label>
-                  <input type="checkbox" name="add_estado_emp" id="add_estado_emp"><span id="edit_textEstado"></span>
+                  <input type="checkbox" name="add_estado_emp" id="add_estado_emp"><span id="add_textEstado"></span>
                   </label>
                   </div>
                   </div>

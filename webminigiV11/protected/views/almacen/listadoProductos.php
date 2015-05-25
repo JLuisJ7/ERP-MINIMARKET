@@ -84,7 +84,15 @@ $this->breadcrumbs=array(
 					        </select>
 				      	</div>
 				    </div>
-
+					<div class="form-group has-succes">
+				      	<label class="col-lg-4 control-label" for="ListaProveedores">Proveedor:</label>
+				      	<div class="col-lg-5">
+				       	 	<select class="form-control listaProveedores" name="ListaProveedores" id="ListaProveedores"></select>
+				      	</div>
+				      	<div class="col-lg-1">
+				        	<button type="button" class="btn btn-primary new_Proveedor" id="nuevoProveedor" data-target="#ModalnuevoProveedor"><i class="fa fa-plus"></i></button>
+				      	</div>
+				    </div>
                   	<div class="form-group has-succes">
 				      	<label class="col-lg-4 control-label" for="ListaMarcas">Marca:</label>
 				      	<div class="col-lg-5">
@@ -173,7 +181,15 @@ $this->breadcrumbs=array(
 					        </select>
 				      	</div>
 				    </div>
-
+					<div class="form-group has-succes">
+				      	<label class="col-lg-4 control-label" for="edit_ListaProveedores">Proveedor:</label>
+				      	<div class="col-lg-5">
+				       	 	<select class="form-control listaProveedores" name="edit_ListaProveedores" id="edit_ListaProveedores"></select>
+				      	</div>
+				      	<div class="col-lg-1">
+				        	<button type="button" class="btn btn-primary new_Proveedor" id="nuevoProveedor" data-target="#ModalnuevoProveedor"><i class="fa fa-plus"></i></button>
+				      	</div>
+				    </div>
                   	<div class="form-group has-succes">
 				      	<label class="col-lg-4 control-label" for="edit_ListaMarcas">Marca:</label>
 				      	<div class="col-lg-5">
@@ -183,6 +199,7 @@ $this->breadcrumbs=array(
 				        	<button type="button" class="btn btn-primary new_Marca" id="nuevaMarca" data-target="#ModalnuevaMarca"><i class="fa fa-plus"></i></button>
 				      	</div>
 				    </div>
+
 
                  	 <div class="form-group">
 				      	<label class="col-lg-4 control-label" For="edit_ListaCategorias">Categoría:</label>

@@ -136,6 +136,7 @@ public function actionAjaxListarCategorias(){
       	
       	$stock=$_POST['stock'];
       	$idMarca=$_POST['idMarca'];
+      	$idProveedor=$_POST['idProveedor'];
       	$idCategoria=$_POST['idCategoria'];
       	$estadoProd=$_POST['estadoProd'];
       	$Precio=$_POST['Precio'];
@@ -143,7 +144,7 @@ public function actionAjaxListarCategorias(){
 
 
 
-		$respuesta = Producto::model()->actualizarProducto($idProducto,$desc_Prod,$presentacion,$tipoProd,$stock,$idMarca,$idCategoria,$estadoProd,$Precio);
+		$respuesta = Producto::model()->actualizarProducto($idProducto,$desc_Prod,$presentacion,$tipoProd,$stock,$idProveedor,$idMarca,$idCategoria,$estadoProd,$Precio);
 
 		Util::renderJSON(array( 'success' => $respuesta ));
 	}
@@ -155,11 +156,12 @@ public function actionAjaxListarCategorias(){
 		$tipoProd =$_POST['tipoProd'];
 		$stock =$_POST['stock'];
 		$precio =$_POST['precio'];
+		$idProveedor=$_POST['idProveedor'];
 		$idMarca =$_POST['idMarca'];
 		$idCategoria =$_POST['idCategoria'];
 		try {
                       
-            $producto=Producto::model()->agregarProducto($desc_Prod, $presentacion,$tipoProd,$stock,$idMarca,$idCategoria,$precio);
+            $producto=Producto::model()->agregarProducto($desc_Prod, $presentacion,$tipoProd,$stock,$idProveedor,$idMarca,$idCategoria,$precio);
             Util::renderJSON(array( 'success' => $producto ));
         } catch (Exception $exc) {
             Util::renderJSON(array('success' => FALSE));
