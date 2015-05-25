@@ -22,7 +22,10 @@
 <link href="<?php echo Yii::app()->theme->baseUrl;?>/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
 <!-- bootstrap wysihtml5 - text editor -->
 <link href="<?php echo Yii::app()->theme->baseUrl;?>/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+<!-- bootstrap Select -->
+ <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl;?>/dist/css/bootstrap-select.css">
 
+ 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -37,7 +40,7 @@
     <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     
-    
+    <script src="<?php echo Yii::app()->theme->baseUrl;?>/dist/js/utilesTransacciones.js" type="text/javascript"></script>
     <!-- Bootstrap 3.3.2 JS -->
     <script src="<?php echo Yii::app()->theme->baseUrl;?>/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <!-- InputMask -->
@@ -75,9 +78,9 @@
 
     <script src="<?php echo Yii::app()->theme->baseUrl;?>/bootstrap/js/bootstrapValidator.js" type="text/javascript"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl;?>/dist/js/bootbox.min.js" type="text/javascript"></script>
-      <script src="<?php echo Yii::app()->theme->baseUrl;?>/dist/js/utilesTransacciones.js" type="text/javascript"></script>
+      
       <script src="http://lightswitch05.github.io/table-to-json/javascripts/jquery.tabletojson.min.js" type="text/javascript"></script>
-    
+   
     <style type="text/css" class="init">
 
 td.details-control {

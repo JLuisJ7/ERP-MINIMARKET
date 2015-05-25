@@ -53,6 +53,15 @@ $this->breadcrumbs=array(
 					</select>
 
 				  </div>
+				 
+    <div class="form-group">
+      <label class="" for="lunch">Proveedor: </label>
+   
+      <select id="Proveedores" class="selectpicker form-control" data-live-search="true" title="Seleccione Un Proveedor" style="display:none;">
+        
+      </select>
+    </div>
+ 
 				  <div class="form-group" style="display:none;">
 				    <label for="">Empleado</label>
 				    <input type="text" class="form-control" id="idEmpleado" value="1">
@@ -146,11 +155,14 @@ $this->breadcrumbs=array(
 	
 	obtenerParametro(4,"T","nroSerie");
 	obtenerParametro(1,"I","igv");
+	listarProveedoress();
 
 	$(document).ready(function(){
 		setTimeout(function(){
 			obtenerNroComprobante("compras","nroOrden","nroSerie");
 		},300);
+		
 
 	});
 </script>
+

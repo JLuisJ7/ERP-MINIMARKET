@@ -23,6 +23,30 @@
     });
  };
 
+  function listarProveedoress(){
+   $.ajax({
+            type: "POST",
+            url: 'index.php?r=compras/AjaxListarProveedores',
+            //sync:false,           
+            success: function(data) {
+                var html = "";
+
+                //$(".listaProveedores").find("option").remove();
+                 
+                $.each(data, function(index, value) {
+
+                 
+                    $("#Proveedores").append('<option value="'+value.idProveedor+'">'+value.RazSoc_Prov+'</option>');
+
+                });
+              
+                
+            },
+            dataType: 'json'
+
+        });
+ };
+
 
     function obtenerParamGeneral(idParametro,idcampo){
          $.ajax({
@@ -137,7 +161,7 @@ obtenerParamGeneral(idParametro,idcampo);
                 $.each(data, function(index, value) {
 
                     //html += '<option value="'+value.idProducto+'">'+value.desc_Prod+'</option>';
-                    html +='<li><a href="#"><i class="fa fa-exclamation-triangle"></i> '+value.desc_Prod+', S/. '+value.Precio+'</a></li>';
+                    html +='<li><a href="#"><i class="fa fa-exclamation-triangle"></i> Producto :'+value.Producto+'<br><i class="fa fa-exclamation-triangle" style="color: white"></i> Proveedor :'+value.Proveedor+'</a></li>';
                 });
                 
                 $("#ListaProductoAgotados").append(html);  
@@ -156,7 +180,27 @@ obtenerParamGeneral(idParametro,idcampo);
  
 
 $(document).ready(function(){
+$.ajax({
+            type: "POST",
+            url: 'index.php?r=compras/AjaxListarProveedores',
+            //sync:false,           
+            success: function(data) {
+                var html = "";
 
+                //$(".listaProveedores").find("option").remove();
+                 
+                $.each(data, function(index, value) {
+
+                 
+                    $("#Proveedores").append('<option value="'+value.idProveedor+'">'+value.RazSoc_Prov+'</option>');
+
+                });
+              
+                
+            },
+            dataType: 'json'
+
+        });
 
   $(".ActualizarParametro").click(function() {
     var campo=$(this).attr('data-input');

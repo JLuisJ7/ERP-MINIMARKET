@@ -183,5 +183,6 @@
         <strong>Copyright &copy; 2014-2015 <a onclick="javascript:;">INDES GROUP Solution</a>.</strong> Todos los derechos reservados.
       </footer>
     </div><!-- ./wrapper -->
+    <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl;?>/dist/js/bootstrap-select.js"></script>
   </body>
 </html>

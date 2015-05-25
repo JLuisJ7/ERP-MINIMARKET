@@ -38,7 +38,7 @@ $sql = "select count(*) as numero from producto where stock=0;";
 
 	public function ListaProductosAgotados(){
 
-$sql = "select *  from producto where stock=0;";
+$sql = "select desc_Prod as Producto,prov.RazSoc_Prov as Proveedor from producto as prod inner join proveedor as prov on prov.idProveedor=prod.idProveedor where stock=0;";
 	
 
 
