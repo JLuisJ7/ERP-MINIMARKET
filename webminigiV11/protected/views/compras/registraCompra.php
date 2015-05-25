@@ -27,8 +27,8 @@ $this->breadcrumbs=array(
         	<div class="form-group col-xs-4">
             
             <div class="col-lg-7">
-            	<label>Orde de Compra</label>
-              <div class="input-group">              	
+            	<label>Orden de Compra</label>  
+              <div class="input-group">            	
                 <div class="input-group-addon" style="border: 1px solid;">
                   <span id="nroSerie" data-param=""></span>-<span id="nroOrden" data-nro=""></span>
                 </div>                
@@ -58,7 +58,7 @@ $this->breadcrumbs=array(
       <label class="" for="fac_RazSoc_Prov">Proveedor: </label>
    
       <select id="fac_RazSoc_Prov" class="selectpicker form-control" data-live-search="true" title="Seleccione Un Proveedor" style="display:none;">
-        
+        <option value="">Seleccione Proveedor</option>
       </select>
 
     </div>
@@ -76,7 +76,7 @@ $this->breadcrumbs=array(
 			   
 			    <div class="input-group">
                         
-                       <select id="fac_desc_Prod" class=" form-control" >
+                       <select id="fac_desc_Prod" class="form-control" >
         
       </select>
                       </div>
@@ -149,6 +149,8 @@ $this->breadcrumbs=array(
     </div><!-- /.col -->
   </div><!-- /.row -->
 </section><!-- /.content -->
+
+
 
 <script>
 	

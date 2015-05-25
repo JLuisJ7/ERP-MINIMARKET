@@ -133,7 +133,7 @@ var OrdenCore = {
         var me = this;
         
         Util.createGrid('#listaOrdenesC',{
-            toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoProveedor">Nuevo Proveedor</a>',
+            toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoOrdendeCompra">Nuevo Orden de Compra</a>',
             url:'index.php?r=compras/ajaxListadoOrdenesC',
             "order": [[ 0, 'asc' ]],
 

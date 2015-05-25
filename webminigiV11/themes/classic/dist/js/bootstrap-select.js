@@ -1216,7 +1216,7 @@
       Plugin.call($selectpicker, $selectpicker.data());
 
     })
-    },300);
+    },400);
       
   });
 })(jQuery);
