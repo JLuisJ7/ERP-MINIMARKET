@@ -184,22 +184,24 @@ $this->breadcrumbs=array(
           </table>
         <!-- <button id="add_DetalleFact">Agregar Detalle</button> -->
       <div class="row">
-     <div class="form-inline col-xs-12">
-        <div class="form-group col-xs-3">
+        <div class="form-inline col-xs-3">
+        </div>
+     <div class="form-inline col-xs-9">
+        <div class="form-group ">
           <label for="subTotal">SubTotal</label><br>
           <input type="text" class="form-control  col-xs-3" id="subTotal" placeholder="" disabled>
       </div>
-      <div class="form-group col-xs-3">
+      <div class="form-group ">
           <label for="igv">IGV</label><br>
           <input type="text" class="form-control  col-xs-3" id="igv" data-param="" placeholder="" disabled>
       </div>
-      <div class="form-group col-xs-3">
+      <div class="form-group ">
           <label for="Total">Total</label><br>
           <input type="text" class="form-control  col-xs-3" id="Total" placeholder="" disabled>
       </div> 
-      <div class="form-group col-xs-3">   
-      <label for="Total" style="color:transparent;"></label><br>     
-          <button id="add_OrdenCompra" class="btn btn-primary  col-xs-12"><i class="fa fa-floppy-o"></i> Registrar Orden</button> 
+      <div class="form-group ">   
+      <label for="Total" style="color:transparent;">registrar</label><br>     
+          <button id="add_OrdenCompra" class="btn btn-primary  "><i class="fa fa-floppy-o"></i> Registrar Orden</button> 
       </div>
       </div>
       </div>
