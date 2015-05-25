@@ -125,6 +125,8 @@ var UserCore = {
 
 }
 
+
+
 var OrdenCore = {
 
     loadOrdenesC: function(){
@@ -1039,7 +1041,388 @@ var FnCore = {
 /*
     END - FnCore
 */
+var EmpCore = {
+closeWin: function(id) {
 
+        $('#' + id).modal('hide');
+
+    },
+    loadEmpleados: function(){
+        var me = this;
+        
+        Util.createGrid('#listaEmpleados',{
+             toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoEmpleado">Nuevo Empleado</a>',
+            url:'index.php?r=personal/ajaxListadoEmpleados',
+            //"order": [[ 0, 'desc' ]],
+            columns:[
+               
+                {"mData": "Empleado", "sClass": "alignCenter"},
+                {"mData": "DNI", "sClass": "alignCenter"},
+                {"mData": "Telefono", "sClass": "alignCenter"}, 
+                {"mData": "Correo", "sClass": "alignCenter"},
+                {
+                    "mData": 'idEmpleado',
+                    "bSortable": false,
+                    "bFilterable": false,
+                    // "width": "150px",
+                    "mRender": function(o) {
+                        return '<a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-warning btn-sm editarEmpleado"><i class="fa fa-pencil"></i></a> <a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-danger btn-sm suspenderEmpleado"><i class="fa fa-trash-o"></i></a>';
+                    }
+                }
+            ],
+            fnDrawCallback: function() {
+                $('.suspenderEmpleado').click(function() {
+                    me.confirmSuspenderEmpleado($(this).attr('lang'));
+                });
+                $('.editarEmpleado').click(function() {
+                    me.obtenerEmpleado($(this).attr('lang'));
+                    
+                });
+
+            }
+
+        });
+    },
+    obtenerEmpleado: function(idEmpleado){
+        $.ajax({
+            url: 'index.php?r=personal/AjaxObtenerEmpleado',
+            type: 'POST',            
+            data: {idEmpleado: idEmpleado},
+        })
+        .done(function(response) {
+            data=response.output;
+            $('#desNombres').val(data.des_nombres);
+            $('#ide_persona').val(data.ide_persona);
+            $('#apePaterno').val(data.des_apepat);
+            $('#apeMaterno').val(data.des_apemat);
+            $('#desDocumento').val(data.nro_documento);
+            $('#fecNacimiento').val(data.fec_nacimiento);
+            $('#desTelefono').val(data.des_telefono);
+            $('#desCorreo').val(data.des_correo);
+            $('#Sueldo').val(data.Sueldo);
+            //$('#idsexo').val(data.sexo);
+            $('#selEstadoCivil').val(data.ide_estcivil);
+           
+            if(data.ide_estado==1){
+                    $("#estado_emp").prop('checked', true);
+                    $('#edit_textEstado').text('Activo en el Sistema');
+                }else{
+                    $("#estado_emp").prop('checked', false);
+                    $('#edit_textEstado').text('inactivo en el Sistema');
+                }
+       
+
+        
+                if(data.sexo=='M'){
+                    $("input:radio[name='idsexo'][value='M']").attr('checked', true);
+                   $('.EstCivM').addClass('active');
+                   $('.EstCivF').removeClass('active');
+                }else{
+                     $("input:radio[name='idsexo'][value='F']").attr('checked', true);
+                     $('.EstCivF').addClass('active');
+                       $('.EstCivM').removeClass('active');
+
+             }
+          
+
+            
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+           $('#myModalEditarEmpleado').modal('show');
+        });
+        
+    },
+    validarNuevoEmpleado: function(){
+        var me = this;
+     $('#newEmpleadoForm')
+        .bootstrapValidator(
+                {
+                    message : 'El valor ingresado no es valido',
+                    feedbackIcons : {
+                        valid : 'glyphicon glyphicon-ok',
+                        invalid : 'glyphicon glyphicon-remove',
+                        validating : 'glyphicon glyphicon-refresh'
+                    },
+                    fields : {
+                        add_desNombres : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe ingresar  el Nombre '
+                                }
+                            }
+                        },
+                        add_apeMaterno : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe ingresar  el Apellido Materno '
+                                }
+                            }
+                        },
+                        add_apePaterno : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe ingresar  el Apellido Paterno'
+                                }
+                            }
+                        },
+                        add_desDocumento : {
+                            validators : {
+                                digits: {
+                                    message: 'The phone number can contain digits only'
+                                },
+                                notEmpty : {
+                                    message : 'Debe ingresar el Nro de DNI'
+                                }
+                            }
+                        },
+                        add_fecNacimiento : {
+                            validators : {
+                                date : {
+                                    message : 'Debe ingresar la Fecha de Nacimiento'
+                                }
+                            }
+                        },
+                        add_desTelefono : {
+                            validators: {
+                                digits: {
+                                    message: 'The phone number can contain digits only'
+                                },
+                                notEmpty: {
+                                    message: 'Debe ingresar el numero telefono'
+                                }
+                            }
+                        },
+                        add_desCorreo : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe ingresar el email '
+                                }
+                            }
+                        },
+                        add_Sueldo : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe ingresar el Sueldo'
+                                }
+                            }
+                        },
+                        add_selEstadoCivil : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe seleccionar el estado civil'
+                                }
+                            }
+                        }
+                    },
+                    submitHandler : function(form) {
+                    
+                    
+                    var des_nombres=$('#add_desNombres').val();
+                    var des_apepat=$('#add_apePaterno').val();
+                    var des_apemat=$('#add_apeMaterno').val();
+                    var nro_documento=$('#add_desDocumento').val();
+                    var fec_nacimiento=$('#add_fecNacimiento').val();
+                    var des_telefono=$('#add_desTelefono').val();
+                    var des_correo=$('#add_desCorreo').val();
+                    var Sueldo=$('#add_Sueldo').val();
+                    var ide_estcivil=$('#add_selEstadoCivil').val();
+                    var sexo=$('input:radio[name=add_idsexo]:checked').val();
+
+                    
+                  
+                        if($("#add_estado_emp").is(':checked')) {
+                            ide_estado=1;
+                        } else {
+                            ide_estado=0;
+                        }                     
+                                       
+                       $.ajax({
+                            type: "POST",
+                            url: 'index.php?r=personal/AjaxAgregarEmpleado',
+                            data: {                               
+                               des_nombres:des_nombres,
+                               des_apepat:des_apepat,
+                               des_apemat:des_apemat,
+                               nro_documento:nro_documento,
+                               fec_nacimiento:fec_nacimiento,
+                               des_telefono:des_telefono,
+                               des_correo:des_correo,
+                               Sueldo:Sueldo,
+                               ide_estcivil:ide_estcivil,
+                               sexo:sexo,
+                               ide_estado: ide_estado
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                     me.loadEmpleados();
+                                    me.closeWin('myModalNuevoEmpleado');                                   
+                                } else {
+                                    //$('#message_save_acta').find('strong').html(response.message);
+                                    //$('#message_save_acta').show('fade');
+
+                                }
+                            }
+                        });
+
+
+
+                    }
+                });
+
+    },
+    validar: function(){
+        var me = this;
+     $('#update_EmpleadoForm')
+        .bootstrapValidator(
+                {
+                    message : 'El valor ingresado no es valido',
+                    feedbackIcons : {
+                        valid : 'glyphicon glyphicon-ok',
+                        invalid : 'glyphicon glyphicon-remove',
+                        validating : 'glyphicon glyphicon-refresh'
+                    },
+                    fields : {
+                        desNombres : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe ingresar  el Nombre '
+                                }
+                            }
+                        },
+                        apeMaterno : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe ingresar  el Apellido Materno '
+                                }
+                            }
+                        },
+                        apePaterno : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe ingresar  el Apellido Paterno'
+                                }
+                            }
+                        },
+                        desDocumento : {
+                            validators : {
+                                digits: {
+                                    message: 'The phone number can contain digits only'
+                                },
+                                notEmpty : {
+                                    message : 'Debe ingresar el Nro de DNI'
+                                }
+                            }
+                        },
+                        fecNacimiento : {
+                            validators : {
+                                date : {
+                                    message : 'Debe ingresar la Fecha de Nacimiento'
+                                }
+                            }
+                        },
+                        desTelefono : {
+                            validators: {
+                                digits: {
+                                    message: 'The phone number can contain digits only'
+                                },
+                                notEmpty: {
+                                    message: 'Debe ingresar el numero telefono'
+                                }
+                            }
+                        },
+                        desCorreo : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe ingresar el email '
+                                }
+                            }
+                        },
+                        Sueldo : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe ingresar el Sueldo'
+                                }
+                            }
+                        },
+                        selEstadoCivil : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe seleccionar el estado civil'
+                                }
+                            }
+                        }
+                    },
+                    submitHandler : function(form) {
+                    
+                    var ide_persona=$('#ide_persona').val();
+                    var des_nombres=$('#desNombres').val();
+                    var des_apepat=$('#apePaterno').val();
+                    var des_apemat=$('#apeMaterno').val();
+                    var nro_documento=$('#desDocumento').val();
+                    var fec_nacimiento=$('#fecNacimiento').val();
+                    var des_telefono=$('#desTelefono').val();
+                    var des_correo=$('#desCorreo').val();
+                    var Sueldo=$('#Sueldo').val();
+                    var ide_estcivil=$('#selEstadoCivil').val();
+                    var sexo=$('input:radio[name=idsexo]:checked').val();
+
+                    
+                  
+                        if($("#estado_emp").is(':checked')) {
+                            ide_estado=1;
+                        } else {
+                            ide_estado=0;
+                        }                     
+                                       
+                       $.ajax({
+                            type: "POST",
+                            url: 'index.php?r=personal/AjaxEditarEmpleado',
+                            data: {
+                               ide_persona:ide_persona,
+                               des_nombres:des_nombres,
+                               des_apepat:des_apepat,
+                               des_apemat:des_apemat,
+                               nro_documento:nro_documento,
+                               fec_nacimiento:fec_nacimiento,
+                               des_telefono:des_telefono,
+                               des_correo:des_correo,
+                               Sueldo:Sueldo,
+                               ide_estcivil:ide_estcivil,
+                               sexo:sexo,
+                                ide_estado: ide_estado
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                     me.loadEmpleados();
+                                    me.closeWin('myModalEditarEmpleado');                                   
+                                } else {
+                                    //$('#message_save_acta').find('strong').html(response.message);
+                                    //$('#message_save_acta').show('fade');
+
+                                }
+                            }
+                        });
+
+
+
+                    }
+                });
+
+    },
+    initListadoEmpleados: function() {       
+        
+        this.loadEmpleados();
+        $('#myModalEditarEmpleado').on('hidden.bs.modal', function() {
+         
+             $('#update_EmpleadoForm').bootstrapValidator('resetForm', true);
+                     
+        });
+    }
+
+}
 /*
     INICIO Fn ProdCore
 */
@@ -1461,301 +1844,3 @@ var ProdCore = {
 /*
     END - FnCore
 */
-
-var coreFn = {
-    prefixUrl:'index.php?r=',
-    confirmEliminaEmpleado: function(ideEmpleado){
-        var me = this;
-        bootbox.dialog({
-            message: "Confirme la acción de Eliminación de Empleado.",
-            title: "¿Seguro de Eliminar el Empleado?",
-            buttons: {
-                main: {
-                    label: "Si",
-                    className: "btn-success",
-                    callback: function() {
-                        console.log('Eliminando Empleado');
-
-                        $.ajax({
-                            type: "POST",
-                            url: me.prefixUrl+'personal/ajaxActualizarEmpleado',
-                            data: {idePersona: ideEmpleado,ideEstado:0},
-                            success: function(response) {
-                                console.log(response);
-                                if (response.success) {
-                                    me.loadListadoEmpleados();
-                                    bootbox.hideAll();
-                                }
-                            }
-                        });
-
-                        return false;
-                    }
-                },
-                danger: {
-                    label: "No",
-                    className: "btn-danger",
-                    callback: function() {
-                        // bootbox.hideAll();
-                    }
-                }
-            }
-        });
-    },
-    validar: function(){
-        //console.log("VAMOS A VALIDAR");
-        $(".inputNumero").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && e.which != 46 && (e.which < 48 || e.which > 57)) {
-                return false;
-            }
-        });
-
-        $('#mensaje-succes-usuario-div').removeAttr('style');
-        $('#empleadoForm')       
-        .bootstrapValidator(
-                {
-                    message : 'El valor ingresado no es valido',
-                    feedbackIcons : {
-                        valid : 'glyphicon glyphicon-ok',
-                        invalid : 'glyphicon glyphicon-remove',
-                        validating : 'glyphicon glyphicon-refresh'
-                    },
-                    fields : {
-                        desNombres : {
-                            validators : {
-                                notEmpty : {
-                                    message : 'Debe ingresar el usuario'
-                                }
-                            }
-                        },
-                        apePaterno : {
-                            validators : {
-                                notEmpty : {
-                                    message : 'Debe ingresar la constrase&ntilde;a'
-                                }
-                            }
-                        },
-                        apeMaterno : {
-                            validators : {
-                                notEmpty : {
-                                    message : 'Debe ingresar el Nombre'
-                                }
-                            }
-                        },
-                        desDocumento : {
-                            validators : {
-                                notEmpty : {
-                                    message : 'Debe ingresar el apellido paterno es requerido'
-                                }
-                            }
-                        },
-                        fecNacimiento : {
-                            validators : {
-                                notEmpty : {
-                                    message : 'Debe ingresar el apellido materno es requerido'
-                                }
-                            }
-                        },
-                        desTelefono : {
-                            validators : {
-                                notEmpty : {
-                                    message : 'Debe ingresar el email'
-                                }
-                            }
-                        },
-                        desCorreo : {
-                            validators : {
-                                notEmpty : {
-                                    message : 'Debe ingresar el correo electronico'
-                                }
-                            }
-                        }
-                    },
-                    submitHandler : function(form) {
-
-                       
-                    }
-                });
-
-    },
-    formatoFecha: function(fn){
-        var f = new Date(fn);
-        var dia = (f.getDate()<10 ? "0"+f.getDate() : f.getDate());
-        var mes = ((f.getMonth()+1)<10 ? "0"+f.getMonth() : f.getMonth());
-
-        return dia+"/"+mes+"/"+f.getFullYear();
-    },
-    loadListadoEmpleados: function(){
-        var me = this;
-        
-        Util.createGrid('#listaEmpleados',{
-            toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoEmpleado">Nuevo Empleado</a>',
-            url: me.prefixUrl+'personal/ajaxListadoEmpleados',
-            columns:[
-                {"mData": "des_nombres", "sClass": "alignCenter"},
-                {"mData": "des_apepat", "sClass": "alignCenter"},
-                {"mData": "des_apemat", "sClass": "alignCenter"},
-                {
-                    "mData": "fec_nacimiento", 
-                    "mRender": function(fn){
-                        
-                        return me.formatoFecha(fn);
-                    }
-                },
-                {"mData": "nro_documento", "sClass": "alignCenter"},
-                {"mData": "des_telefono", "sClass": "alignCenter"},
-                {"mData": "des_correo", "sClass": "alignCenter"},
-                {
-                    "mData": 'ide_persona',
-                    "bSortable": false,
-                    "bFilterable": false,
-                    "width": "160px",
-                    "mRender": function(o) {
-                        return '<a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-warning btn-sm editEmpleado">Editar</a> <a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-danger btn-sm deleteEmpleado">Eliminar</a>';
-                    }
-                }
-            ],
-            fnDrawCallback: function() {
-                $('.deleteEmpleado').click(function() {
-                    me.confirmEliminaEmpleado($(this).attr('lang'));
-                });
-
-                $('.editEmpleado').click(function() {
-
-
-                    //$("#myModalNuevoEmpleado").modal();
-                   // me.loadCatalogo(7, 'selEstadoCivil');
-
-                    //$("#myModalEditarEmpleadoLabel").html("Editar datos el Empleado");
-
-                    $.ajax({
-                        type: "POST",
-                        url: me.prefixUrl+'personal/ajaxObtenerEmpleado',
-                        sync:false,
-                        data : {idePersona:$(this).attr('lang')},                      
-                    })
-					.done(function(response){
-						
-						  $("#myModalNuevoEmpleado").modal();
-					   $("#myModalEditarEmpleadoLabel").html("Editar datos el Empleado");
-					   
-						 $('#desNombres').val(response.des_nombres);
-                            $('#apePaterno').val(response.des_apepat);
-                            $('#apeMaterno').val(response.des_apemat);
-                            $('#desDocumento').val(response.nro_documento);
-                            $('#fecNacimiento').val(me.formatoFecha(response.fec_nacimiento));
-                            $('#desTelefono').val(response.des_telefono);
-                            $('#desCorreo').val(response.des_correo);
-                            //debugger;
-                            //console.log($("#selEstadoCivil").html());
-                            //debugger;
-                            
-
-                            //$("#selEstadoCivil").val(response.ide_estcivil);
-                            //$("#selEstadoCivil option[value="+ response.ide_estcivil +"]").attr("selected",true);
-							 $("#selEstadoCivil option[value='"+response.ide_estcivil+"']").attr('selected','selected');
-								
-					
-					});
-					
-        			  
-       			
-
-                });
-            }
-        });
-
-    },
-    grabarEmpleado: function(){
-        var me = this;
-                       var empleado = new Object();
-
-                       empleado['empleado[desNombres]'] = $('#desNombres').val();
-                       empleado['empleado[apePaterno]'] = $('#apePaterno').val();
-                       empleado['empleado[apeMaterno]'] = $('#apeMaterno').val();
-                       empleado['empleado[desDocumento]'] = $('#desDocumento').val();
-                       empleado['empleado[fecNacimiento]'] = $('#fecNacimiento').val();
-                       empleado['empleado[desTelefono]'] = $('#desTelefono').val();
-                       empleado['empleado[desCorreo]'] = $('#desCorreo').val();
-                       empleado['empleado[ideSexo]'] = $('input:radio[name=stSexo]:checked').val();
-                       empleado['empleado[ideEstadoCivil]'] = $('#selEstadoCivil').val();
-
-                       $.ajax({
-                            type: "POST",
-                            url: me.prefixUrl+'personal/ajaxSaveEmpleado',
-                            data: empleado,
-                            success: function(response) {
-                                console.log(response);
-                                if (response.success) {
-                                    coreFn.loadListadoEmpleados();
-                                    coreFn.closeWin('myModalNuevoEmpleado');
-                                } else {
-                                    //$('#message_save_acta').find('strong').html(response.message);
-                                    //$('#message_save_acta').show('fade');
-
-                                }
-                            }
-                        });
-    },
-    loadCatalogo: function(ideCatalogo, componente){
-        var me = this;
-
-        $.ajax({
-            type: "POST",
-            url: me.prefixUrl+'admCatalogo/ajaxObtenerCatalogo',
-            sync:false,
-            data : {ideGrupoCatalogo:ideCatalogo},
-            success: function(data) {
-                var html = "";
-
-                $("#"+componente).find("option").remove();
-                $.each(data, function(index, value) {
-
-                    html += '<option value="'+value.ide_elemento+'">'+value.des_nombre+'</option>';
-                });
-
-                $("#"+componente).html(html);
-
-            },
-            dataType: 'json'
-        });
-    
-    },
-    closeWin: function(id) {
-
-        $('#' + id).modal('hide');
-
-    },
-    estadoEdit: false,
-    initListadoEmpleados: function() {
-
-        var me = this;
-        $('#myModalNuevoEmpleado').on('hidden.bs.modal', function(e) {
-            me.estadoEdit = false;
-            $("#myModalEditarEmpleadoLabel").html("Nuevo Empleado");
-
-           $("#empleadoForm").bootstrapValidator('resetForm', true);  
-        });
-
-       
-        $('#myModalNuevoEmpleado').on('show.bs.modal', function(e) {
-            console.log(e);
-            if(!me.estadoEdit){
-                //$("#empleadoForm")[0].reset();
-                //$("#desNombres").val(null);
-            }
-
-            //me.loadCatalogo(7, 'selEstadoCivil');
-            //$("#fecNacimiento").datepicker({});
-        });
-
-        $('.grabarEmpleado').click(function() {
-            me.grabarEmpleado();
-        });
-        
-        me.loadListadoEmpleados();
-		me.loadCatalogo(7, 'selEstadoCivil');
-
-    }
-};
-    

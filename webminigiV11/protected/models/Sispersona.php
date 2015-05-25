@@ -8,20 +8,94 @@
  * @property string $des_nombres
  * @property string $des_apepat
  * @property string $des_apemat
- * @property string $des_razonsocial
  * @property string $nro_documento
- * @property string $ide_tipodocumento
  * @property string $des_telefono
  * @property string $des_correo
- * @property string $ide_tipopersona
- * @property string $ide_condicion
- * @property string $ide_sexo
+ * @property string $sexo
  * @property string $ide_estcivil
  * @property string $fec_nacimiento
+ * @property string $Sueldo
  * @property string $ide_estado
+ *
+ * The followings are the available model relations:
+ * @property Sisusuario[] $sisusuarios
  */
-class SisPersona extends CActiveRecord
+class Sispersona extends CActiveRecord
 {
+	public function listadoEmpleados(){
+
+$sql = "select ide_Persona as idEmpleado,concat(des_nombres,' ',des_apepat,' ',des_apemat) as Empleado,nro_documento as DNI,des_Telefono as Telefono ,des_correo as Correo  from sispersona ";
+	
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	
+	}
+public function obtenerEmpleadoxId($idEmpleado){		
+		$sql = "SELECT * FROM sispersona  WHERE ide_Persona=".$idEmpleado;
+	
+
+		return $this->findAllBySql($sql);
+	}
+
+	public function actualizarEmpleado($ide_persona,$des_nombres,$des_apepat,$des_apemat,$nro_documento,$fec_nacimiento,$des_telefono,$desCorreo,$Sueldo,$ide_estcivil,$sexo,$ide_estado){
+		$resultado = array('valorupd'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
+
+		$empleado = SisPersona::model()->findByPk($ide_persona);
+
+		
+			
+
+		
+$empleado->des_nombres=$des_nombres;
+$empleado->des_apepat=$des_apepat;
+$empleado->des_apemat=$des_apemat;
+$empleado->nro_documento=$nro_documento;
+$empleado->fec_nacimiento=$fec_nacimiento;
+$empleado->des_telefono=$des_telefono;
+$empleado->des_correo=$desCorreo;
+$empleado->Sueldo=$Sueldo;
+$empleado->ide_estcivil=$ide_estcivil;
+$empleado->sexo=$sexo;
+$empleado->ide_estado=$ide_estado;
+
+			if(!$empleado->save()){
+				$resultado = array('valorupd'=>0, 'message'=>'No hemos podido realizar su solicitud, intentelo nuevamente');
+			}
+		
+
+		return $resultado;
+	}
+
+
+	public function agregarEmpleado($des_nombres,$des_apepat,$des_apemat,$nro_documento,$fec_nacimiento,$des_telefono,$desCorreo,$Sueldo,$ide_estcivil,$sexo,$ide_estado){
+		$resultado = array('valorupd'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
+
+$empleado=new SisPersona;
+
+		
+			
+
+		
+$empleado->des_nombres=$des_nombres;
+$empleado->des_apepat=$des_apepat;
+$empleado->des_apemat=$des_apemat;
+$empleado->nro_documento=$nro_documento;
+$empleado->fec_nacimiento=$fec_nacimiento;
+$empleado->des_telefono=$des_telefono;
+$empleado->des_correo=$desCorreo;
+$empleado->Sueldo=$Sueldo;
+$empleado->ide_estcivil=$ide_estcivil;
+$empleado->sexo=$sexo;
+$empleado->ide_estado=$ide_estado;
+
+			if(!$empleado->save()){
+				$resultado = array('valorupd'=>0, 'message'=>'No hemos podido realizar su solicitud, intentelo nuevamente');
+			}
+		
+
+		return $resultado;
+	}
+
 	/*public $des_tipodocumento;
 	public $des_tipopersona;
 	public $des_sexo;
@@ -42,50 +116,6 @@ class SisPersona extends CActiveRecord
 
 		return $dataProvider;
 	}
-
-	/**
-	* Se muestran los detalles de un empleado por codigo
-	**/
-	/*public function obtenerPersonaPorIde($idePersona){
-		$sql = "";
-		//echo "IDE PERSONA=".$ide_persona;
-		$sql .= "SELECT ide_persona, des_nombres, des_apepat, des_apemat, des_razonsocial, nro_documento, des_telefono, ";
-		$sql .= "des_correo, DATE_FORMAT(fec_nacimiento,'%d/%m/%Y') AS fec_nacimiento, ide_estado, ide_tipodocumento, ";
-		$sql .= "ide_tipopersona, ide_sexo, ide_estcivil, ";
-		$sql .= "(SELECT des_abrev FROM admcatalogo ac WHERE ac.ide_elemento=sp.ide_tipodocumento) AS des_tipodocumento, ";
-		$sql .= "(SELECT des_nombre FROM admcatalogo ac WHERE ac.ide_elemento=sp.ide_tipopersona) AS des_tipopersona, ";
-		$sql .= "(SELECT des_nombre FROM admcatalogo ac WHERE ac.ide_elemento=sp.ide_sexo) AS des_sexo, ";
-		$sql .= "(SELECT des_nombre FROM admcatalogo ac WHERE ac.ide_elemento=sp.ide_estcivil) AS des_estcivil ";
-		$sql .= "FROM sispersona sp ";
-		$sql .= "WHERE sp.ide_persona=".$idePersona;
-
-		return $this->findAllBySql($sql);
-	}*/
-
-	/**
-	* Se elimina una persona
-	**/
-	/*public function actualizaEstadoPersonaPorIde($idePersona, $estado){
-		$resultado = array('data'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
-
-		$persona = Sispersona::model()->findByPk($idePersona);
-
-		if(count($persona)>0){
-			$persona->ide_estado=$estado;
-
-			if(!$persona->save()){
-				$resultado = array('data'=>0, 'message'=>'No hemos podido realizar su 
-
-					solicitud, intentelo nuevamente');
-			}
-		}else{
-			$resultado = array('data'=>0, 'message'=>'No se pudo encontrar a la persona 
-
-				seleccionada. ');
-		}
-
-		return $resultado;
-	}*/
 	/**
 	 * @return string the associated database table name
 	 */
@@ -102,15 +132,17 @@ class SisPersona extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nro_documento, ide_tipodocumento, ide_tipopersona, ide_condicion, ide_estado', 'required'),
-			array('des_nombres, des_apepat, des_apemat, des_razonsocial', 'length', 'max'=>250),
+			array('nro_documento, Sueldo, ide_estado', 'required'),
+			array('des_nombres, des_apepat, des_apemat', 'length', 'max'=>250),
 			array('nro_documento', 'length', 'max'=>20),
-			array('ide_tipodocumento, ide_tipopersona, ide_condicion, ide_sexo, ide_estcivil', 'length', 'max'=>10),
-			array('des_telefono, des_correo, fec_nacimiento', 'length', 'max'=>45),
-			array('ide_estado', 'length', 'max'=>1),
+			array('des_telefono', 'length', 'max'=>9),
+			array('des_correo', 'length', 'max'=>45),
+			array('sexo, ide_estcivil, ide_estado', 'length', 'max'=>1),
+			array('Sueldo', 'length', 'max'=>10),
+			array('fec_nacimiento', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ide_persona, des_nombres, des_apepat, des_apemat, des_razonsocial, nro_documento, ide_tipodocumento, des_telefono, des_correo, ide_tipopersona, ide_condicion, ide_sexo, ide_estcivil, fec_nacimiento, ide_estado', 'safe', 'on'=>'search'),
+			array('ide_persona, des_nombres, des_apepat, des_apemat, nro_documento, des_telefono, des_correo, sexo, ide_estcivil, fec_nacimiento, Sueldo, ide_estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -122,7 +154,7 @@ class SisPersona extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			//'admcatalogo'=>array(),
+			'sisusuarios' => array(self::HAS_MANY, 'Sisusuario', 'ide_persona'),
 		);
 	}
 
@@ -136,16 +168,13 @@ class SisPersona extends CActiveRecord
 			'des_nombres' => 'Des Nombres',
 			'des_apepat' => 'Des Apepat',
 			'des_apemat' => 'Des Apemat',
-			'des_razonsocial' => 'Des Razonsocial',
 			'nro_documento' => 'Nro Documento',
-			'ide_tipodocumento' => 'Ide Tipodocumento',
 			'des_telefono' => 'Des Telefono',
 			'des_correo' => 'Des Correo',
-			'ide_tipopersona' => 'Ide Tipopersona',
-			'ide_condicion' => 'Ide Condicion',
-			'ide_sexo' => 'Ide Sexo',
+			'sexo' => 'Sexo',
 			'ide_estcivil' => 'Ide Estcivil',
 			'fec_nacimiento' => 'Fec Nacimiento',
+			'Sueldo' => 'Sueldo',
 			'ide_estado' => 'Ide Estado',
 		);
 	}
@@ -172,16 +201,13 @@ class SisPersona extends CActiveRecord
 		$criteria->compare('des_nombres',$this->des_nombres,true);
 		$criteria->compare('des_apepat',$this->des_apepat,true);
 		$criteria->compare('des_apemat',$this->des_apemat,true);
-		$criteria->compare('des_razonsocial',$this->des_razonsocial,true);
 		$criteria->compare('nro_documento',$this->nro_documento,true);
-		$criteria->compare('ide_tipodocumento',$this->ide_tipodocumento,true);
 		$criteria->compare('des_telefono',$this->des_telefono,true);
 		$criteria->compare('des_correo',$this->des_correo,true);
-		$criteria->compare('ide_tipopersona',$this->ide_tipopersona,true);
-		$criteria->compare('ide_condicion',$this->ide_condicion,true);
-		$criteria->compare('ide_sexo',$this->ide_sexo,true);
+		$criteria->compare('sexo',$this->sexo,true);
 		$criteria->compare('ide_estcivil',$this->ide_estcivil,true);
 		$criteria->compare('fec_nacimiento',$this->fec_nacimiento,true);
+		$criteria->compare('Sueldo',$this->Sueldo,true);
 		$criteria->compare('ide_estado',$this->ide_estado,true);
 
 		return new CActiveDataProvider($this, array(
@@ -193,7 +219,7 @@ class SisPersona extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return SisPersona the static model class
+	 * @return Sispersona the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
