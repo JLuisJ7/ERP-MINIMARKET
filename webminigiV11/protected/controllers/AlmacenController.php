@@ -1,6 +1,16 @@
 <?php
 class AlmacenController extends Controller{
 
+	public function actionAjaxListarProductos(){
+	
+		
+			$productos = Producto::model()->ListarProductosCombo();
+
+		
+		
+    	Util::renderJSON($productos);
+}
+
 public function actionAjaxContadorProductosAgotados(){
 		// Condicion de empleados = 18
 		$productos = Producto::model()->ContadorProductosAgotados();

@@ -1,6 +1,14 @@
 <?php
 class VentasController extends Controller{
 
+public function actionAjaxListarClientes(){
+	
+		
+	
+		$clientes = Cliente::model()->ListarClientesCombo();
+		
+    	Util::renderJSON($clientes);
+}
 	public function actionAjaxBuscarCliente(){
 		$query = $_POST['query'];
 		

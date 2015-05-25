@@ -227,7 +227,7 @@ var FactCore = {
         var me = this;
         
         Util.createGrid('#listaFacturas',{
-            toolButons:'',
+            toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoFactura">Nuevo Factura</a>',
             url:'index.php?r=ventas/ajaxListadoFacturas',
             "order": [[ 0, 'asc' ]],
 

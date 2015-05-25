@@ -53,15 +53,22 @@ $this->breadcrumbs=array(
 				
         	</div> -->
         	<div class="col-xs-12">        		
-				
-			     		
-				  <div class="form-group">
+					
+			     <div class="form-group">
+			      <label class="" for="fac_RazSoc_Cli">Cliente: </label>
+			   
+			      <select id="fac_RazSoc_Cli" class="selectpicker form-control" data-live-search="true" title="Seleccione Un Cliente" style="display:none;">
+			        <option value="">Seleccione Cliente</option>
+			      </select>
+
+			    </div>	
+				  <!-- <div class="form-group">
 				    <label for="idCliente">Cliente</label>
 				    <input type="text" class="form-control buscarCliente" data-id="" id="fac_RazSoc_Cli" >
 				    <select multiple class="form-control" id="findCliente" style="position:absolute;z-index:1000;display:none;">
 					</select>
 
-				  </div>
+				  </div> -->
 				  <div class="form-group" style="display:none;">
 				    <label for="">Empleado</label>
 				    <input type="text" class="form-control" id="idEmpleado" value="1">
@@ -76,19 +83,15 @@ $this->breadcrumbs=array(
 			</div>
 
 <form class="form-inline col-xs-12">
-	 <div class="form-group" style="position:relative;">
-			    <label for="">Producto</label><br>
+	<div class="form-group">
+			      <label class="" for="fac_desc_Prod">Producto: </label>
 			   
-			    <div class="input-group">
-                        
-                       <input type="text" class="form-control buscarProductoVenta"  data-id="" id="fac_desc_Prod" placeholder="" style="min-width: 200px;" autocomplete="off">
-                       <!-- <span class="input-group-btn">
-        <button class="btn btn-default" type="button"><i class="fa fa-search-plus"></i></button>
-      </span> -->
-                      </div>
-			 <select multiple class="form-control" id="findProducto" style="position:absolute;z-index:1000;display:none;min-width: 200px;">
-				</select>
-			  </div>
+			      <select id="fac_desc_Prod" class="selectpicker form-control" data-live-search="true" title="Seleccione Un Producto" style="display:none;">
+			        <option value="">Seleccione Producto</option>
+			      </select>
+
+	</div>	
+
 				      		
 				  
 				  <div class="form-group">
@@ -164,7 +167,9 @@ $this->breadcrumbs=array(
 	
 	obtenerParametro(3,"T","nroSerie");
 	obtenerParametro(1,"I","igv");
-
+	
+	listarComboEntidad("ventas","Cliente","fac_RazSoc_Cli");
+	listarComboEntidad("almacen","Producto","fac_desc_Prod");
 	$(document).ready(function(){
 		setTimeout(function(){
 			obtenerNroComprobante("ventas","nroFactura","nroSerie");

@@ -25,6 +25,14 @@ $sql = "SELECT idCliente,RazSoc_Cli FROM Cliente WHERE RazSoc_Cli LIKE '%".$quer
 
 		return Yii::app()->db->createCommand($sql)->queryAll();
 	}
+	public function ListarClientesCombo(){
+
+$sql = "SELECT idCliente as ide,RazSoc_Cli as descripcion FROM Cliente order by RazSoc_Cli asc";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
 
 	/**
 	* Se listan las personas por catalogo

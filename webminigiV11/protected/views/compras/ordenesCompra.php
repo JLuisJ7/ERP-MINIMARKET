@@ -123,7 +123,7 @@ $this->breadcrumbs=array(
       <label class="" for="fac_RazSoc_Prov">Proveedor: </label>
    
       <select id="fac_RazSoc_Prov" class="selectpicker form-control" data-live-search="true" title="Seleccione Un Proveedor" style="display:none;">
-        
+        <option value="">Seleccione Proveedor</option>
       </select>
 
     </div>

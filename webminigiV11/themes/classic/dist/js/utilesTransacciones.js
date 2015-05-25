@@ -23,6 +23,32 @@
     });
  };
 
+  function listarComboEntidad(modulo,tabla,idCombo){
+   $.ajax({
+            type: "POST",
+            url: 'index.php?r='+modulo+'/AjaxListar'+tabla+'s',
+            //url: 'index.php?r=ventas/AjaxListarProveedores',
+            //sync:false,           
+            success: function(data) {
+                var html = "";
+
+                //$(".listaProveedores").find("option").remove();
+                 
+                $.each(data, function(index, value) {
+                 
+                   
+                     html += '<option value="'+value.ide+'">'+value.descripcion+'</option>';
+
+                });                          
+                $("#"+idCombo+"").append(html);  
+                
+            },
+            dataType: 'json'
+
+        });
+ };
+
+
   function listarProveedoress(){
    $.ajax({
             type: "POST",
@@ -39,7 +65,7 @@
                      html += '<option value="'+value.idProveedor+'">'+value.RazSoc_Prov+'</option>';
 
                 });
-               $("#fac_RazSoc_Prov").append("<option value=''>Seleccione Proveedor</option>");              
+                          
                 $("#fac_RazSoc_Prov").append(html);  
                 
             },
@@ -47,6 +73,8 @@
 
         });
  };
+
+
 
 
     function obtenerParamGeneral(idParametro,idcampo){
@@ -341,6 +369,8 @@ $.ajax({
   })
   .change();
 
+
+
   $( "#fac_desc_Prod" )
   .change(function () {
     var  idProducto=$("#fac_desc_Prod").val();
@@ -364,6 +394,8 @@ $.ajax({
     });
   })
   .change();
+
+
 
         //comprobamos si se pulsa una tecla
         $(".buscarCliente").keyup(function(e){
@@ -598,8 +630,7 @@ $(document).ready(function() {
   
 }    
 function clearInputs(){
-        $("#fac_desc_Prod").attr("data-id","");
-        $("#fac_desc_Prod").val("");
+        $('#fac_desc_Prod').selectpicker('deselectAll');
         $("#fac_CantProd").val("");
         $("#fac_Precio").val("");
         $("#fac_valorVenta").val("");
@@ -704,7 +735,7 @@ $.ajax({
 
   var nroSerie=$("#nroSerie").attr('data-param');
   var nroFactura=$("#nroFactura").attr('data-nro');
-  var idCliente=$("#fac_RazSoc_Cli").attr('data-id');
+  var idCliente=$("#fac_RazSoc_Cli").val();
   var idEmpleado=$("#idEmpleado").val();
   var subTotal=$("#subTotal").val();
   var IGV=$("#igv").val();

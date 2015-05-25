@@ -120,6 +120,14 @@ public function obtenerProductoxId($idProducto){
 
 		return Yii::app()->db->createCommand($sql)->queryAll();
 	}
+	public function ListarProductosCombo(){
+		
+		
+		$sql="select idProducto as ide,desc_Prod as descripcion from producto ";
+		
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
 
 
 	/**
