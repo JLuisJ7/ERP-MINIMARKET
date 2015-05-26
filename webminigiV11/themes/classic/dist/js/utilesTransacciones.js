@@ -209,6 +209,8 @@ obtenerParamGeneral(idParametro,idcampo);
  
 
 $(document).ready(function(){
+
+
 $.ajax({
             type: "POST",
             url: 'index.php?r=compras/AjaxListarProveedores',
@@ -656,14 +658,14 @@ function clearInputs(){
   
 }
         $('#addRow').on( 'click', function () {
-        var id=$("#fac_desc_Prod").val();
 
+        var id=$("#fac_desc_Prod").val();
         var desc=$("#fac_desc_Prod option[value='"+id+"']").text();
         var cant=$("#fac_CantProd").val();
         var pre= $("#fac_Precio").val();
         var val=$("#fac_valorVenta").val();
-
-     var table=$('#DetalleFactura').DataTable();
+if( id!="" && desc!="" && cant!="" && cant>0 && pre!="" && val!=""){
+var table=$('#DetalleFactura').DataTable();
       var detalle = $('#DetalleFactura').tableToJSON();
       var repeat=false;
 $.each(detalle,function(index, value){
@@ -708,6 +710,10 @@ if(repeat===false){
            
 sumarValores();
 clearInputs();
+}
+
+     
+
        
     } );
     function sumarValores(){
@@ -796,7 +802,7 @@ $.ajax({
   var IGV=$("#igv").val();
   var Total=$("#Total").val();
 
- 
+if(nroSerie!="" && nroFactura!="" && idCliente!="" && idEmpleado!="" && subTotal!="" && IGV!="" && Total!=""){
 $.ajax({
     url: 'index.php?r=ventas/AjaxAgregarFactura',
     type: 'Post',  
@@ -849,6 +855,11 @@ $.ajax({
     
 });
 });
+}
+ 
+
+
+
 
 }); 
 
@@ -862,7 +873,7 @@ $('#add_OrdenCompra').click( function() {
   var IGV=$("#igv").val();
   var Total=$("#Total").val();
 
- 
+if(nroSerie!="" && nroOrden!="" && idProveedor!="" && idEmpleado!="" && subTotal!="" && IGV!="" && Total!=""){
 $.ajax({
     url: 'index.php?r=compras/AjaxAgregarOrdenCompra',
     type: 'Post',  
@@ -912,6 +923,8 @@ $.ajax({
 });
 
 });
+} 
+
 
 });  
 
