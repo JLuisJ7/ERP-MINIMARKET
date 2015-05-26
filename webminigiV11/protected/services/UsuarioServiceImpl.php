@@ -34,6 +34,11 @@ class UsuarioServiceImpl implements UsuarioService {
             return array('success' => FALSE,'message'=>'La Clave es incorrecta.');
         }
 
+        if($usuario['estado']!="1"){
+            //throw new Exception('La Clave es incorrecta.');
+            return array('success' => FALSE,'message'=>'Acceso denegado.');
+        }
+
         // HIZE CAMBIOS DESDE AQUI ==============================================
         $usuarioSistema = $this->obtenerUsuarioByLoginUser($loginUser, 1);
         $dataUsuario = $this->obtenerDataUsuario($usuario['ide_persona']);
@@ -56,7 +61,7 @@ class UsuarioServiceImpl implements UsuarioService {
 
         // HIZE CAMBIOS DESDE AQUI =================================
         if($tipo==1){
-            $usuarioCriteria->select = 'des_usuario, ide_rol';
+            $usuarioCriteria->select = 'des_usuario, ide_rol,estado';
         }        
         $usuarioCriteria->addSearchCondition('des_usuario', $loginUser);
         $usuario = SisUsuario::model()->find($usuarioCriteria);

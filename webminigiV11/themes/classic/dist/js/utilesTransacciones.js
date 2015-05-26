@@ -337,6 +337,9 @@ $.ajax({
  $( "#fac_RazSoc_Prov" )
   .change(function () {
     var  idProveedor=$("#fac_RazSoc_Prov").val();
+
+if (idProveedor!="") {
+
    $.ajax({
                     type: "POST",
                     url: "index.php?r=almacen/AjaxProductosporProveedor",
@@ -366,6 +369,9 @@ $.ajax({
                                                              
                     }
               });
+};
+
+
   })
   .change();
 
@@ -374,7 +380,8 @@ $.ajax({
   $( "#fac_desc_Prod" )
   .change(function () {
     var  idProducto=$("#fac_desc_Prod").val();
-   $.ajax({
+if(idProducto!=""){
+  $.ajax({
         url: 'index.php?r=almacen/AjaxObtenerProducto',
         type: 'POST',        
         data: {idProducto:parseInt(idProducto)},
@@ -392,6 +399,9 @@ $.ajax({
     .always(function() {
         //console.log("complete");
     });
+}
+   
+
   })
   .change();
 
@@ -590,7 +600,14 @@ $( '#fac_CantProd' ).keypress(function(){
 $(document).ready(function() {
 
     
-     $('#DetalleFactura').dataTable({     
+     $('#DetalleFactura').dataTable({  
+      "language": {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": " ",
+            "info": "Showing page _PAGE_ of _PAGES_",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        },   
         "columnDefs": [ {
             "targets": -1,
             "data": null,
@@ -607,28 +624,29 @@ $(document).ready(function() {
 } );
 
 $(document).ready(function() {
-   
-    function sumarValores(){
-  var table=$('#DetalleFactura').DataTable();
-  var total = table 
-    .column(4)
-    .data()
-    .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-    } );
+    $('#myModalNuevoFactura').on('hidden.bs.modal', function() {
+         var table = $('#DetalleFactura').DataTable();
+            table.clear();
+            table.draw();
+            $('#fac_RazSoc_Cli').selectpicker('deselectAll');
+            $('#fac_desc_Prod').selectpicker('deselectAll');
+            $('.form-control').val('');
+            
+                     
+        });
+ $('#myModalNuevoOrdendeCompra').on('hidden.bs.modal', function() {
+         var table = $('#DetalleFactura').DataTable();
+            table.clear();
+            table.draw();
+            $('#fac_RazSoc_Prov').selectpicker('deselectAll');           
+            $('.form-control').val('');
+            
+                     
+        });
 
 
-   $("#subTotal").val((total*1).toFixed(2));
 
- var param_igv=$("#igv").attr('data-param');
-   $("#igv").val((total*param_igv).toFixed(2));
-
-   var igv= $("#igv").val();
-   var subtotal=$("#subTotal").val();
-   $("#Total").val((parseFloat(subtotal)+parseFloat(igv)).toFixed(2)); 
  
-  
-}    
 function clearInputs(){
         $('#fac_desc_Prod').selectpicker('deselectAll');
         $("#fac_CantProd").val("");
@@ -649,12 +667,12 @@ function clearInputs(){
       var detalle = $('#DetalleFactura').tableToJSON();
       var repeat=false;
 $.each(detalle,function(index, value){
-    console.log('My array has at position ' + index + ', this value: ' + value.Codigo);
+    //console.log('My array has at position ' + index + ', this value: ' + value.Codigo);
     if(value.Codigo===id){
-      console.log('repetido');
+      //console.log('repetido');
      detalle[index].Cantidad=parseInt(detalle[index].Cantidad)+parseInt(cant);
      detalle[index].Importe=parseFloat(parseInt(detalle[index].Cantidad)*parseFloat(detalle[index].Precio)).toFixed(2);
-     console.log('My array has at position ' + index + ', this value: ' + value.Cantidad);
+    // console.log('My array has at position ' + index + ', this value: ' + value.Cantidad);
     
     repeat=true;    
    
@@ -692,13 +710,50 @@ sumarValores();
 clearInputs();
        
     } );
+    function sumarValores(){
+  var table=$('#DetalleFactura').DataTable(); 
 
+  var total = table 
+    .column(4)
+    .data()
+    .reduce( function (a, b) {
+      //console.log(a+"->"+b );
+        return parseFloat(a) + parseFloat(b);
+    } );
+
+
+   $("#subTotal").val((total*1).toFixed(2));
+
+ var param_igv=$("#igv").attr('data-param');
+   $("#igv").val((total*param_igv).toFixed(2));
+
+   var igv= $("#igv").val();
+   var subtotal=$("#subTotal").val();
+   $("#Total").val((parseFloat(subtotal)+parseFloat(igv)).toFixed(2)); 
+
+ 
+  
+
+ 
+  
+}   
 
         $('#DetalleFactura tbody').on( 'click', 'button', function () {
   var table = $('#DetalleFactura').DataTable();
         table.row( $(this).parents('tr') ).remove().draw( false );
-        //alert( data[0] +"'s salary is: "+ data[ 4 ] );
-        sumarValores();
+        
+    if(table.column(4).data().length==0){
+      $("#subTotal").val('');
+     $("#igv").val('');
+      $("#Total").val(''); 
+    }else{
+      sumarValores();
+  
+    }
+
+       
+        
+
 
     } );
 
@@ -778,13 +833,19 @@ $.ajax({
 })
 .done(function() {
     console.log("success");
-   location.reload();
+   //location.reload();
+
+  $('#myModalNuevoFactura').modal('hide');
+  obtenerNroComprobante("ventas","nroFactura","nroSerie");
+  FactCore.loadFacturas();
+
 })
 .fail(function() {
     console.log("error");
 })
 .always(function() {
     console.log("complete");
+
     
 });
 });
@@ -838,7 +899,9 @@ $.ajax({
 })
 .done(function() {
     console.log("success");
-    location.reload();
+      $('#myModalNuevoOrdendeCompra').modal('hide');
+  obtenerNroComprobante("compras","nroOrden","nroSerie");
+  OrdenCore.loadOrdenesC();
 })
 .fail(function() {
     console.log("error");

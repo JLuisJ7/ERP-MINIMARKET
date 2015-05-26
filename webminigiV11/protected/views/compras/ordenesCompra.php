@@ -19,7 +19,7 @@ $this->breadcrumbs=array(
             <div class="col-xs-12">
               <div class="box">
                 <div class='box-header with-border'>
-                  <h3 class='box-title'><i class="fa fa-user"></i> Listado de Facturas</h3>
+                  <h3 class='box-title'><i class="fa fa-user"></i> Ordenes de Compra</h3>
                 </div>
                 <div class="box-body">
                   <table class="table table-striped table-bordered" id="listaOrdenesC" style="">
