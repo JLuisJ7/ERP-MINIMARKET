@@ -1,4 +1,33 @@
-﻿Drop table DetalleFactura;
+﻿create TABLE Boleta (
+nroSerie char(3) not null,
+nroBol int  unsigned,
+idCliente int,
+idEmpleado int,
+fechEmic TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+Total NUMERIC ( 8, 2 ) NOT NULL,
+estadoFact char(1) default 1,
+fechaElim date DEFAULT Null
+);
+
+create TABLE DetalleBoleta(
+nroSerie Char(3) not  null, 
+nroBol int unsigned NOT NULL,
+idProducto int  NOT NULL,
+cantidad INT unsigned NOT NULL,
+precio NUMERIC ( 8, 2 ) NOT NULL
+);
+
+
+alter table Boleta add constraint pk_seri_num_bol  PRIMARY KEY(nroSerie,nroBol);
+
+alter table Boleta add CONSTRAINT fk_Bol_Cli FOREIGN KEY (idCliente) references Cliente(idCliente);
+alter table DetalleBoleta add CONSTRAINT fk_Bol_detFac FOREIGN KEY (nroSerie,nroBol) references Boleta(nroSerie,nroBol);
+alter table DetalleBoleta add CONSTRAINT fk_DetBol_Prod FOREIGN KEY (idProducto) references Producto(idProducto);
+
+
+
+
+Drop table DetalleFactura;
 drop table Factura;
 drop table inventario;
 drop table detalleordencompra;

@@ -281,6 +281,98 @@ var FactCore = {
     }
 
 }
+var BoletCore = {
+
+    loadBoletas: function(){
+        var me = this;
+        
+        Util.createGrid('#listaBoletas',{
+            toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoBoleta">Nuevo Boleta</a>',
+            url:'index.php?r=ventas/ajaxListadoBoletas',
+            "order": [[ 0, 'asc' ]],
+
+            columns:[
+               
+                {"mData": "nroSerie", "sClass": "alignCenter"},
+                {"mData": "nroBol", "sClass": "alignCenter"},
+                {"mData": "Cliente", "sClass": "alignCenter"},
+                //{"mData": "Empleado", "sClass": "alignCenter"},                
+                {"mData": "Fecha", "sClass": "alignCenter"},                
+                {"mData": "Total", "sClass": "alignCenter"},
+               
+                {
+                    "mData": null,
+                    "bSortable": false,
+                    "bFilterable": false,
+                     "mRender": function (data, type, row) {
+                  /*return row.nroSerie +', '+ row.nroFact;*/
+                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.nroSerie + '" data-nroBol="' + row.nroBol + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a> ';
+                }
+                }
+            ],
+            fnDrawCallback: function() {
+                
+                $('.verDetalle').click(function() {
+                    me.obtenerDetalle($(this).attr('data-nroSerie'),$(this).attr('data-nroBol'));
+                });
+
+            }
+
+        });
+    },    
+    obtenerDetalle : function(nroSerie,nroBol){
+        $("#serie-Boleta").text(nroSerie+'-'+nroBol);
+
+        $.ajax({
+            url: 'index.php?r=ventas/AjaxObtenerDetalleBoleta',
+            type: 'POST',            
+            data: {
+                nroSerie: nroSerie,
+                nroBol:nroBol
+            },
+        })
+        .done(function(response) {
+            
+                
+            console.log(response);
+             var table = $('#FacturaDetallada').DataTable( {
+                "paging":   false,
+        "ordering": false,
+        "info":     false,
+        "bFilter": false,
+        "data": response,
+
+                "columns": [
+                   
+                    { "data": "desc_Prod" },
+                    { "data": "cantidad" },
+                    { "data": "precio" },
+                    { "data": "importe" }
+                ]               
+            } );
+            
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+           $('#myModalFacturaDetallada').modal('show');
+        });
+        
+    },
+    initListadoBoletas: function() {       
+         $('#myModalFacturaDetallada').on('hidden.bs.modal', function() {
+         var table = $('#FacturaDetallada').DataTable();
+ 
+            
+            table.destroy();
+                     
+        });
+        this.loadBoletas();
+
+    }
+
+}
 /*
     INICIO ProvCore
 */

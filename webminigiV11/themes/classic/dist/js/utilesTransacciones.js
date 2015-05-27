@@ -22,6 +22,29 @@
         //console.log("complete");
     });
  };
+function obtenerNroBoleta(modulo,idNroComp,idserie){
+    var nroSerie=$("#"+idserie+"").attr('data-param');
+         $.ajax({
+        url: 'index.php?r='+modulo+'/AjaxObtenerNroBoleta',
+        type: 'POST',
+        data:{
+          nroSerie:nroSerie
+        }        
+    })
+    .done(function(response) {   
+     data=response.output;     
+        //console.log(data.nroComp);
+
+        $("#"+idNroComp+"").text(data.nroComp);
+        $("#"+idNroComp+"").attr('data-nro', data.nroComp);      
+    })
+    .fail(function() {
+        //console.log("error");
+    })
+    .always(function() {
+        //console.log("complete");
+    });
+ };
 
   function listarComboEntidad(modulo,tabla,idCombo){
    $.ajax({
@@ -726,6 +749,8 @@ clearInputs();
 
        
     } );
+
+
     function sumarValores(){
   var table=$('#DetalleFactura').DataTable(); 
 
@@ -737,8 +762,11 @@ clearInputs();
         return parseFloat(a) + parseFloat(b);
     } );
 
-
-   $("#subTotal").val((total*1).toFixed(2));
+var Boleta=$("#DetalleFactura").attr('data-Documento');
+if(Boleta=="boleta"){
+  $("#Total").val((total*1).toFixed(2));
+}else{
+  $("#subTotal").val((total*1).toFixed(2));
 
  var param_igv=$("#igv").attr('data-param');
    $("#igv").val((total*param_igv).toFixed(2));
@@ -746,6 +774,8 @@ clearInputs();
    var igv= $("#igv").val();
    var subtotal=$("#subTotal").val();
    $("#Total").val((parseFloat(subtotal)+parseFloat(igv)).toFixed(2)); 
+}
+   
 
  
   
@@ -854,6 +884,74 @@ $.ajax({
   $('#myModalNuevoFactura').modal('hide');
   obtenerNroComprobante("ventas","nroFactura","nroSerie");
   FactCore.loadFacturas();
+
+})
+.fail(function() {
+    console.log("error");
+})
+.always(function() {
+    console.log("complete");
+
+    
+});
+});
+}
+ 
+
+
+
+
+}); 
+
+ $('#add_Boleta').click( function() {
+
+
+  var nroSerie=$("#nroSerie").attr('data-param');
+  var nroBoleta=$("#nroBoleta").attr('data-nro');
+  var idCliente=$("#fac_RazSoc_Cli").val();
+  var idEmpleado=$("#idEmpleado").val(); 
+  var Total=$("#Total").val();
+
+if(nroSerie!="" && nroBoleta!="" && idCliente!="" && idEmpleado!="" && Total!=""){
+$.ajax({
+    url: 'index.php?r=ventas/AjaxAgregarBoleta',
+    type: 'Post',  
+    data: {
+        nroSerie:nroSerie,
+        nroBoleta:nroBoleta,
+        idCliente:idCliente,
+        idEmpleado:idEmpleado,        
+        Total:Total
+    },
+})
+.done(function() {
+    console.log("success");
+})
+.fail(function() {
+    console.log("error");
+})
+.always(function() {
+   var table = $('#DetalleFactura').tableToJSON();
+  var nroSerie=$("#nroSerie").attr('data-param');
+  var nroBoleta=$("#nroBoleta").attr('data-nro');
+
+
+$.ajax({
+    url: 'index.php?r=ventas/AjaxAgregarDetalleBoleta',
+    type: 'Post',  
+    data: {
+            json:JSON.stringify(table),
+            nroSerie:nroSerie,
+            nroBol:nroBoleta
+        },
+})
+.done(function() {
+    console.log("success");
+   //location.reload();
+
+  $('#myModalNuevoBoleta').modal('hide');
+obtenerNroBoleta("ventas","nroBoleta","nroSerie");
+  BoletCore.loadBoletas();
 
 })
 .fail(function() {

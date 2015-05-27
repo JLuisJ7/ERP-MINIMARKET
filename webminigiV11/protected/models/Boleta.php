@@ -1,63 +1,41 @@
 <?php
 
 /**
- * This is the model class for table "factura".
+ * This is the model class for table "boleta".
  *
- * The followings are the available columns in table 'factura':
+ * The followings are the available columns in table 'boleta':
  * @property string $nroSerie
- * @property string $nroFact
+ * @property string $nroBol
  * @property integer $idCliente
  * @property integer $idEmpleado
  * @property string $fechEmic
- * @property string $subTotal
- * @property string $IGV
  * @property string $Total
  * @property string $estadoFact
  * @property string $fechaElim
  *
  * The followings are the available model relations:
- * @property Detallefactura[] $detallefacturas
- * @property Detallefactura[] $detallefacturas1
  * @property Cliente $idCliente0
+ * @property Detalleboleta[] $detalleboletas
+ * @property Detalleboleta[] $detalleboletas1
  */
-class Factura extends CActiveRecord
+class Boleta extends CActiveRecord
 {
 
-	public function listadoFacturas(){
 
-$sql = "select nroSerie,nroFact,c.RazSoc_Cli as Cliente,idEmpleado as Empleado,DATE_FORMAT(FechEmic,'%d-%m-%Y') as Fecha,SubTotal,IGV,Total from factura as f inner join Cliente as c ON c.idCliente=f.idCliente";
-	
-
-		return Yii::app()->db->createCommand($sql)->queryAll();
-	
-	}
-	
-
-public function ObtenerNroFactura($nroSerie){
-
-$sql = "select count(nroFact)+1 as nroComp from factura where nroSerie='".$nroSerie."'";
-	
-
-
-		return Yii::app()->db->createCommand($sql)->queryAll();
-	}
-
-	public function agregarFactura($nroSerie,$nroFact, $idCliente,$idEmpleado,$subTotal,$IGV,$Total){
+public function agregarBoleta($nroSerie,$nroBol, $idCliente,$idEmpleado,$Total){
 
 		$resultado = array('valor'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
 
 		
-		$Factura=new Factura;
-		$Factura->nroSerie=$nroSerie;
-		$Factura->nroFact=$nroFact;
-		$Factura->idCliente=$idCliente;
-		$Factura->idEmpleado=$idEmpleado;
-		$Factura->subTotal=$subTotal;
-		$Factura->IGV=$IGV;
-		$Factura->Total=$Total;
+		$Boleta=new Boleta;
+		$Boleta->nroSerie=$nroSerie;
+		$Boleta->nroBol=$nroBol;
+		$Boleta->idCliente=$idCliente;
+		$Boleta->idEmpleado=$idEmpleado;	
+		$Boleta->Total=$Total;
 
       		
-if(!$Factura->save()){
+if(!$Boleta->save()){
 	
 	$resultado = array('valor'=>0, 'message'=>'No hemos podido realizar su solicitud, intentelo nuevamente');
 
@@ -66,13 +44,29 @@ if(!$Factura->save()){
 
 		return $resultado;
 	}
+public function ObtenerNroBoleta($nroSerie){
 
+$sql = "select count(nroBol)+1 as nroComp from Boleta where nroSerie='".$nroSerie."'";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
+
+	public function listadoBoletas(){
+
+$sql = "select nroSerie,nroBol,c.RazSoc_Cli as Cliente,idEmpleado as Empleado,DATE_FORMAT(FechEmic,'%d-%m-%Y') as Fecha,Total from boleta as f inner join Cliente as c ON c.idCliente=f.idCliente";
+	
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	
+	}
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'factura';
+		return 'boleta';
 	}
 
 	/**
@@ -83,16 +77,16 @@ if(!$Factura->save()){
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nroSerie, subTotal, IGV, Total', 'required'),
+			array('nroSerie, Total', 'required'),
 			array('idCliente, idEmpleado', 'numerical', 'integerOnly'=>true),
 			array('nroSerie', 'length', 'max'=>3),
-			array('nroFact', 'length', 'max'=>10),
-			array('subTotal, IGV, Total', 'length', 'max'=>8),
+			array('nroBol', 'length', 'max'=>10),
+			array('Total', 'length', 'max'=>8),
 			array('estadoFact', 'length', 'max'=>1),
 			array('fechaElim', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('nroSerie, nroFact, idCliente, idEmpleado, fechEmic, subTotal, IGV, Total, estadoFact, fechaElim', 'safe', 'on'=>'search'),
+			array('nroSerie, nroBol, idCliente, idEmpleado, fechEmic, Total, estadoFact, fechaElim', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -104,9 +98,9 @@ if(!$Factura->save()){
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'detallefacturas' => array(self::HAS_MANY, 'Detallefactura', 'nroSerie'),
-			'detallefacturas1' => array(self::HAS_MANY, 'Detallefactura', 'nroFact'),
 			'idCliente0' => array(self::BELONGS_TO, 'Cliente', 'idCliente'),
+			'detalleboletas' => array(self::HAS_MANY, 'Detalleboleta', 'nroSerie'),
+			'detalleboletas1' => array(self::HAS_MANY, 'Detalleboleta', 'nroBol'),
 		);
 	}
 
@@ -117,12 +111,10 @@ if(!$Factura->save()){
 	{
 		return array(
 			'nroSerie' => 'Nro Serie',
-			'nroFact' => 'Nro Fact',
+			'nroBol' => 'Nro Bol',
 			'idCliente' => 'Id Cliente',
 			'idEmpleado' => 'Id Empleado',
 			'fechEmic' => 'Fech Emic',
-			'subTotal' => 'Sub Total',
-			'IGV' => 'Igv',
 			'Total' => 'Total',
 			'estadoFact' => 'Estado Fact',
 			'fechaElim' => 'Fecha Elim',
@@ -148,12 +140,10 @@ if(!$Factura->save()){
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('nroSerie',$this->nroSerie,true);
-		$criteria->compare('nroFact',$this->nroFact,true);
+		$criteria->compare('nroBol',$this->nroBol,true);
 		$criteria->compare('idCliente',$this->idCliente);
 		$criteria->compare('idEmpleado',$this->idEmpleado);
 		$criteria->compare('fechEmic',$this->fechEmic,true);
-		$criteria->compare('subTotal',$this->subTotal,true);
-		$criteria->compare('IGV',$this->IGV,true);
 		$criteria->compare('Total',$this->Total,true);
 		$criteria->compare('estadoFact',$this->estadoFact,true);
 		$criteria->compare('fechaElim',$this->fechaElim,true);
@@ -167,7 +157,7 @@ if(!$Factura->save()){
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Factura the static model class
+	 * @return Boleta the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
