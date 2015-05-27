@@ -143,8 +143,14 @@
     })
     .done(function(response) {   
      data=response.output;     
-        //console.log(data);
+      
 obtenerParamGeneral(idParametro,idcampo);
+ $("#msg"+idcampo+"").show();
+   $("#"+idcampo+"").prop('disabled', true);
+setTimeout(function(){
+$("#msg"+idcampo+"").hide();
+}, 1500);
+     
        
         
     })
@@ -382,6 +388,7 @@ if (idProveedor!="") {
   $( "#fac_desc_Prod" )
   .change(function () {
     var  idProducto=$("#fac_desc_Prod").val();
+    var tipodoc=$("#fac_desc_Prod").attr('data-doc');
 if(idProducto!=""){
   $.ajax({
         url: 'index.php?r=almacen/AjaxObtenerProducto',
@@ -390,9 +397,12 @@ if(idProducto!=""){
     })
     .done(function(response) {
          data=response.output;
+         if(tipodoc=="factura"){
+$("#fac_CantProd").attr('data-stock', data.stock);
+         $("#fac_CantProd").attr('max', data.stock);
+         }
          
-         //$("#fac_CantProd").attr('data-stock', data.stock);
-         //$("#fac_CantProd").attr('max', data.stock);
+
          $("#fac_Precio").val(data.Precio);
     })
     .fail(function() {

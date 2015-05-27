@@ -140,7 +140,7 @@ $this->breadcrumbs=array(
   <div class="form-group">
             <label class="" for="fac_desc_Prod">Producto: </label>
          
-            <select id="fac_desc_Prod" class="selectpicker form-control" data-live-search="true" title="Seleccione Un Producto" style="display:none;">
+            <select id="fac_desc_Prod" data-doc="factura" class="selectpicker form-control" data-live-search="true" title="Seleccione Un Producto" style="display:none;">
               <option value="">Seleccione Producto</option>
             </select>
 

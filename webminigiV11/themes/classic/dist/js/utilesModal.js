@@ -638,7 +638,7 @@ var UserCore = {
         var me = this;
         
         Util.createGrid('#listaUsuarios',{
-            toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoUsuario">Agregar Usuario</a>',            
+            /*toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoUsuario">Agregar Usuario</a>', */           
             url:'index.php?r=seguridad/ajaxListadoUsuarios',
             //"order": [[ 0, 'desc' ]],
             columns:[
