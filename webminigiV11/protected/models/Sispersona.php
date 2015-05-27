@@ -22,6 +22,16 @@
  */
 class Sispersona extends CActiveRecord
 {
+
+	public function ListarEmpleadoCombo(){
+		
+		
+		$sql="select e.ide_persona as ide,concat(e.des_apepat,' ',e.des_apemat,' ',e.des_nombres) as descripcion from sispersona as e left join sisusuario as u ON u.ide_persona=e.ide_persona where u.ide_persona is null";
+		
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
+
 	public function listadoEmpleados(){
 
 $sql = "select ide_Persona as idEmpleado,concat(des_nombres,' ',des_apepat,' ',des_apemat) as Empleado,nro_documento as DNI,des_Telefono as Telefono ,des_correo as Correo  from sispersona ";

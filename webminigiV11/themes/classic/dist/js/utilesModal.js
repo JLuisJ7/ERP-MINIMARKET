@@ -89,41 +89,7 @@ var InventCore = {
     }
 
 }
-var UserCore = {
 
-    loadUsuarios: function(){
-        var me = this;
-        
-        Util.createGrid('#listaUsuarios',{
-            toolButons:'',
-            url:'index.php?r=seguridad/ajaxListadoUsuarios',
-            //"order": [[ 0, 'desc' ]],
-            columns:[
-               
-                {"mData": "Empleado", "sClass": "alignCenter"},
-                {"mData": "Usuario", "sClass": "alignCenter"},
-                {"mData": "Rol", "sClass": "alignCenter"},
-                {
-                    "mData": null,
-                    "bSortable": false,
-                    "bFilterable": false,
-                     "mRender": function (data, type, row) {
-                  /*return row.nroSerie +', '+ row.nroFact;*/
-                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.ide_usuario + '" data-nroOrden="' + row.ide_usuario + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a> ';
-                }
-                }
-                
-            ]
-
-        });
-    },
-    initListadoUsuarios: function() {       
-        
-        this.loadUsuarios();
-
-    }
-
-}
 
 
 
@@ -665,6 +631,206 @@ var ProvCore = {
     }
 
 }
+
+var UserCore = {
+
+    loadUsuarios: function(){
+        var me = this;
+        
+        Util.createGrid('#listaUsuarios',{
+            toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoUsuario">Agregar Usuario</a>',            
+            url:'index.php?r=seguridad/ajaxListadoUsuarios',
+            //"order": [[ 0, 'desc' ]],
+            columns:[
+               
+                {"mData": "Empleado", "sClass": "alignCenter"},
+                {"mData": "Usuario", "sClass": "alignCenter"},
+                {"mData": "Rol", "sClass": "alignCenter"},
+                {
+                    "mData": 'ide_usuario',
+                    "bSortable": false,
+                    "bFilterable": false,
+                    //"width": "auto",
+                    "mRender": function(o) {
+                        return '<a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-warning btn-sm editarUsuario"><i class="fa fa-key"></i></a> <a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-danger btn-sm suspenderUsuario"><i class="fa fa-trash-o"></i></a>';
+                    }
+                }
+                
+            ],
+            fnDrawCallback: function() {
+                $('.suspenderUsuario').click(function() {
+                    me.confirmSuspenderUsuario($(this).attr('lang'));
+                });
+                $('.editarUsuario').click(function() {
+                    me.obtenerUsuario($(this).attr('lang'));
+                    
+                });
+
+            }
+
+        });
+    },     
+    obtenerUsuario: function(idUsuario){
+        $.ajax({
+            url: 'index.php?r=seguridad/AjaxObtenerUsuario',
+            type: 'POST',            
+            data: {ide_usuario: idUsuario},
+        })
+        .done(function(response) {
+            data=response.output;
+                $("#edit_Usuario").text(data.Usuario);
+                $("#edit_Usuario").attr('data-pass',data.Usuario);
+                $("#edit_Usuario").attr('data-id',data.ide_usuario);
+                $("#edit_Empleado").text(data.Empleado);
+                $("#edit_Rol").text(data.Rol);
+                          
+                if(data.estado==1){                   
+                    $('#edit_estado_User').text('Activo en el Sistema');
+                    $('#edit_estado_User').addClass('text-primary');
+                    $('#edit_estado_User').removeClass('text-danger');
+
+                }else{                    
+                    $('#edit_estado_User').text('Inactivo en el Sistema');
+                    $('#edit_estado_User').addClass('text-danger');
+                    $('#edit_estado_User').removeClass('text-primary');
+                }
+
+            
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+           $('#myModalEditarUsuario').modal('show');
+        });
+        
+    },    
+    restableserPassword: function(){
+        var newpass=$("#edit_Usuario").attr('data-pass');
+        var ide_usuario=$("#edit_Usuario").attr('data-id');
+        $.ajax({
+            url: 'index.php?r=seguridad/AjaxRestablecerPassword',
+            type: 'POST',            
+            data: {
+                ide_usuario: ide_usuario,
+                des_password:newpass
+            },
+        })
+        .done(function(response) {
+        console.log("success");
+            
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+           $('#myModalEditarUsuario').modal('hide');
+
+        });
+        
+    },     
+     validar: function(){
+        //console.log("VAMOS A VALIDAR");
+        var me = this;      
+     
+        $('#agregarUsuarioForm')
+        .bootstrapValidator(
+                {
+                    message : 'El valor ingresado no es valido',
+                    feedbackIcons : {
+                        valid : 'glyphicon glyphicon-ok',
+                        invalid : 'glyphicon glyphicon-remove',
+                        validating : 'glyphicon glyphicon-refresh'
+                    },
+                    fields : {
+                        
+                        add_Usuario: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Ingrese un nombre de usuario'
+                                }
+                             }
+                        },
+                        add_Empleado: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Seleccione un Empleado'
+                                }
+                             }
+                        },
+                        add_Rol: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Seleccione un rol'
+                                }
+                             }
+                        },
+                        add_Password: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Ingrese una contraseña'
+                                }/*,
+                                identical: {
+                                    field: 'add_confirmPassword',
+                                    message: 'The password and its confirm are not the same'
+                                }*/
+                             }
+                        },
+                        add_confirmPassword: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Ingrese nuevamente la contraseña'
+                                },
+                                identical: {
+                                    field: 'add_Password',
+                                    message: 'Las contraseñas no coinciden'
+                                },
+                            
+                            }
+                        }
+                    },
+                    submitHandler : function(form) {
+                        var des_usuario=$("#add_Usuario").val();
+                        var des_password=$("#add_Password").val();
+                        var ide_rol=$("#add_Rol").val();
+                        var ide_persona=$("#add_Empleado").val();                  
+                  
+                       
+                       $.ajax({
+                            type: "POST",
+                            url: 'index.php?r=seguridad/AjaxRegistrarUsuario',
+                            data: {
+                                    des_usuario:des_usuario,
+                                    des_password:des_password,
+                                    ide_rol:ide_rol,
+                                    ide_persona:ide_persona
+                                },
+                            success: function(response) {
+                                if (response.success) {
+                                     me.loadUsuarios();
+                                    $('#myModalNuevoUsuario').modal('hide');                                   
+                                } else {
+                                    //$('#message_save_acta').find('strong').html(response.message);
+                                    //$('#message_save_acta').show('fade');
+
+                                }
+                            }
+                        });
+
+
+
+                    }
+                });
+
+    },      
+    initListadoUsuarios: function() {       
+        
+        this.loadUsuarios();
+
+    }
+
+}
+
 /*
     END - PROVEEDOR CORE
 */
@@ -1022,6 +1188,81 @@ var FnCore = {
 
             }
         });
+    },    
+     validar: function(){
+        //console.log("VAMOS A VALIDAR");
+        var me = this;            
+        $('#agregarUsuarioForm')
+        .bootstrapValidator(
+                {
+                    message : 'El valor ingresado no es valido',
+                    feedbackIcons : {
+                        valid : 'glyphicon glyphicon-ok',
+                        invalid : 'glyphicon glyphicon-remove',
+                        validating : 'glyphicon glyphicon-refresh'
+                    },
+                    fields : {
+                        RazSoc_Prov : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe ingresar la Razon Social o el Nombre del Proveedor'
+                                }
+                            }
+                        },
+                        RazSoc_Prov : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe ingresar la Razon Social o el Nombre del Proveedor'
+                                }
+                            }
+                        },
+                        RazSoc_Prov : {
+                            validators : {
+                                notEmpty : {
+                                    message : 'Debe ingresar la Razon Social o el Nombre del Proveedor'
+                                }
+                            }
+                        },
+
+                    },
+                    submitHandler : function(form) {
+
+                    var RazSoc_Prov=$("#RazSoc_Prov").val();
+                    var tipoPersona_Prov=$("#tipoPersona_Prov").val();
+                    var ruc_Prov=$("#ruc_Prov").val();
+                    var direccion_Prov=$("#direccion_Prov").val();
+                    var telefono_Prov=$("#telefono_Prov").val();
+                    var email_Prov=$("#email_Prov").val();
+                  
+                       
+                       $.ajax({
+                            type: "POST",
+                            url: 'index.php?r=compras/AjaxAgregarProveedor',
+                            data: {
+                                RazSoc_Prov:RazSoc_Prov,
+                                tipoPersona_Prov:tipoPersona_Prov,
+                                ruc_Prov:ruc_Prov,
+                                direccion_Prov:direccion_Prov,
+                                telefono_Prov:telefono_Prov,
+                                email_Prov:email_Prov
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                     me.loadListadoProveedores();
+                                    me.closeWin('myModalNuevoProveedor');                                   
+                                } else {
+                                    //$('#message_save_acta').find('strong').html(response.message);
+                                    //$('#message_save_acta').show('fade');
+
+                                }
+                            }
+                        });
+
+
+
+                    }
+                });
+
     },
     initListadoClientes: function() {       
           $('#myModalNuevoCliente').on('hidden.bs.modal', function() {
@@ -1929,4 +2170,73 @@ var ProdCore = {
 }
 /*
     END - FnCore
+*/
+
+/*
+$(document).ready(function() {
+$('#defaultForm').bootstrapValidator({
+message: 'This value is not valid',
+fields: {
+username: {
+message: 'The username is not valid',
+validators: {
+notEmpty: {
+message: 'The username is required and can\'t be empty'
+},
+stringLength: {
+min: 6,
+max: 30,
+message: 'The username must be more than 6 and less than 30 characters long'
+},
+regexp: {
+regexp: /[0-9-()+]{3,20}/,
+message: 'The username can only consist of alphabetical, number, dot and underscore'
+}
+
+}
+},
+email: {
+validators: {
+notEmpty: {
+message: 'The email address is required and can\'t be empty'
+},
+emailAddress: {
+message: 'The input is not a valid email address'
+}
+}
+},
+password: {
+validators: {
+notEmpty: {
+message: 'The password is required and can\'t be empty'
+},
+identical: {
+field: 'confirmPassword',
+message: 'The password and its confirm are not the same'
+},
+different: {
+field: 'username',
+message: 'The password can\'t be the same as username'
+}
+}
+},
+confirmPassword: {
+validators: {
+notEmpty: {
+message: 'The confirm password is required and can\'t be empty'
+},
+identical: {
+field: 'password',
+message: 'The password and its confirm are not the same'
+},
+different: {
+field: 'username',
+message: 'The password can\'t be the same as username'
+}
+}
+}
+
+}
+});
+});
 */

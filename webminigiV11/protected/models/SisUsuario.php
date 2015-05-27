@@ -12,8 +12,50 @@
  */
 class Sisusuario extends CActiveRecord
 {
+	public function registrarUsuario($des_usuario,$des_password,$ide_rol,$ide_persona){
+		$resultado = array('valor'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
 
+		$usuario=new sisusuario;
+		$usuario->des_usuario=$des_usuario;
+		$usuario->des_password=md5($des_password);
+		$usuario->ide_rol=$ide_rol;
+		$usuario->ide_persona=$ide_persona;
+		
+		
+		
+		
+			if(!$usuario->save()){
+				$resultado = array('valor'=>0, 'message'=>'No hemos podido realizar su solicitud, intentelo nuevamente');
+			}
+		
+
+		return $resultado;
+	}
+
+		public function RestablecerPassword($ide_usuario, $des_password){
+		$resultado = array('data'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
+
+		$Usuario = sisusuario::model()->findByPk($ide_usuario);
+
+		
+			$Usuario->des_password=$des_password;
+		
+			if(!$Usuario->save()){
+				$resultado = array('data'=>0, 'message'=>'No hemos podido realizar su solicitud, intentelo nuevamente');
+			}
+		
+
+		return $resultado;
+	}
 	
+	public function obtenerUsuarioxId($ide_usuario){		
+		$sql = "select ide_usuario,des_usuario as Usuario,concat(e.des_apepat,' ',e.des_apemat,' ',e.des_nombres) as Empleado,r.des_nombre as Rol,estado from sisusuario as u Inner Join sispersona as e ON e.ide_persona=u.ide_persona Inner Join admrol as r ON r.ide_rol=u.ide_rol  WHERE ide_usuario=".$ide_usuario;
+	
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
+
+
 	public function listadoUsuarios(){
 
 $sql = "SELECT ide_usuario,des_usuario as Usuario,concat(p.des_nombres,' ',p.des_apepat,' ',p.des_apemat) as Empleado,r.des_nombre as Rol FROM sisusuario as u inner join admrol as r ON r.ide_rol=u.ide_rol inner join sispersona as p ON p.ide_persona=u.ide_persona";

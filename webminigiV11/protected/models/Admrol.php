@@ -9,6 +9,15 @@
  */
 class Admrol extends CActiveRecord
 {
+
+	public function ListarRolesCombo(){
+		
+		
+		$sql="select ide_rol as ide,des_nombre as descripcion from admrol;";
+		
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
 	/**
 	 * @return string the associated database table name
 	 */

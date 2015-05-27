@@ -1,5 +1,15 @@
 <?php
 class PersonalController extends Controller{
+	
+	public function actionAjaxListarEmpleados(){	
+		
+			$empleados = Sispersona::model()->ListarEmpleadoCombo()
+;
+
+		
+		
+    	Util::renderJSON($empleados);
+}
 
 	public function actionListadoEmpleados(){
 
