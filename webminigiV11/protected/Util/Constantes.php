@@ -18,7 +18,7 @@ class Constantes {
     const STR_SLASH = '/';
     const RUTA_FILES='/files';
     const JSON_MSG_NOSESION='{noSesion:true}';
-    const LOCATION_REDIRECT_LOGIN='Location: /yii/webminigi/login.php';
+    const LOCATION_REDIRECT_LOGIN='Location: /ERP-MINIMARKET/webminigiV11/';
 }
 
 ?>

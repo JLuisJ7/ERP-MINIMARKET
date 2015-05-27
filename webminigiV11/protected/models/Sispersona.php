@@ -23,6 +23,27 @@
 class Sispersona extends CActiveRecord
 {
 
+public function verificarCorreo($des_correo){
+		$resultado = array('valor'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
+		
+	
+		$sql="select * from sispersona where des_correo='".$des_correo."'";
+		if (count(Yii::app()->db->createCommand($sql)->queryAll())>0 ) {
+			$resultado =array('valor'=>1, 'message'=>'El correo existe','persona'=>$this->findAllBySql($sql));
+		}
+		
+		if(count(Yii::app()->db->createCommand($sql)->queryAll())<1 ){			
+			$resultado = array('valor'=>0, 'message'=>'El correo no existe','persona'=>$this->findAllBySql($sql));
+		}
+	
+		
+			
+		
+		
+		return $resultado;
+	}
+
+
 	public function ListarEmpleadoCombo(){
 		
 		

@@ -54,8 +54,8 @@
         <div style="width:100%; text-align: center;margin-top:5px;color: #900000; font-size: 14px;"><?php if( !empty($_GET['message'])){ echo $_GET['message'];} ?></div>
         <div class="social-auth-links text-center">
           <p>- O -</p>
-          <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Conéctate con Facebook</a>
-          <a href="#" class="btn btn-block btn-social btn-google-plus btn-flat"><i class="fa fa-google-plus"></i> Conéctate con Google+</a>
+          <a href="registrar.php" class="btn btn-block btn-social btn-facebook btn-flat">Registrarse</a>
+          
         </div><!-- /.social-auth-links -->
 
         <a href="#">Recuperar mi contraseña</a><br>

@@ -647,6 +647,19 @@ var UserCore = {
                 {"mData": "Usuario", "sClass": "alignCenter"},
                 {"mData": "Rol", "sClass": "alignCenter"},
                 {
+                    "mData": null,
+                    "bSortable": false,
+                    "bFilterable": false,
+                     "mRender": function (data, type, row) {
+                  if(data.estado==1){
+return '<a href="#" style="margin-left:5px;margin-right:0px" lang="' + data.ide_usuario + '" class="btn btn-default btn-sm ActualizarRol"><i class="fa fa-user"></i></a><a href="#" style="margin-left:5px;margin-right:0px" lang="' + data.ide_usuario + '" class="btn btn-warning btn-sm editarUsuario"><i class="fa fa-key"></i></a> <a href="#" style="margin-left:5px;margin-right:0px" lang="' + data.ide_usuario + '" class="btn btn-danger btn-sm suspenderUsuario"><i class="fa fa-unlock"></i></a>';
+                  }else if(data.estado==0){
+                    return '<a href="#" style="margin-left:5px;margin-right:0px" lang="' + data.ide_usuario + '" class="btn btn-default btn-sm ActualizarRol"><i class="fa fa-user"></i></a><a href="#" style="margin-left:5px;margin-right:0px" lang="' + data.ide_usuario + '" class="btn btn-warning btn-sm editarUsuario"><i class="fa fa-key"></i></a> <a href="#" style="margin-left:5px;margin-right:0px" lang="' + data.ide_usuario + '" class="btn btn-success btn-sm habilitarUsuario"><i class="fa fa-lock"></i></a>';
+                  }
+                  
+                }
+                }
+                /*{
                     "mData": 'ide_usuario',
                     "bSortable": false,
                     "bFilterable": false,
@@ -655,14 +668,21 @@ var UserCore = {
                         return '<a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-warning btn-sm editarUsuario"><i class="fa fa-key"></i></a> <a href="#" style="margin-left:5px;margin-right:0px" lang="' + o + '" class="btn btn-danger btn-sm suspenderUsuario"><i class="fa fa-trash-o"></i></a>';
                     }
                 }
-                
+                */
             ],
             fnDrawCallback: function() {
                 $('.suspenderUsuario').click(function() {
                     me.confirmSuspenderUsuario($(this).attr('lang'));
                 });
+                $('.habilitarUsuario').click(function() {
+                    me.confirmHabilitarUsuario($(this).attr('lang'));
+                });
                 $('.editarUsuario').click(function() {
                     me.obtenerUsuario($(this).attr('lang'));
+                    
+                });
+                $('.ActualizarRol').click(function() {
+                    me.obtenerUsuarioRol($(this).attr('lang'));
                     
                 });
 
@@ -704,6 +724,41 @@ var UserCore = {
            $('#myModalEditarUsuario').modal('show');
         });
         
+    },     
+    obtenerUsuarioRol: function(idUsuario){
+        $.ajax({
+            url: 'index.php?r=seguridad/AjaxObtenerUsuarioRol',
+            type: 'POST',            
+            data: {ide_usuario: idUsuario},
+        })
+        .done(function(response) {
+            data=response.output;
+                $("#rol_Usuario").text(data.Usuario);
+                $("#rol_Usuario").attr('data-pass',data.Usuario);
+                $("#rol_Usuario").attr('data-id',data.ide_usuario);
+                $("#rol_Empleado").text(data.Empleado);
+                $("#rol_Rol").val(data.Rol);
+                          
+                if(data.estado==1){                   
+                    $('#rol_estado_User').text('Activo en el Sistema');
+                    $('#rol_estado_User').addClass('text-primary');
+                    $('#rol_estado_User').removeClass('text-danger');
+
+                }else{                    
+                    $('#rol_estado_User').text('Inactivo en el Sistema');
+                    $('#rol_estado_User').addClass('text-danger');
+                    $('#rol_estado_User').removeClass('text-primary');
+                }
+
+            
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+           $('#myModalEditarRolUsuario').modal('show');
+        });
+        
     },    
     restableserPassword: function(){
         var newpass=$("#edit_Usuario").attr('data-pass');
@@ -727,6 +782,35 @@ var UserCore = {
            $('#myModalEditarUsuario').modal('hide');
 
         });
+        
+    },
+    ActualizarRol: function(){
+        var ide_rol=$("#rol_Rol").val();
+        if (ide_rol!="") {
+
+            var ide_usuario=$("#rol_Usuario").attr('data-id');
+        $.ajax({
+            url: 'index.php?r=seguridad/AjaxActualizarRolUsuario',
+            type: 'POST',            
+            data: {
+                ide_usuario: ide_usuario,
+                ide_rol:ide_rol
+            },
+        })
+        .done(function(response) {
+        console.log("success");
+            
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+           $('#myModalEditarRolUsuario').modal('hide');
+
+        });
+        };
+        
+
         
     },     
      validar: function(){
@@ -822,6 +906,80 @@ var UserCore = {
                     }
                 });
 
+    },
+    confirmHabilitarUsuario: function(ide_usuario){
+        var me = this;
+        bootbox.dialog({
+            message: "Confirme la acción de Habilitar al  Usuario.",
+            title: "¿Seguro de Habilitar al Usuario?",
+            buttons: {
+                main: {
+                    label: "Si",
+                    className: "btn-success",
+                    callback: function() {
+                        console.log('Suspendiendo Usuario');
+
+                        $.ajax({
+                            type: "POST",
+                            url: 'index.php?r=seguridad/AjaxActualizarEstadoUsuario',
+                            data: {ide_usuario: ide_usuario,estado:1},
+                            success: function(response) {
+                              
+                                     me.loadUsuarios();
+                                    bootbox.hideAll();
+                              
+                            }
+                        });
+
+                        return false;
+                    }
+                },
+                danger: {
+                    label: "No",
+                    className: "btn-danger",
+                    callback: function() {
+                        // bootbox.hideAll();
+                    }
+                }
+            }
+        });
+    },
+    confirmSuspenderUsuario: function(ide_usuario){
+        var me = this;
+        bootbox.dialog({
+            message: "Confirme la acción de Suspender Usuario.",
+            title: "¿Seguro de Suspender al Usuario?",
+            buttons: {
+                main: {
+                    label: "Si",
+                    className: "btn-success",
+                    callback: function() {
+                        console.log('Suspendiendo Usuario');
+
+                        $.ajax({
+                            type: "POST",
+                            url: 'index.php?r=seguridad/AjaxActualizarEstadoUsuario',
+                            data: {ide_usuario: ide_usuario,estado:0},
+                            success: function(response) {
+                               
+                                    me.loadUsuarios();
+                                    bootbox.hideAll();
+                                
+                            }
+                        });
+
+                        return false;
+                    }
+                },
+                danger: {
+                    label: "No",
+                    className: "btn-danger",
+                    callback: function() {
+                        // bootbox.hideAll();
+                    }
+                }
+            }
+        });
     },      
     initListadoUsuarios: function() {       
         

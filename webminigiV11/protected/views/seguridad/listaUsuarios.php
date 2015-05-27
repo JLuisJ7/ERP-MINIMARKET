@@ -99,6 +99,69 @@ $this->breadcrumbs=array(
 
             </div><!-- /. modal-content -->
           </div><!-- /. modal-dialog-->          
+        </div><!-- /#myModalEditarCliente -->
+
+     <div class="modal fade" id="myModalEditarRolUsuario" tabindex="-1" role="dialog" aria-labelledby="myModalEditarRolUsuarioLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <!-- Cabecera -->
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" onclick="$('#myModalEditarRolUsuario').modal('hide');" ><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="myModalEditarRolUsuarioLabel">Restablecer Contraseña<img class="loading-small-precarga" style="display: none;" src="<?php echo Yii::app()->theme->baseUrl;?>/dist/img/loading.gif" /></h4>
+            </div>
+              <!-- /Cabecera -->
+            <div class="alert alert-dismissable " id="message_update_Usuario" style="display: none;">
+            </div>
+            <div class="modal-body">
+            <div id="updateUsuarioRolForm" class="form-horizontal"    target="UsuarioPG" >                  
+            <div class="form-group">
+<label class="col-md-4 control-label" for="rol_Usuario">Usuario</label>
+<div class="col-lg-7">
+
+    <label class=" control-label" id="rol_Usuario" data-id="" data-pass="">Usuario</label>
+</div>
+</div>
+<div class="form-group">
+<label class="col-md-4 control-label" for="rol_Empleado">Empleado</label>
+<div class="col-lg-7">
+<label class="control-label" id="rol_Empleado">Empleado</label>
+       
+</div>
+</div>
+<div class="form-group">
+<label class="col-md-4 control-label" for="rol_Rols">Rol</label>
+<div class="col-lg-7">
+<select name="rol_Rol" id="rol_Rol" class="form-control input-md">
+  <option value="">Seleccione Rol</option>
+
+</select>
+   
+</div>
+</div>
+<div class="form-group">
+<label class="col-lg-4 control-label" for="rol_estado_User">Estado:</label>
+<div class="col-lg-7">
+<label class="control-label" id="rol_estado_User"></label>
+</div>
+</div>
+
+
+   <div class="form-group">
+    <label class="col-md-4 control-label" ></label>
+                    <div class="col-md-7 ">
+                      <button type="button"  class="btn btn-primary" style="width:100%;  margin-bottom: 10px;" id="btnActulizarRol">Actualizar Rol</button>
+                      <button   id="cerrarmodal" class="btn btn-danger"    data-dismiss="modal" rel="tooltip" title="Cerrar" style="width:100%;"
+                      >Cerrar</button>
+                    </div>
+                  </div>
+  </div><!-- /# usuarioForm -->
+             
+             
+
+              </div><!-- /.modal-body -->             
+
+            </div><!-- /. modal-content -->
+          </div><!-- /. modal-dialog-->          
         </div><!-- /#myModalEditarCliente --> 
 
  <div class="modal fade" id="myModalNuevoUsuario" tabindex="-1" role="dialog" aria-labelledby="myModalNuevoUsuarioLabel" aria-hidden="true">
@@ -176,7 +239,12 @@ $this->breadcrumbs=array(
     };
 listarComboEntidad("personal","Empleado","add_Empleado");
 listarComboEntidad("seguridad","admrol","add_Rol");
+listarComboEntidad("seguridad","admrol","rol_Rol");
   $("#btnRestablecer").click(function() {
    UserCore.restableserPassword();
+  });
+
+  $("#btnActulizarRol").click(function() {
+   UserCore.ActualizarRol();
   });
 </script>        
