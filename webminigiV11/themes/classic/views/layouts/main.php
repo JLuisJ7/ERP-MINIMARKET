@@ -63,8 +63,8 @@
                   <li class="user-header">
                     <img src="<?php echo Yii::app()->theme->baseUrl;?>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                     <p>
-                      <?=ucwords(strtolower($usuario['des_nombres']))." ".ucwords(strtolower($usuario['des_apepat']))?> - Web Developer
-                      <small>Member since Nov. 2012</small>
+                      <?=ucwords(strtolower($usuario['des_nombres']))." ".ucwords(strtolower($usuario['des_apepat']))." ".ucwords(strtolower($usuario['des_apemat']))?> 
+                      <!-- <small>Member since Nov. 2012</small> -->
                     </p>
                   </li>
                   <?php

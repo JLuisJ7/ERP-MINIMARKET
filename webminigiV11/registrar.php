@@ -217,7 +217,8 @@ $("#msg-user").hide();
                $("#msg-user").text('');
                $("#fg-usuario").removeClass('has-success');
                $("#fg-usuario").removeClass('has-error');
-              console.log("susses");
+              alert("Se ha Registrado Exitosamente");
+
              
                        })
 

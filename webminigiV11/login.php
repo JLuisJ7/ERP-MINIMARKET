@@ -58,7 +58,7 @@
           
         </div><!-- /.social-auth-links -->
 
-        <a href="#">Recuperar mi contraseña</a><br>
+        <!-- <a href="#">Recuperar mi contraseña</a><br> -->
         <!--a href="register.html" class="text-center">Register a new membership</a-->
 
       </div><!-- /.login-box-body -->

@@ -23,7 +23,7 @@ class Inventario extends CActiveRecord
 
 	public function listadoInventario(){
 
-$sql = "select idMovimiento,IF(tipo_documento = '1', 'Factura','Orden de Compra') as documento,serie,nro_documento,DATE_FORMAT(fecha,'%d-%m-%Y') as fecha, IF(tipo = 'S', 'Salida','Entrada') AS Tipo,p.desc_Prod as producto,cantidad,valor_unitario,total from Inventario as i INNER JOIN Producto as p ON p.idProducto=i.idProducto";
+$sql = "select idMovimiento,(CASE WHEN tipo_documento = '1' THEN 'Factura' WHEN tipo_documento = '2' THEN 'Orden de Compra' WHEN tipo_documento = '3' THEN 'Boleta' ELSE ''  END) AS documento ,serie,nro_documento,DATE_FORMAT(fecha,'%d-%m-%Y') as fecha, IF(tipo = 'S', 'Salida','Entrada') AS Tipo,p.desc_Prod as producto,cantidad,valor_unitario,total from Inventario as i INNER JOIN Producto as p ON p.idProducto=i.idProducto";
 	
 
 		return Yii::app()->db->createCommand($sql)->queryAll();
