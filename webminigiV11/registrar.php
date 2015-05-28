@@ -180,7 +180,7 @@
                                 },
                        })
                        .done(function(resp) {
-                        
+                         var des_correo=$("#add_correo").val(); 
               data = resp.output;
               console.log(data);
               
@@ -194,6 +194,8 @@
                $("#fg-usuario").removeClass('has-error');
               }else{
                 var ide_persona=data.persona[0].ide_persona;
+                var correo=data.persona[0].des_correo;
+
 //-------------------------------------------------------------
                $.ajax({
                          type: "POST",
@@ -203,7 +205,7 @@
                                     des_password:des_password,
                                     ide_rol:6,
                                     ide_persona:ide_persona,
-                                    des_correo:des_correo
+                                    des_correo:correo
 
                                 },
                        })

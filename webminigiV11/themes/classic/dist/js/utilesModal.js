@@ -877,6 +877,7 @@ return '<a href="#" style="margin-left:5px;margin-right:0px" lang="' + data.ide_
         
     },
     ActualizarRol: function(){
+        var me = this;
         var ide_rol=$("#rol_Rol").val();
         if (ide_rol!="") {
 
@@ -891,6 +892,7 @@ return '<a href="#" style="margin-left:5px;margin-right:0px" lang="' + data.ide_
         })
         .done(function(response) {
         console.log("success");
+        me.loadUsuarios();
             
         })
         .fail(function() {
@@ -898,6 +900,7 @@ return '<a href="#" style="margin-left:5px;margin-right:0px" lang="' + data.ide_
         })
         .always(function() {
            $('#myModalEditarRolUsuario').modal('hide');
+
 
         });
         };

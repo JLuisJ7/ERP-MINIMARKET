@@ -8,7 +8,7 @@ alter table sisusuario add CONSTRAINT pk_user_persona FOREIGN KEY (ide_persona) 
 
 
 
---ADMINISTRADOR
+-- ADMINISTRADOR
 INSERT into admrolopcion(ide_opcion,ide_rol) values(1,1);
 INSERT into admrolopcion(ide_opcion,ide_rol) values(16,1);
 INSERT into admrolopcion(ide_opcion,ide_rol) values(5,1);
@@ -34,22 +34,22 @@ INSERT into admrolopcion(ide_opcion,ide_rol) values(19,2);
 INSERT into admrolopcion(ide_opcion,ide_rol) values(20,2);
 
 -- GERENTE DE COMPRAS
-INSERT into admrolopcion(ide_opcion,ide_rol) values(3,2);
-INSERT into admrolopcion(ide_opcion,ide_rol) values(18,2);
-INSERT into admrolopcion(ide_opcion,ide_rol) values(6,2);
-INSERT into admrolopcion(ide_opcion,ide_rol) values(19,2);
-INSERT into admrolopcion(ide_opcion,ide_rol) values(20,2);
+INSERT into admrolopcion(ide_opcion,ide_rol) values(3,3);
+INSERT into admrolopcion(ide_opcion,ide_rol) values(18,3);
+INSERT into admrolopcion(ide_opcion,ide_rol) values(6,3);
+INSERT into admrolopcion(ide_opcion,ide_rol) values(19,3);
+INSERT into admrolopcion(ide_opcion,ide_rol) values(20,3);
 
 -- GERENTE DE Almacen
-INSERT into admrolopcion(ide_opcion,ide_rol) values(7,2);
-INSERT into admrolopcion(ide_opcion,ide_rol) values(8,2);
-INSERT into admrolopcion(ide_opcion,ide_rol) values(17,2);
+INSERT into admrolopcion(ide_opcion,ide_rol) values(7,4);
+INSERT into admrolopcion(ide_opcion,ide_rol) values(8,4);
+INSERT into admrolopcion(ide_opcion,ide_rol) values(17,4);
 
 -- GERENTE DE RRHH
-INSERT into admrolopcion(ide_opcion,ide_rol) values(11,2);
-INSERT into admrolopcion(ide_opcion,ide_rol) values(12,2);
-INSERT into admrolopcion(ide_opcion,ide_rol) values(19,2);
-INSERT into admrolopcion(ide_opcion,ide_rol) values(20,2);
+INSERT into admrolopcion(ide_opcion,ide_rol) values(11,5);
+INSERT into admrolopcion(ide_opcion,ide_rol) values(12,5);
+INSERT into admrolopcion(ide_opcion,ide_rol) values(19,5);
+INSERT into admrolopcion(ide_opcion,ide_rol) values(20,5);
 
 
 

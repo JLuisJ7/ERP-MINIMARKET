@@ -18,7 +18,8 @@
  */
 class Sisusuario extends CActiveRecord
 {
-	public function actualizarEstadoUsuario($ide_usuario, $estado){
+
+		public function actualizarEstadoUsuario($ide_usuario, $estado){
 		$resultado = array('data'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
 
 		$usuario = sisusuario::model()->findByPk($ide_usuario);
@@ -148,7 +149,7 @@ $sql = "SELECT ide_usuario,des_usuario as Usuario,concat(p.des_nombres,' ',p.des
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('des_usuario, des_password, ide_rol, ide_persona, correo, estado', 'required'),
+			array('des_usuario, des_password, ide_rol, ide_persona, correo', 'required'),
 			array('des_usuario, des_password', 'length', 'max'=>50),
 			array('ide_rol, ide_persona', 'length', 'max'=>10),
 			array('correo', 'length', 'max'=>30),
