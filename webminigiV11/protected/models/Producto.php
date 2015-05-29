@@ -123,7 +123,7 @@ public function obtenerProductoxId($idProducto){
 	public function ListarProductosCombo(){
 		
 		
-		$sql="select idProducto as ide,desc_Prod as descripcion from producto ";
+		$sql="select idProducto as ide,desc_Prod as descripcion from producto where stock>0 ";
 		
 
 		return Yii::app()->db->createCommand($sql)->queryAll();

@@ -665,7 +665,7 @@ $(document).ready(function() {
             table.draw();
             $('#fac_RazSoc_Cli').selectpicker('deselectAll');
             $('#fac_desc_Prod').selectpicker('deselectAll');
-            $('.form-control').val('');
+           $('.form-control').val('');
             
                      
         });
@@ -891,7 +891,7 @@ $.ajax({
 })
 .always(function() {
     console.log("complete");
-
+obtenerProductosAgotados()
     
 });
 });
@@ -959,6 +959,7 @@ obtenerNroBoleta("ventas","nroBoleta","nroSerie");
 })
 .always(function() {
     console.log("complete");
+    obtenerProductosAgotados()
 
     
 });
@@ -1021,12 +1022,13 @@ $.ajax({
       $('#myModalNuevoOrdendeCompra').modal('hide');
   obtenerNroComprobante("compras","nroOrden","nroSerie");
   OrdenCore.loadOrdenesC();
+  $("#fac_desc_Prod").find("option").remove();
 })
 .fail(function() {
     console.log("error");
 })
 .always(function() {
-    console.log("complete");
+   obtenerProductosAgotados();
     
 });
 

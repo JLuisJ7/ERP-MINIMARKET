@@ -123,7 +123,7 @@ $this->breadcrumbs=array(
           </div> -->
           <div class="form-group" style="display:none;">
             <label for="">Empleado</label>
-            <input type="text" class="form-control" id="idEmpleado" value="1">
+            <input type="text" class="" id="idEmpleado" value="1">
           </div>     
          
         
