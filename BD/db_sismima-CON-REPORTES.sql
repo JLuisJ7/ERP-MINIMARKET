@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-05-2015 a las 01:02:00
+-- Tiempo de generación: 08-06-2015 a las 08:04:34
 -- Versión del servidor: 5.6.21
 -- Versión de PHP: 5.6.3
 
@@ -162,6 +162,7 @@ CREATE TABLE IF NOT EXISTS `admopcion` (
   `des_nombre` varchar(250) NOT NULL,
   `des_ruta` varchar(250) DEFAULT NULL,
   `ind_padre` int(10) unsigned NOT NULL,
+  `subPadre` varchar(3) DEFAULT NULL,
   `ide_estado` char(1) NOT NULL,
   `des_usu_registra` varchar(250) DEFAULT NULL,
   `fec_registra` datetime DEFAULT NULL,
@@ -169,33 +170,38 @@ CREATE TABLE IF NOT EXISTS `admopcion` (
   `fec_modifica` datetime DEFAULT NULL,
   `des_icon` varchar(45) DEFAULT NULL,
   `ind_orden` int(10) unsigned DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `admopcion`
 --
 
-INSERT INTO `admopcion` (`ide_opcion`, `ide_modulo`, `des_nombre`, `des_ruta`, `ind_padre`, `ide_estado`, `des_usu_registra`, `fec_registra`, `des_usu_modifica`, `fec_modifica`, `des_icon`, `ind_orden`) VALUES
-(1, 2, 'MODULO DE VENTAS', '--', 0, '1', 'lalipazaga@sismima.com', '2015-04-18 22:04:06', NULL, NULL, 'tags', 1),
-(2, 2, 'REGISTRO DE VENTAS', 'ventas/registraVenta', 1, '1', 'lalipazaga@sismima.com', '2015-04-18 22:07:13', NULL, NULL, '', 0),
-(3, 3, 'MODULO DE COMPRAS', '--', 0, '1', 'lalipazaga@sismima.com', '2015-04-18 22:10:18', NULL, NULL, 'shopping-cart', 2),
-(4, 3, 'REGISTRO DE COMPRAS', 'compras/registraCompra', 3, '1', 'lalipazaga@sismima.com', '2015-04-18 22:10:58', NULL, NULL, '', 0),
-(5, 2, 'CLIENTES', 'ventas/listadoClientes', 1, '1', 'lalipazaga@sismima.com', '2015-04-19 05:23:58', NULL, NULL, '', 0),
-(6, 3, 'PROVEEDORES', 'compras/listadoProveedores', 3, '1', 'lalipazaga@sismima.com', '2015-04-19 18:06:58', NULL, NULL, '', 0),
-(7, 5, 'CONTROL DE ALMACEN', '--', 0, '1', 'lalipazaga@sismima.com', '2015-04-19 18:15:58', NULL, NULL, 'tasks', 3),
-(8, 5, 'PRODUCTOS', 'almacen/listadoProductos', 7, '1', 'lalipazaga@sismima.com', '2015-04-19 18:20:58', NULL, NULL, NULL, 0),
-(9, 9, 'SEGURIDAD', '--', 0, '1', 'lalipazaga@sismima.com', '2015-04-19 21:11:21', NULL, NULL, 'lock', 10),
-(10, 9, 'PARAMETROS GENERALES', 'seguridad/parametrosGenerales', 9, '1', 'lalipazaga@sismima.com', '2015-04-19 21:12:13', NULL, NULL, NULL, 0),
-(11, 6, 'MODULO DE PERSONAL', '--', 0, '1', 'lalipazaga@sismima.com', '2015-04-19 22:32:19', NULL, NULL, 'users', 4),
-(12, 6, 'EMPLEADOS', 'personal/listadoEmpleados', 11, '1', 'lalipazaga@sismima.com', '2015-04-19 22:34:19', NULL, NULL, NULL, 0),
-(13, 9, 'USUARIOS', 'seguridad/listaUsuarios', 9, '1', 'lalipazaga@sismima.com', '2015-04-19 23:41:11', NULL, NULL, NULL, NULL),
-(14, 9, 'REGISTRA PERSONAS', 'seguridad/listadoPersonas', 9, '1', 'lalipazaga@sismima.com', '2015-04-26 05:30:18', NULL, NULL, NULL, NULL),
-(15, 2, 'Generar Factura', 'ventas/registrarFactura', 1, '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, NULL, NULL),
-(16, 2, 'Facturas', 'ventas/facturas', 1, '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, NULL, NULL),
-(17, 5, 'INVENTARIO', 'almacen/Inventario', 7, '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, NULL, NULL),
-(18, 3, 'Ordenes de Compra', 'compras/ordenesCompra', 3, '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, NULL, NULL),
-(19, 38, 'Utlilitarios', '--', 0, '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, 'wrench', 6),
-(20, 38, 'PARAMETROS GENERALES', 'utilitarios/parametrosGenerales', 19, '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, NULL, 0);
+INSERT INTO `admopcion` (`ide_opcion`, `ide_modulo`, `des_nombre`, `des_ruta`, `ind_padre`, `subPadre`, `ide_estado`, `des_usu_registra`, `fec_registra`, `des_usu_modifica`, `fec_modifica`, `des_icon`, `ind_orden`) VALUES
+(1, 2, 'MODULO DE VENTAS', '--', 0, '0', '1', 'lalipazaga@sismima.com', '2015-04-18 22:04:06', NULL, NULL, 'tags', 1),
+(2, 2, 'Boletas', 'ventas/boletas', 1, '0', '1', 'lalipazaga@sismima.com', '2015-04-18 22:07:13', NULL, NULL, '', 0),
+(3, 3, 'MODULO DE COMPRAS', '--', 0, '0', '1', 'lalipazaga@sismima.com', '2015-04-18 22:10:18', NULL, NULL, 'shopping-cart', 2),
+(4, 3, 'REGISTRO DE COMPRAS', 'compras/registraCompra', 3, '0', '1', 'lalipazaga@sismima.com', '2015-04-18 22:10:58', NULL, NULL, '', 0),
+(5, 2, 'CLIENTES', 'ventas/listadoClientes', 1, '0', '1', 'lalipazaga@sismima.com', '2015-04-19 05:23:58', NULL, NULL, '', 0),
+(6, 3, 'PROVEEDORES', 'compras/listadoProveedores', 3, '0', '1', 'lalipazaga@sismima.com', '2015-04-19 18:06:58', NULL, NULL, '', 0),
+(7, 5, 'CONTROL DE ALMACEN', '--', 0, '0', '1', 'lalipazaga@sismima.com', '2015-04-19 18:15:58', NULL, NULL, 'tasks', 3),
+(8, 5, 'PRODUCTOS', 'almacen/listadoProductos', 7, '0', '1', 'lalipazaga@sismima.com', '2015-04-19 18:20:58', NULL, NULL, NULL, 0),
+(9, 9, 'SEGURIDAD', '--', 0, '0', '1', 'lalipazaga@sismima.com', '2015-04-19 21:11:21', NULL, NULL, 'lock', 10),
+(10, 9, 'PARAMETROS GENERALES', 'seguridad/parametrosGenerales', 9, '0', '1', 'lalipazaga@sismima.com', '2015-04-19 21:12:13', NULL, NULL, NULL, 0),
+(11, 6, 'MODULO DE PERSONAL', '--', 0, '0', '1', 'lalipazaga@sismima.com', '2015-04-19 22:32:19', NULL, NULL, 'users', 4),
+(12, 6, 'EMPLEADOS', 'personal/listadoEmpleados', 11, '0', '1', 'lalipazaga@sismima.com', '2015-04-19 22:34:19', NULL, NULL, NULL, 0),
+(13, 9, 'USUARIOS', 'seguridad/listaUsuarios', 9, '0', '1', 'lalipazaga@sismima.com', '2015-04-19 23:41:11', NULL, NULL, NULL, NULL),
+(14, 9, 'REGISTRA PERSONAS', 'seguridad/listadoPersonas', 9, '0', '1', 'lalipazaga@sismima.com', '2015-04-26 05:30:18', NULL, NULL, NULL, NULL),
+(15, 2, 'Generar Factura', 'ventas/registrarFactura', 1, '0', '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, NULL, NULL),
+(16, 2, 'Facturas', 'ventas/facturas', 1, '0', '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, NULL, NULL),
+(17, 5, 'INVENTARIO', 'almacen/Inventario', 7, '0', '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, NULL, NULL),
+(18, 3, 'Ordenes de Compra', 'compras/ordenesCompra', 3, '0', '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, NULL, NULL),
+(19, 38, 'Utlilitarios', '--', 0, '0', '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, 'wrench', 6),
+(20, 38, 'PARAMETROS GENERALES', 'utilitarios/parametrosGenerales', 19, '0', '1', 'lalipazaga@sismima.com', NULL, NULL, NULL, NULL, 0),
+(21, 8, 'REPORTES', '--', 0, '0', '1', 'admin@sismima', '2015-06-07 00:00:00', NULL, NULL, 'bar-chart', 8),
+(22, 8, 'Ventas', '--', 21, '1', '1', NULL, NULL, NULL, NULL, NULL, NULL),
+(23, 8, 'Compras', '--', 21, '1', '1', NULL, NULL, NULL, NULL, NULL, NULL),
+(24, 8, 'Almacen', '--', 21, '1', '1', NULL, NULL, NULL, NULL, NULL, NULL),
+(25, 8, 'Ventas por Meses ', 'reportes/ventasmeses', 22, '22', '1', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -230,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `admrolopcion` (
 `ide_rolopcion` int(10) unsigned NOT NULL,
   `ide_opcion` int(10) unsigned NOT NULL,
   `ide_rol` int(10) unsigned NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `admrolopcion`
@@ -238,37 +244,44 @@ CREATE TABLE IF NOT EXISTS `admrolopcion` (
 
 INSERT INTO `admrolopcion` (`ide_rolopcion`, `ide_opcion`, `ide_rol`) VALUES
 (1, 1, 1),
-(2, 16, 1),
-(3, 5, 1),
-(4, 3, 1),
-(5, 18, 1),
-(6, 6, 1),
-(7, 7, 1),
-(8, 8, 1),
-(9, 17, 1),
-(10, 11, 1),
-(11, 12, 1),
-(12, 19, 1),
-(13, 20, 1),
-(14, 9, 1),
-(15, 13, 1),
-(16, 1, 2),
-(17, 16, 2),
-(18, 5, 2),
-(19, 19, 2),
-(20, 20, 2),
-(21, 3, 2),
-(22, 18, 2),
-(23, 6, 2),
-(24, 19, 2),
-(25, 20, 2),
-(26, 7, 2),
-(27, 8, 2),
-(28, 17, 2),
-(29, 11, 2),
-(30, 12, 2),
-(31, 19, 2),
-(32, 20, 2);
+(2, 2, 1),
+(3, 16, 1),
+(4, 5, 1),
+(5, 3, 1),
+(6, 18, 1),
+(7, 6, 1),
+(8, 7, 1),
+(9, 8, 1),
+(10, 17, 1),
+(11, 11, 1),
+(12, 12, 1),
+(13, 19, 1),
+(14, 20, 1),
+(15, 9, 1),
+(16, 13, 1),
+(17, 1, 2),
+(18, 2, 2),
+(19, 16, 2),
+(20, 5, 2),
+(21, 19, 2),
+(22, 20, 2),
+(23, 3, 3),
+(24, 18, 3),
+(25, 6, 3),
+(26, 19, 3),
+(27, 20, 3),
+(28, 7, 4),
+(29, 8, 4),
+(30, 17, 4),
+(31, 11, 5),
+(32, 12, 5),
+(33, 19, 5),
+(34, 20, 5),
+(35, 21, 1),
+(36, 22, 1),
+(37, 23, 1),
+(39, 24, 1),
+(40, 25, 1);
 
 -- --------------------------------------------------------
 
@@ -457,7 +470,27 @@ INSERT INTO `detallefactura` (`nroSerie`, `nroFact`, `idProducto`, `cantidad`, `
 ('001', 16, 1, 10, '2.00'),
 ('001', 16, 2, 3, '5.00'),
 ('001', 17, 1, 4, '2.00'),
-('001', 18, 2, 3, '5.00');
+('001', 18, 2, 3, '5.00'),
+('001', 19, 6, 19, '2.00'),
+('001', 19, 13, 5, '3.00'),
+('001', 20, 1, 7, '2.00'),
+('001', 20, 7, 4, '2.00'),
+('001', 21, 2, 6, '5.00'),
+('001', 22, 1, 4, '2.00'),
+('001', 22, 5, 3, '2.00'),
+('001', 23, 39, 10, '3.50'),
+('001', 24, 3, 3, '3.00'),
+('001', 24, 13, 4, '3.00'),
+('001', 24, 4, 3, '1.50'),
+('001', 25, 3, 3, '3.00'),
+('001', 25, 9, 3, '3.00'),
+('001', 26, 7, 4, '2.00'),
+('001', 26, 9, 3, '3.00'),
+('001', 28, 3, 3, '3.00'),
+('001', 29, 1, 4, '2.00'),
+('001', 29, 4, 140, '1.50'),
+('001', 30, 2, 30, '5.00'),
+('001', 31, 8, 44, '5.00');
 
 --
 -- Disparadores `detallefactura`
@@ -524,7 +557,14 @@ INSERT INTO `detalleordencompra` (`nroSerie`, `nroOrden`, `idProducto`, `cantida
 ('001', 16, 4, 4, '1.50'),
 ('001', 16, 7, 3, '2.00'),
 ('001', 17, 7, 2, '2.00'),
-('001', 19, 33, 4, '3.00');
+('001', 19, 33, 4, '3.00'),
+('001', 20, 7, 10, '2.00'),
+('001', 20, 20, 3, '5.00'),
+('001', 21, 33, 6, '3.00'),
+('001', 22, 39, 15, '3.50'),
+('001', 23, 2, 6, '5.00'),
+('001', 24, 16, 4, '5.00'),
+('001', 25, 33, 2, '3.00');
 
 --
 -- Disparadores `detalleordencompra`
@@ -604,7 +644,20 @@ INSERT INTO `factura` (`nroSerie`, `nroFact`, `idCliente`, `idEmpleado`, `fechEm
 ('001', 15, 5, 1, '2015-05-26 07:00:45', '16.00', '2.88', '18.88', '1', NULL),
 ('001', 16, 2, 1, '2015-05-26 21:55:25', '35.00', '6.30', '41.30', '1', NULL),
 ('001', 17, 6, 1, '2015-05-26 21:56:17', '8.00', '1.44', '9.44', '1', NULL),
-('001', 18, 13, 1, '2015-05-26 22:00:59', '15.00', '2.70', '17.70', '1', NULL);
+('001', 18, 13, 1, '2015-05-26 22:00:59', '15.00', '2.70', '17.70', '1', NULL),
+('001', 19, 30, 1, '2015-05-28 01:34:00', '53.00', '9.54', '62.54', '1', NULL),
+('001', 20, 2, 1, '2015-05-28 03:11:51', '22.00', '3.96', '25.96', '1', NULL),
+('001', 21, 29, 1, '2015-05-28 03:12:22', '30.00', '5.40', '35.40', '1', NULL),
+('001', 22, 29, 1, '2015-05-28 03:16:47', '14.00', '2.52', '16.52', '1', NULL),
+('001', 23, 13, 1, '2015-05-28 03:22:31', '35.00', '6.30', '41.30', '1', NULL),
+('001', 24, 14, 1, '2015-05-28 03:26:20', '25.50', '4.59', '30.09', '1', NULL),
+('001', 25, 29, 1, '2015-05-28 05:54:20', '18.00', '3.24', '21.24', '1', NULL),
+('001', 26, 5, 1, '2015-05-28 06:03:04', '17.00', '3.06', '20.06', '1', NULL),
+('001', 27, 18, 1, '2015-05-28 06:08:57', '2.00', '0.36', '2.36', '1', NULL),
+('001', 28, 13, 1, '2015-05-28 06:09:54', '9.00', '1.62', '10.62', '1', NULL),
+('001', 29, 13, 2, '2015-05-28 21:28:09', '218.00', '39.24', '257.24', '1', NULL),
+('001', 30, 5, 1, '2015-05-29 22:12:31', '150.00', '27.00', '177.00', '1', NULL),
+('001', 31, 5, 1, '2015-05-29 22:14:51', '220.00', '39.60', '259.60', '1', NULL);
 
 -- --------------------------------------------------------
 
@@ -623,7 +676,7 @@ CREATE TABLE IF NOT EXISTS `inventario` (
   `cantidad` int(10) unsigned DEFAULT NULL,
   `valor_unitario` decimal(8,2) DEFAULT NULL,
   `total` decimal(8,2) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `inventario`
@@ -697,7 +750,34 @@ INSERT INTO `inventario` (`idMovimiento`, `tipo_documento`, `serie`, `nro_docume
 (66, '2', '001', 19, '2015-05-26 22:10:36', 'E', 33, 4, '3.00', '12.00'),
 (67, '3', '001', 1, '2015-05-27 22:55:04', 'S', 3, 3, '3.00', '9.00'),
 (68, '3', '001', 2, '2015-05-27 23:01:35', 'S', 4, 3, '1.50', '4.50'),
-(69, '3', '001', 2, '2015-05-27 23:01:35', 'S', 3, 2, '3.00', '6.00');
+(69, '3', '001', 2, '2015-05-27 23:01:35', 'S', 3, 2, '3.00', '6.00'),
+(70, '1', '001', 19, '2015-05-28 01:34:00', 'S', 6, 19, '2.00', '38.00'),
+(71, '1', '001', 19, '2015-05-28 01:34:00', 'S', 13, 5, '3.00', '15.00'),
+(72, '2', '001', 20, '2015-05-28 01:35:01', 'E', 7, 10, '2.00', '20.00'),
+(73, '2', '001', 20, '2015-05-28 01:35:01', 'E', 20, 3, '5.00', '15.00'),
+(74, '1', '001', 20, '2015-05-28 03:11:51', 'S', 1, 7, '2.00', '14.00'),
+(75, '1', '001', 20, '2015-05-28 03:11:51', 'S', 7, 4, '2.00', '8.00'),
+(76, '1', '001', 21, '2015-05-28 03:12:22', 'S', 2, 6, '5.00', '30.00'),
+(77, '1', '001', 22, '2015-05-28 03:16:47', 'S', 1, 4, '2.00', '8.00'),
+(78, '1', '001', 22, '2015-05-28 03:16:47', 'S', 5, 3, '2.00', '6.00'),
+(79, '2', '001', 21, '2015-05-28 03:19:56', 'E', 33, 6, '3.00', '18.00'),
+(80, '1', '001', 23, '2015-05-28 03:22:31', 'S', 39, 10, '3.50', '35.00'),
+(81, '1', '001', 24, '2015-05-28 03:26:20', 'S', 3, 3, '3.00', '9.00'),
+(82, '1', '001', 24, '2015-05-28 03:26:20', 'S', 13, 4, '3.00', '12.00'),
+(83, '1', '001', 24, '2015-05-28 03:26:20', 'S', 4, 3, '1.50', '4.50'),
+(84, '1', '001', 25, '2015-05-28 05:54:20', 'S', 3, 3, '3.00', '9.00'),
+(85, '1', '001', 25, '2015-05-28 05:54:20', 'S', 9, 3, '3.00', '9.00'),
+(86, '1', '001', 26, '2015-05-28 06:03:04', 'S', 7, 4, '2.00', '8.00'),
+(87, '1', '001', 26, '2015-05-28 06:03:04', 'S', 9, 3, '3.00', '9.00'),
+(88, '1', '001', 28, '2015-05-28 06:09:54', 'S', 3, 3, '3.00', '9.00'),
+(89, '1', '001', 29, '2015-05-28 21:28:10', 'S', 1, 4, '2.00', '8.00'),
+(90, '1', '001', 29, '2015-05-28 21:28:10', 'S', 4, 140, '1.50', '210.00'),
+(91, '1', '001', 30, '2015-05-29 22:12:31', 'S', 2, 30, '5.00', '150.00'),
+(92, '1', '001', 31, '2015-05-29 22:14:52', 'S', 8, 44, '5.00', '220.00'),
+(93, '2', '001', 22, '2015-05-29 22:16:43', 'E', 39, 15, '3.50', '52.50'),
+(94, '2', '001', 23, '2015-05-29 22:17:52', 'E', 2, 6, '5.00', '30.00'),
+(95, '2', '001', 24, '2015-05-29 22:20:25', 'E', 16, 4, '5.00', '20.00'),
+(96, '2', '001', 25, '2015-05-29 22:21:33', 'E', 33, 2, '3.00', '6.00');
 
 -- --------------------------------------------------------
 
@@ -768,7 +848,13 @@ INSERT INTO `ordencompra` (`nroSerie`, `nroOrden`, `idProveedor`, `idEmpleado`, 
 ('001', 16, 1, NULL, '2015-05-26 07:09:55', '12.00', '2.16', '14.16', '1', NULL),
 ('001', 17, 1, 1, '2015-05-26 07:10:37', '4.00', '0.72', '4.72', '1', NULL),
 ('001', 18, NULL, 1, '2015-05-26 22:03:01', '0.00', '0.00', '0.00', '1', NULL),
-('001', 19, 24, 1, '2015-05-26 22:10:36', '12.00', '2.16', '14.16', '1', NULL);
+('001', 19, 24, 1, '2015-05-26 22:10:36', '12.00', '2.16', '14.16', '1', NULL),
+('001', 20, 1, 1, '2015-05-28 01:35:01', '35.00', '6.30', '41.30', '1', NULL),
+('001', 21, 24, 1, '2015-05-28 03:19:56', '18.00', '3.24', '21.24', '1', NULL),
+('001', 22, 44, 1, '2015-05-29 22:16:43', '52.50', '9.45', '61.95', '1', NULL),
+('001', 23, 1, 1, '2015-05-29 22:17:51', '30.00', '5.40', '35.40', '1', NULL),
+('001', 24, 25, 1, '2015-05-29 22:20:25', '20.00', '3.60', '23.60', '1', NULL),
+('001', 25, 24, 1, '2015-05-29 22:21:33', '6.00', '1.08', '7.08', '1', NULL);
 
 -- --------------------------------------------------------
 
@@ -810,33 +896,33 @@ CREATE TABLE IF NOT EXISTS `producto` (
   `fecha_creacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `estadoProd` char(1) NOT NULL DEFAULT '1',
   `Precio` decimal(8,2) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `producto`
 --
 
 INSERT INTO `producto` (`idProducto`, `desc_Prod`, `presentacion`, `idProveedor`, `tipoProd`, `stock`, `idMarca`, `idCategoria`, `fecha_creacion`, `estadoProd`, `Precio`) VALUES
-(1, 'Leche Gloria', 'Lata', 1, '0', 77, 1, 4, '2015-05-07 06:34:02', '1', '2.00'),
-(2, 'Aceite de Olivo', 'Botella', 1, '1', 36, 3, 5, '2015-05-07 22:25:31', '0', '5.00'),
-(3, 'Cereales', 'bolsa', 34, '1', 9, 8, 8, '2015-05-07 22:25:31', '1', '3.00'),
-(4, 'Leche Soy Vida', 'lata', 1, '1', 143, 4, 4, '2015-05-07 22:27:31', '1', '1.50'),
-(5, 'Leche Gloria', 'Lata', 1, '0', 3, 1, 4, '2015-05-17 04:35:59', '1', '2.00'),
-(6, 'te', 'CAJA', 28, '0', 24, 1, 4, '2015-05-17 04:47:16', '1', '2.00'),
-(7, 'Leche Gloria', 'Lata', 1, '0', 64, 1, 4, '2015-05-17 04:48:36', '1', '2.00'),
-(8, 'Aceite Friol', 'Botella', 1, '1', 44, 3, 5, '2015-05-17 04:48:36', '0', '5.00'),
-(9, 'Cereales', 'bolsa', 21, '1', 94, 8, 8, '2015-05-17 04:48:37', '1', '3.00'),
+(1, 'Leche Gloria', 'Lata', 1, '0', 62, 1, 4, '2015-05-07 06:34:02', '1', '2.00'),
+(2, 'Aceite de Olivo', 'Botella', 1, '1', 6, 3, 5, '2015-05-07 22:25:31', '0', '5.00'),
+(3, 'Cereales', 'bolsa', 34, '1', 0, 8, 8, '2015-05-07 22:25:31', '1', '3.00'),
+(4, 'Leche Soy Vida', 'lata', 1, '1', 0, 4, 4, '2015-05-07 22:27:31', '1', '1.50'),
+(5, 'Leche Gloria', 'Lata', 1, '0', 0, 1, 4, '2015-05-17 04:35:59', '1', '2.00'),
+(6, 'te', 'CAJA', 28, '0', 5, 1, 4, '2015-05-17 04:47:16', '1', '2.00'),
+(7, 'Leche Gloria', 'Lata', 1, '1', 66, 1, 4, '2015-05-17 04:48:36', '1', '2.00'),
+(8, 'Aceite Friol', 'Botella', 1, '1', 0, 3, 5, '2015-05-17 04:48:36', '0', '5.00'),
+(9, 'Cereales', 'bolsa', 21, '1', 88, 8, 8, '2015-05-17 04:48:37', '1', '3.00'),
 (10, 'Leche Soy Vida', 'lata', 1, '1', 0, 4, 4, '2015-05-17 04:48:37', '1', '1.50'),
 (11, 'Leche Gloria', 'Lata', 1, '0', 45, 1, 4, '2015-05-17 04:49:11', '1', '2.00'),
 (12, 'Aceite Friol', 'Botella', 1, '1', 42, 9, 5, '2015-05-17 04:49:11', '0', '5.00'),
-(13, 'Cereales', 'bolsa', 1, '1', 107, 8, 8, '2015-05-17 04:49:12', '1', '3.00'),
+(13, 'Cereales', 'bolsa', 1, '1', 98, 8, 8, '2015-05-17 04:49:12', '1', '3.00'),
 (14, 'Leche Soy Vida', 'lata', 1, '1', 155, 4, 4, '2015-05-17 04:49:12', '1', '1.50'),
 (15, 'Inca Kola 1Litro', 'Botella', 1, '0', 53, 9, 5, '2015-05-17 04:49:12', '1', '3.00'),
-(16, 'Cerveza Klosterbier Rhönbräu', 'Botella', 25, '1', 34, 3, 5, '2015-05-17 04:49:12', '1', '5.00'),
+(16, 'Cerveza Klosterbier Rhönbräu', 'Botella', 25, '1', 38, 3, 5, '2015-05-17 04:49:12', '1', '5.00'),
 (17, 'Licor Cloudberry', 'Botella', 1, '1', 115, 8, 8, '2015-05-17 04:49:12', '1', '3.00'),
 (18, 'caviar rojo', 'Botella', 14, '1', 142, 4, 5, '2015-05-17 04:49:12', '1', '1.50'),
 (19, 'Cerveza Outback', 'Lata', 2, '0', 23, 1, 5, '2015-05-17 04:49:12', '1', '2.00'),
-(20, 'Chocolate blanco', 'Botella', 1, '1', 63, 3, 7, '2015-05-17 04:49:12', '1', '5.00'),
+(20, 'Chocolate blanco', 'Botella', 1, '1', 66, 3, 7, '2015-05-17 04:49:12', '1', '5.00'),
 (21, 'Empanada de carne', 'bolsa', 1, '1', 82, 8, 6, '2015-05-17 04:49:12', '1', '3.00'),
 (22, 'Sublime', 'bolsa', 1, '1', 159, 4, 7, '2015-05-17 04:49:12', '1', '1.50'),
 (23, 'Leche condensada', 'Lata', 6, '0', 33, 1, 7, '2015-05-17 04:49:12', '1', '2.00'),
@@ -849,12 +935,13 @@ INSERT INTO `producto` (`idProducto`, `desc_Prod`, `presentacion`, `idProveedor`
 (30, 'Milo', 'lata', 1, '1', 139, 4, 4, '2015-05-17 04:49:12', '1', '1.50'),
 (31, 'don victorio', 'bolsa', 1, '0', 45, 1, 9, '2015-05-17 04:49:12', '1', '2.00'),
 (32, 'fideo anita', 'bolsa', 1, '1', 23, 3, 9, '2015-05-17 04:49:12', '1', '5.00'),
-(33, 'Cifrut', 'Botella', 24, '1', 88, 8, 5, '2015-05-17 04:49:12', '1', '3.00'),
+(33, 'Cifrut', 'Botella', 24, '1', 96, 8, 5, '2015-05-17 04:49:12', '1', '3.00'),
 (34, 'Coca Cola', 'Botella', 45, '1', 139, 4, 5, '2015-05-17 04:49:12', '1', '1.50'),
 (35, 'platano', 'Lata', 1, '0', 45, 1, 8, '2015-05-17 04:49:12', '1', '2.00'),
 (36, 'pera', 'Botella', 1, '1', 36, 3, 8, '2015-05-17 04:49:12', '1', '5.00'),
 (37, 'fresa', 'bolsa', 1, '1', 94, 8, 8, '2015-05-17 04:49:12', '1', '3.00'),
-(38, 'Salsa roja', 'bolsa', 1, '1', 100, 10, 9, '2015-05-25 06:44:00', '1', '2.10');
+(38, 'Salsa roja', 'bolsa', 1, '1', 100, 10, 9, '2015-05-25 06:44:00', '1', '2.10'),
+(39, 'Harina de Pescado', 'sacos', 44, '0', 15, 6, 5, '2015-05-28 03:21:48', '1', '3.50');
 
 -- --------------------------------------------------------
 
@@ -971,7 +1058,7 @@ CREATE TABLE IF NOT EXISTS `sisusuario` (
   `ide_persona` int(10) unsigned NOT NULL,
   `correo` varchar(30) NOT NULL,
   `estado` char(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `sisusuario`
@@ -981,7 +1068,7 @@ INSERT INTO `sisusuario` (`ide_usuario`, `des_usuario`, `des_password`, `ide_rol
 (1, 'joseluis', 'e10adc3949ba59abbe56e057f20f883e', 1, 1, 'luisayala@hotmail.com', '1'),
 (2, 'cesarrojas', 'e10adc3949ba59abbe56e057f20f883e', 5, 15, 'cesarrojas@gmail.com', '1'),
 (3, 'cristian', 'b08c8c585b6d67164c163767076445d6', 2, 16, 'cristian@sismima.com', '1'),
-(4, 'carlosmore', 'e10adc3949ba59abbe56e057f20f883e', 6, 25, 'carlosmore@gmail.com', '0');
+(4, 'carlosmore', 'e10adc3949ba59abbe56e057f20f883e', 4, 25, 'carlosmore@gmail.com', '1');
 
 --
 -- Índices para tablas volcadas
@@ -1131,7 +1218,7 @@ MODIFY `ide_grupo` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 -- AUTO_INCREMENT de la tabla `admopcion`
 --
 ALTER TABLE `admopcion`
-MODIFY `ide_opcion` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+MODIFY `ide_opcion` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT de la tabla `admrol`
 --
@@ -1141,7 +1228,7 @@ MODIFY `ide_rol` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 -- AUTO_INCREMENT de la tabla `admrolopcion`
 --
 ALTER TABLE `admrolopcion`
-MODIFY `ide_rolopcion` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
+MODIFY `ide_rolopcion` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT de la tabla `categoria`
 --
@@ -1161,7 +1248,7 @@ MODIFY `idEmpleado` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT de la tabla `inventario`
 --
 ALTER TABLE `inventario`
-MODIFY `idMovimiento` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=70;
+MODIFY `idMovimiento` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=97;
 --
 -- AUTO_INCREMENT de la tabla `marca`
 --
@@ -1176,7 +1263,7 @@ MODIFY `idParametro` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=39;
+MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT de la tabla `proveedor`
 --
@@ -1191,7 +1278,7 @@ MODIFY `ide_persona` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
 -- AUTO_INCREMENT de la tabla `sisusuario`
 --
 ALTER TABLE `sisusuario`
-MODIFY `ide_usuario` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+MODIFY `ide_usuario` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- Restricciones para tablas volcadas
 --
