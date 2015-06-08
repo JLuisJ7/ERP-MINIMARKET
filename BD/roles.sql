@@ -21,6 +21,20 @@ INSERT into admrolopcion(ide_opcion,ide_rol) values(19,1);
 INSERT into admrolopcion(ide_opcion,ide_rol) values(20,1);
 INSERT into admrolopcion(ide_opcion,ide_rol) values(9,1);
 INSERT into admrolopcion(ide_opcion,ide_rol) values(13,1);
+-- Reportes
+INSERT into admrolopcion(ide_opcion,ide_rol) values(21,1);
+-- Ventas
+INSERT into admrolopcion(ide_opcion,ide_rol) values(22,1);
+-- Compras ->
+INSERT into admrolopcion(ide_opcion,ide_rol) values(23,1);
+-- Almacen ->
+INSERT into admrolopcion(ide_opcion,ide_rol) values(24,1);
+
+-- Ventas -> meses
+INSERT into admrolopcion(ide_opcion,ide_rol) values(25,1);
+
+
+
 -- GERENTE DE VENTAS
 INSERT into admrolopcion(ide_opcion,ide_rol) values(1,2);
 INSERT into admrolopcion(ide_opcion,ide_rol) values(2,2);

@@ -23,7 +23,7 @@ class AdmOpcion extends CActiveRecord
 	public function listarOpcionesPorCatalogo($ideGrupoCatalogo, $idRol){
 		$sql = "";
 
-		$sql .= "SELECT op.ide_opcion, initcap(LOWER(op.des_nombre)) AS des_nombre, op.des_ruta, op.ind_padre, op.des_icon ";
+		$sql .= "SELECT op.ide_opcion, initcap(LOWER(op.des_nombre)) AS des_nombre, op.des_ruta, op.ind_padre,op.subPadre, op.des_icon ";
 		$sql .= "FROM admopcion op ";
 		$sql .= "INNER JOIN admcatalogo ca ON ca.ide_elemento = op.ide_modulo ";
 		$sql .= "INNER JOIN admrolopcion ro ON ro.ide_opcion = op.ide_opcion ";

@@ -25,15 +25,58 @@ class CListaMenu extends CApplicationComponent{
         		$padre = $opcion->ide_opcion;
 
         		foreach ($dataOpciones as $subOpcion) {
+        			
+
+        			
         			if($subOpcion->ind_padre==$padre){
+if($subOpcion->subPadre=='0'){
+
 	        			array_push(
 	        				$subOpciones,
 	        				array(
 	        					'label'=>' <i class="fa fa-circle-o"></i> '.$subOpcion->des_nombre,
 	        					'url'=>array($subOpcion->des_ruta)
+
+
 	        				)
 	        			);
+	        		}else{
+	        			$subPadre = $subOpcion->ide_opcion;
+	        			$subOpcionesPadre = array();
+        				
+        				
+        					foreach ($dataOpciones as $subPadres) {
+        				if($subPadres->subPadre==$subPadre){		
+        							array_push(
+	        				$subOpcionesPadre,
+	        				array(
+	        					'label'=>' <i class="fa fa-circle-o"></i> '.$subPadres->des_nombre,
+	        					'url'=>array($subPadres->des_ruta)
+
+
+	        				)
+	        			);
+}
+							}
+
+        			
+        
+						
+						array_push(
+	        				$subOpciones,
+	        				array(
+	        					'label'=>' <i class="fa fa-circle-o"></i> '.$subOpcion->des_nombre.'<i class="fa fa-angle-left pull-right"></i>',
+	        					'url'=>'',
+	        					'submenuOptions'=>array('class'=>'treeview-menu'),'items'=>$subOpcionesPadre
+
+
+	        				)
+	        			);
+
+
+	        		}
 	        			$numSubItems++;
+
 	        		}
         		}
 
@@ -48,8 +91,10 @@ class CListaMenu extends CApplicationComponent{
 
 				array_push($lista, $opciones);
         	}
+
 		}
 
         return $lista;
 	}
 }
+
