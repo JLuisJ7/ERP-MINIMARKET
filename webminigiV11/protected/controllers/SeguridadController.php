@@ -1,6 +1,10 @@
 <?php
 class SeguridadController extends Controller{
 
+
+	
+
+
 public function actionAjaxActualizarEstadoUsuario(){
 
 	
@@ -104,8 +108,13 @@ public function actionAjaxObtenerUsuario(){
 
 
 	public function actionlistaUsuarios(){
+		if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("listaUsuarios");
+		}
 
-		$this->render("listaUsuarios");
+		
 	}
 
 public function actionAjaxListadoUsuarios(){

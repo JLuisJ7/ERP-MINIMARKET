@@ -1,6 +1,7 @@
 <?php
 class VentasController extends Controller{
 
+
 public function actionAjaxListarClientes(){
 	
 		
@@ -21,13 +22,33 @@ public function actionAjaxListarClientes(){
 
 
 	public function actionregistrarFactura(){
+			
+		if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("registrarFactura");
+		}
 
-		$this->render("registrarFactura");
+		
+
+
+		
 	}
 
 	public function actionFacturas(){
 
-		$this->render("Facturas");
+		
+						
+		if($this->verificarSessiousuario()==FALSE){
+
+			$this->redirect("login.php");
+		}else{
+
+			$this->render("Facturas");
+		}
+
+		
+
 	}
 	public function actionBoletas(){
 

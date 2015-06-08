@@ -23,4 +23,17 @@ class Controller extends CController
 
 	public $moduleTitle = "";
 	public $moduleSubTitle = "";
+
+	
+public function verificarSessiousuario() {
+        $session = new CHttpSession;
+        $session->open();
+        $userSesion = $session->get('usuarioSesion');
+        if (empty($userSesion)) {
+          $RESP=FALSE;
+        }else{
+        	$RESP=TRUE;
+        } 
+        return $RESP;      
+    }
 }

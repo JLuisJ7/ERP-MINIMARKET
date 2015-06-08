@@ -3,12 +3,13 @@
 class SiteController extends Controller
 {
 	
+
 	public function filterEnforcelogin($filterChain) {
         $session = new CHttpSession;
         $session->open();
         $userSesion = $session->get('usuarioSesion');
         if (empty($userSesion)) {
-            header(Constantes::LOCATION_REDIRECT_LOGIN);
+           $this->redirect("login.php");
         }
         $filterChain->run();
     }
