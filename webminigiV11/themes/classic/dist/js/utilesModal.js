@@ -75,7 +75,22 @@ var InventCore = {
                 {"mData": "fecha", "sClass": "alignCenter"},
                 {"mData": "Tipo", "sClass": "alignCenter"},                
                 {"mData": "producto", "sClass": "alignCenter"},
-                {"mData": "cantidad", "sClass": "alignCenter"},
+
+                //{"mData": "cantidad", "sClass": "alignCenter"},
+                {
+                    "mData": null,
+                    "bSortable": false,
+                    "bFilterable": false,
+                     "mRender": function (data, type, row) {
+                  if(data.Tipo=='Salida'){
+                        return '<i class="fa fa-arrow-down text-danger"></i> <strong class="text-danger ">' + data.cantidad + '</strong>';
+                  }else if(data.Tipo=='Entrada'){
+                    return '<i class="fa fa-arrow-up text-primary"></i> <strong class="text-primary "> ' + data.cantidad + '</strong>';
+                  }
+                  
+                }
+                },
+
                 {"mData": "valor_unitario", "sClass": "alignCenter"},
                 {"mData": "total", "sClass": "alignCenter"}
             ]
