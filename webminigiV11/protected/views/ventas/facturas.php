@@ -22,7 +22,7 @@ $this->breadcrumbs=array(
                   <h3 class='box-title'><i class="fa fa-credit-card"></i> Listado de Facturas</h3>
                 </div>
                 <div class="box-body">
-                  <table class="table table-striped table-bordered" id="listaFacturas" style="">
+                  <table id="listaFacturas" class="table table-bordered table-hover dataTable" cellspacing="0" width="100%">
                     <thead>
                       <tr>                        
                         <th style="vertical-align: middle;" >Serie</th>
@@ -123,7 +123,7 @@ $this->breadcrumbs=array(
           </select>
 
           </div> -->
-          <div class="form-group" style="">
+          <div class="form-group" style="display:none;">
             <label for="">Empleado</label>
             <input type="text" class="" id="idEmpleado" value="1">
           </div>     

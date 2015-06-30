@@ -22,7 +22,7 @@ $this->breadcrumbs=array(
                   <h3 class='box-title'><i class="fa fa-user"></i> Listado de Empleados</h3>
                 </div>
                 <div class="box-body">
-                  <table class="table table-striped table-bordered" id="listaEmpleados">
+                  <table  id="listaEmpleados" class="table table-bordered table-hover dataTable" cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <!--th style="vertical-align: middle;">#</th-->
@@ -81,7 +81,7 @@ $this->breadcrumbs=array(
                   </div>
 
                   <div class="form-group">
-                    <label class="col-lg-4 control-label">Documento:</label>
+                    <label class="col-lg-4 control-label">DNI:</label>
                     <div class="col-lg-7">
                       <input type="text" class="form-control inputNumero" id="add_desDocumento" name="add_desDocumento" maxlength="8" placeholder="Documento"/>
                     </div>
@@ -118,7 +118,7 @@ $this->breadcrumbs=array(
                     <label class="col-lg-4 control-label">Correo electrónico:</label>
                     <div class="col-lg-7">
                       <div class="input-group">
-                        <span class="input-group-addon">@</span>
+                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                         <input type="email" name="add_desCorreo" id="add_desCorreo" class="form-control" placeholder="Correo electronico" data-error="El correo ingresado es invalido">
                       </div>
                       <!--input type="text" class="form-control" id="desEmail" name="desEmail" placeholder="Correo electr&oacute;nico"/-->
@@ -130,7 +130,7 @@ $this->breadcrumbs=array(
                     <div class="col-lg-7">
                       <div class="input-group">
                         <span class="input-group-addon">S/.</span>
-                        <input type="text" name="add_Sueldo" id="add_Sueldo" class="form-control" placeholder="" data-error="El correo ingresado es invalido">
+                        <input type="text" name="add_Sueldo" id="add_Sueldo" class="form-control inputNumero" placeholder="" data-error="El correo ingresado es invalido">
                       </div>
                       <!--input type="text" class="form-control" id="desEmail" name="desEmail" placeholder="Correo electr&oacute;nico"/-->
                     </div>
@@ -241,7 +241,7 @@ $this->breadcrumbs=array(
                   </div>
 
                   <div class="form-group">
-                    <label class="col-lg-4 control-label">Documento:</label>
+                    <label class="col-lg-4 control-label">DNI:</label>
                     <div class="col-lg-7">
                       <input type="text" class="form-control inputNumero" id="desDocumento" name="desDocumento" maxlength="8" placeholder="Documento"/>
                     </div>
@@ -278,7 +278,7 @@ $this->breadcrumbs=array(
                     <label class="col-lg-4 control-label">Correo electrónico:</label>
                     <div class="col-lg-7">
                       <div class="input-group">
-                        <span class="input-group-addon">@</span>
+                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                         <input type="email" name="desCorreo" id="desCorreo" class="form-control" placeholder="Correo electronico" data-error="El correo ingresado es invalido">
                       </div>
                       <!--input type="text" class="form-control" id="desEmail" name="desEmail" placeholder="Correo electr&oacute;nico"/-->
@@ -290,7 +290,7 @@ $this->breadcrumbs=array(
                     <div class="col-lg-7">
                       <div class="input-group">
                         <span class="input-group-addon">S/.</span>
-                        <input type="text" name="Sueldo" id="Sueldo" class="form-control" placeholder="" data-error="El correo ingresado es invalido">
+                        <input type="text" name="Sueldo" id="Sueldo" class="form-control inputNumero" placeholder="" data-error="El correo ingresado es invalido">
                       </div>
                       <!--input type="text" class="form-control" id="desEmail" name="desEmail" placeholder="Correo electr&oacute;nico"/-->
                     </div>

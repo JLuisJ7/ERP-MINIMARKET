@@ -21,9 +21,63 @@
 class Inventario extends CActiveRecord
 {
 
+public function ObtenerNroEntradaProductos($inicio,$fin ){
+
+$sql = "select sum(cantidad) as Entrada  from inventario where tipo='E' and DATE_FORMAT(fecha,'%m/%d/%Y') between '".$inicio."' and '".$fin."' order by fecha desc ";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+}
+
+public function TotalVentas($i,$idProducto){
+
+$sql = "select sum(cantidad) as r from inventario where  idProducto=$idProducto and tipo='S' and MONTH(fecha)=".$i." group by MONTH(fecha) ";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryRow();
+}
+
+public function TotalCompras($i,$idProducto){
+
+$sql = "select sum(cantidad) as r from inventario where  idProducto=$idProducto and tipo='E' and MONTH(fecha)=".$i." group by MONTH(fecha) ";
+
+		return Yii::app()->db->createCommand($sql)->queryRow();
+}
+
+public function ObtenerNroSalidaProductos($inicio,$fin ){
+
+$sql = "select sum(cantidad) as Salida  from inventario where tipo='S' and DATE_FORMAT(fecha,'%m/%d/%Y') between '".$inicio."' and '".$fin."' order by fecha desc ";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+}
+
+
+
 	public function listadoInventario(){
 
 $sql = "select idMovimiento,(CASE WHEN tipo_documento = '1' THEN 'Factura' WHEN tipo_documento = '2' THEN 'Orden de Compra' WHEN tipo_documento = '3' THEN 'Boleta' ELSE ''  END) AS documento ,serie,nro_documento,DATE_FORMAT(fecha,'%d-%m-%Y') as fecha, IF(tipo = 'S', 'Salida','Entrada') AS Tipo,p.desc_Prod as producto,cantidad,valor_unitario,total from Inventario as i INNER JOIN Producto as p ON p.idProducto=i.idProducto";
+	
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	
+	}
+
+	public function ObtenerInventarioEntreFechas($inicio,$fin){
+
+$sql = "select idMovimiento,(CASE WHEN tipo_documento = '1' THEN 'Factura' WHEN tipo_documento = '2' THEN 'Orden de Compra' WHEN tipo_documento = '3' THEN 'Boleta' ELSE ''  END) AS documento ,serie,nro_documento,DATE_FORMAT(fecha,'%d-%m-%Y') as fecha, IF(tipo = 'S', 'Salida','Entrada') AS Tipo,p.desc_Prod as producto,cantidad,valor_unitario,total from Inventario as i INNER JOIN Producto as p ON p.idProducto=i.idProducto where DATE_FORMAT(fecha,'%m/%d/%Y') between '".$inicio."' and '".$fin."' order by fecha desc ";
+	
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	
+	}	
+
+public function ObtenerInventarioProducto($idProducto){
+
+$sql = "select idMovimiento,(CASE WHEN tipo_documento = '1' THEN 'Factura' WHEN tipo_documento = '2' THEN 'Orden de Compra' WHEN tipo_documento = '3' THEN 'Boleta' ELSE ''  END) AS documento ,serie,nro_documento,DATE_FORMAT(fecha,'%d-%m-%Y') as fecha, IF(tipo = 'S', 'Salida','Entrada') AS Tipo,p.desc_Prod as producto,cantidad,valor_unitario,total from Inventario as i INNER JOIN Producto as p ON p.idProducto=i.idProducto where p.idProducto=$idProducto order by fecha desc ";
 	
 
 		return Yii::app()->db->createCommand($sql)->queryAll();

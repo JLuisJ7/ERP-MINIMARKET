@@ -1,8 +1,8 @@
 <link href="<?php echo Yii::app()->theme->baseUrl;?>/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />    
 <!-- FontAwesome 4.3.0 -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo Yii::app()->theme->baseUrl;?>/dist/fonts/fontaws/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <!-- Ionicons 2.0.0 -->
-<link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo Yii::app()->theme->baseUrl;?>/dist/fonts/ionicons/css/ionicons.min.css" rel="stylesheet" type="text/css" />
 <!-- DATA TABLES -->
 <link href="<?php echo Yii::app()->theme->baseUrl;?>/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
 <!--link href="< ?php echo Yii::app()->baseUrl;?>/css/jquery.dataTables.css" rel="stylesheet" type="text/css" /-->
@@ -37,9 +37,10 @@
 <!-- jQuery 2.1.3 -->
     <script src="<?php echo Yii::app()->theme->baseUrl;?>/plugins/jQuery/jQuery-2.1.3.min.js"></script>
     <!-- jQuery UI 1.11.2 -->
-    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="<?php echo Yii::app()->theme->baseUrl;?>/dist/js/jquery-ui.min.js" type="text/javascript"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     
+    <script src="<?php echo Yii::app()->theme->baseUrl;?>/dist/js/utilesReportes.js" type="text/javascript"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl;?>/dist/js/utilesTransacciones.js" type="text/javascript"></script>
     <!-- Bootstrap 3.3.2 JS -->
     <script src="<?php echo Yii::app()->theme->baseUrl;?>/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
@@ -54,6 +55,7 @@
     <!-- Morris.js charts -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl;?>/plugins/morris/morris.min.js" type="text/javascript"></script>
+     <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl;?>/plugins/chartJS/Chart.min.js"></script>
     <!-- Sparkline -->
     <script src="<?php echo Yii::app()->theme->baseUrl;?>/plugins/sparkline/jquery.sparkline.min.js" type="text/javascript"></script>
     <!-- jvectormap -->
@@ -79,8 +81,20 @@
     <script src="<?php echo Yii::app()->theme->baseUrl;?>/bootstrap/js/bootstrapValidator.js" type="text/javascript"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl;?>/dist/js/bootbox.min.js" type="text/javascript"></script>
       
-      <script src="http://lightswitch05.github.io/table-to-json/javascripts/jquery.tabletojson.min.js" type="text/javascript"></script>
-   
+      <script src="<?php echo Yii::app()->theme->baseUrl;?>/dist/js/jquery.tabletojson.min.js" type="text/javascript"></script>
+
+
+     <!-- FLOT CHARTS -->
+    <script src="<?php echo Yii::app()->theme->baseUrl;?>/plugins/flot/jquery.flot.min.js" type="text/javascript"></script>
+    <!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
+    <script src="<?php echo Yii::app()->theme->baseUrl;?>/plugins/flot/jquery.flot.resize.min.js" type="text/javascript"></script>
+    <!-- FLOT PIE PLUGIN - also used to draw donut charts -->
+    <script src="<?php echo Yii::app()->theme->baseUrl;?>/plugins/flot/jquery.flot.pie.min.js" type="text/javascript"></script>
+    <!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts -->
+    <script src="<?php echo Yii::app()->theme->baseUrl;?>/plugins/flot/jquery.flot.categories.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl;?>/plugins/canvasjs/jquery.canvasjs.min.js"></script>
+   <script src="<?php echo Yii::app()->theme->baseUrl;?>/dist/js/highcharts.js"></script>
+<script src="<?php echo Yii::app()->theme->baseUrl;?>/dist/js/exporting.js"></script>
     <style type="text/css" class="init">
 
 td.details-control {
@@ -92,4 +106,4 @@ tr.shown td.details-control {
     background: url('<?php echo Yii::app()->theme->baseUrl;?>/dist/img/details_close.png') no-repeat center center;
 }
 
-    </style>
+</style>

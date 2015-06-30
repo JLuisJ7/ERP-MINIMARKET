@@ -14,6 +14,7 @@ $this->breadcrumbs=array(
 );?>
 
 <!-- Main content -->
+
         <section class="content">
           <div class="row">
             <div class="col-xs-12">
@@ -23,12 +24,12 @@ $this->breadcrumbs=array(
                 </div>
                 <div class="box-body">
                   
-                   <table class="table table-striped" id="listaProveedores" style="">
+                   <table id="listaProveedores" class="table table-bordered table-hover dataTable" cellspacing="0" width="100%">
                     <thead>
                       <tr >
                         <!--th style="vertical-align: middle;">#</th-->
-                        <th>Nombres o Razón Social</th>                        
-                        <th>Ruc</th>                        
+                        <th>Razón Social</th>                        
+                        <th>RUC</th>                        
                         <th>Dirección</th>
                         <th>Telefono</th>
                         <th>Correo Electronico</th>
@@ -80,25 +81,42 @@ $this->breadcrumbs=array(
 <div class="form-group">
 <label class="col-md-4 control-label" for="RUC">RUC:</label>
 <div class="col-md-7">
-<input id="ruc_Prov" name="ruc_Prov" type="text" placeholder="RUC" class="form-control input-md" value="" >
+<input id="ruc_Prov" name="ruc_Prov" type="text" placeholder="RUC" class="form-control input-md inputNumero" value="" maxlength="11">
 </div>
 </div>
 <div class="form-group">
-<label class="col-md-4 control-label" for="direccion_Prov">direccion:</label>
+<label class="col-md-4 control-label" for="direccion_Prov">Dirección:</label>
 <div class="col-md-7">
+<div class="input-group">
+  <div class="input-group-addon">
+    <i class="fa fa-location-arrow"></i>
+</div>
 <input id="direccion_Prov" name="direccion_Prov" type="text" placeholder="direccion" class="form-control input-md" value="">
 </div>
-</div>
-<div class="form-group">
-<label class="col-md-4 control-label" for="telefono_Prov">telefono:</label>
-<div class="col-md-7">
-<input id="telefono_Prov" name="telefono_Prov" type="text" placeholder="telefono" class="form-control input-md" value=""  onkeydown="return validarNumeros(event)">
+
 </div>
 </div>
 <div class="form-group">
-<label class="col-md-4 control-label" for="email_Prov">email:</label>
+<label class="col-md-4 control-label" for="telefono_Prov">Teléfono:</label>
 <div class="col-md-7">
-<input id="email_Prov" name="email_Prov" type="text" placeholder="email" class="form-control input-md" value="">
+<div class="input-group">
+  <div class="input-group-addon">
+    <i class="fa fa-phone"></i>
+  </div> 
+
+  <input id="telefono_Prov" name="telefono_Prov" type="tel" placeholder="telefono" class="form-control inputNumero" value="" maxlength="9">
+
+</div>
+
+</div>
+</div>
+<div class="form-group">
+<label class="col-md-4 control-label" for="email_Prov">Correo Electrónico:</label>
+<div class="col-md-7">
+<div class="input-group">
+  <span class="input-group-addon"><i class="fa fa-envelope"></i></span> 
+<input id="email_Prov" name="email_Prov" type="email" placeholder="E-mail" class="form-control input-md" data-error="El correo ingresado es invalido" value="">
+</div> 
 </div>
 </div>
   
@@ -156,25 +174,42 @@ $this->breadcrumbs=array(
 <div class="form-group">
 <label class="col-md-4 control-label" for="edit_RUC">RUC:</label>
 <div class="col-md-7">
-<input id="edit_ruc_Prov" name="edit_ruc_Prov" type="text" placeholder="RUC" class="form-control input-md" value="" >
+<input id="edit_ruc_Prov" name="edit_ruc_Prov" type="text" placeholder="RUC" class="form-control input-md inputNumero" value="" maxlength="11" >
 </div>
 </div>
 <div class="form-group">
-<label class="col-md-4 control-label" for="edit_direccion_Prov">direccion:</label>
+<label class="col-md-4 control-label" for="edit_direccion_Prov">Dirección:</label>
 <div class="col-md-7">
+<div class="input-group">
+  <div class="input-group-addon">
+    <i class="fa fa-location-arrow"></i>
+  </div>
 <input id="edit_direccion_Prov" name="edit_direccion_Prov" type="text" placeholder="direccion" class="form-control input-md" value="">
 </div>
 </div>
+</div>
 <div class="form-group">
-<label class="col-md-4 control-label" for="edit_telefono_Prov">telefono:</label>
+<label class="col-md-4 control-label" for="edit_telefono_Prov">Teléfono:</label>
 <div class="col-md-7">
-<input id="edit_telefono_Prov" name="edit_telefono_Prov" type="text" placeholder="telefono" class="form-control input-md" value=""  onkeydown="return validarNumeros(event)">
+<div class="input-group">
+  <div class="input-group-addon">
+    <i class="fa fa-phone"></i>
+  </div> 
+  <input id="edit_telefono_Prov" name="edit_telefono_Prov" type="tel" placeholder="telefono" class="form-control inputNumero" value="" maxlength="9"  onkeydown="return validarNumeros(event)">
+</div>
+
 </div>
 </div>
 <div class="form-group">
-<label class="col-md-4 control-label" for="edit_email_Prov">email:</label>
+<label class="col-md-4 control-label" for="edit_email_Prov">Correo Electrónico :</label>
 <div class="col-md-7">
-<input id="edit_email_Prov" name="edit_email_Prov" type="text" placeholder="email" class="form-control input-md" value="">
+<div class="input-group">
+  <span class="input-group-addon"><i class="fa fa-envelope"></i></span> 
+
+<input id="edit_email_Prov" name="edit_email_Prov"  type="email" placeholder="E-mail" class="form-control input-md" data-error="El correo ingresado es invalido" value="">
+</div> 
+
+
 </div>
 </div>
  <div class="form-group">

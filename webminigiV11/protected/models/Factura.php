@@ -22,10 +22,53 @@
  */
 class Factura extends CActiveRecord
 {
+/*
+==========================================
+**REPORTES
+=========================================
+*/
+
+public function TotalFacturasMes($i){
+
+$sql = "select SUM(TOTAL) as r from factura where  MONTH(fechemic)=".$i." group by MONTH(fechemic) ";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryRow();
+}
+
+
+
+public function ObtenerNroFacturasporDia(){
+
+$sql = "select count(*) as Facturas from factura where DATE_FORMAT(fechEmic,'%d/%m/%Y')=DATE_FORMAT(NOW(),'%d/%m/%Y') ";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+}
+
+
+
+/*
+==========================================
+**REPORTES
+=========================================
+*/
+
 
 	public function listadoFacturas(){
 
-$sql = "select nroSerie,nroFact,c.RazSoc_Cli as Cliente,idEmpleado as Empleado,DATE_FORMAT(FechEmic,'%d-%m-%Y') as Fecha,SubTotal,IGV,Total from factura as f inner join Cliente as c ON c.idCliente=f.idCliente";
+$sql = "select nroSerie,nroFact,c.RazSoc_Cli as Cliente,idEmpleado as Empleado,DATE_FORMAT(FechEmic,'%d-%m-%Y') as Fecha,SubTotal,IGV,Total from factura as f inner join Cliente as c ON c.idCliente=f.idCliente order by FechEmic desc";
+	
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	
+	}	
+
+	public function ObtenerFacturasEntreFechas($inicio,$fin){
+
+$sql = "select nroSerie,nroFact,c.RazSoc_Cli as Cliente,idEmpleado as Empleado,DATE_FORMAT(FechEmic,'%d-%m-%Y') as Fecha,SubTotal,IGV,Total from factura as f inner join Cliente as c ON c.idCliente=f.idCliente where DATE_FORMAT(fechEmic,'%m/%d/%Y') between '".$inicio."' and '".$fin."' order by FechEmic desc ";
 	
 
 		return Yii::app()->db->createCommand($sql)->queryAll();

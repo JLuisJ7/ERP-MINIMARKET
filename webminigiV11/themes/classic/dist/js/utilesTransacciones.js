@@ -683,7 +683,8 @@ $(document).ready(function() {
 
  
 function clearInputs(){
-        $('#fac_desc_Prod').selectpicker('deselectAll');
+        //$('#fac_desc_Prod').selectpicker('deselectAll');
+     
         $("#fac_CantProd").val("");
         $("#fac_Precio").val("");
         $("#fac_valorVenta").val("");
@@ -1022,14 +1023,16 @@ $.ajax({
       $('#myModalNuevoOrdendeCompra').modal('hide');
   obtenerNroComprobante("compras","nroOrden","nroSerie");
   OrdenCore.loadOrdenesC();
-  $("#fac_desc_Prod").find("option").remove();
+
 })
 .fail(function() {
     console.log("error");
 })
 .always(function() {
    obtenerProductosAgotados();
-    
+    $("#fac_desc_Prod").find("option").remove(); 
+   $("#fac_desc_Prod").append('<option value="">Seleccione Producto</option>')
+
 });
 
 });

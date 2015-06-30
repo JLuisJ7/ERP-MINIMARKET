@@ -17,6 +17,16 @@
 class Cliente extends CActiveRecord
 {
 
+
+public function ObtenerNroClientes(){
+
+$sql = "select count(*) as Clientes from Cliente ";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+}
+
 	public function BuscarCliente($query){
 
 $sql = "SELECT idCliente,RazSoc_Cli FROM Cliente WHERE RazSoc_Cli LIKE '%".$query."%'";

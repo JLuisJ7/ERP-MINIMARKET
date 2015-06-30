@@ -21,7 +21,7 @@ $this->breadcrumbs=array(
                   <h3 class='box-title'><i class="fa fa-user"></i> Listado de Productos</h3>
                 </div>
                 <div class="box-body">
-                  <table class="table table-striped table-bordered" id="listaProductos" style="width:100%;">
+                  <table id="listaProductos" class="table table-bordered table-hover dataTable" cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <!--th style="vertical-align: middle;">#</th-->
@@ -84,14 +84,37 @@ $this->breadcrumbs=array(
 					        </select>
 				      	</div>
 				    </div>
+				    <div class="form-group" style="display:none;" id="FechVenc">
+                    <label class="col-lg-4 control-label">Fecha de Vencimiento:</label>
+                    <div class="col-lg-7">
+                      <!--input type="text" class="form-control" id="desNombres"  name="desNombres" placeholder="Fecha de Nacimiento"/-->
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input name="add_fecVenc" id="add_fecVenc" type="date" class="form-control" />
+                      </div><!-- /.input group -->
+                    </div>
+                  </div>
+                  <script>
+                  	$(document).ready(function($) {
+                  		$("#tipoProd").change(function(event) {
+                  			if($(this).val()==0){
+                  				$("#FechVenc").show();
+                  			}else{
+                  				$("#FechVenc").hide();
+                  			}
+                  		});
+                  	});
+                  </script>
 					<div class="form-group has-succes">
 				      	<label class="col-lg-4 control-label" for="ListaProveedores">Proveedor:</label>
-				      	<div class="col-lg-5">
+				      	<div class="col-lg-7">
 				       	 	<select class="form-control listaProveedores" name="ListaProveedores" id="ListaProveedores"></select>
 				      	</div>
-				      	<div class="col-lg-1">
+				      	<!-- <div class="col-lg-1">
 				        	<button type="button" class="btn btn-primary new_Proveedor" id="nuevoProveedor" data-target="#ModalnuevoProveedor"><i class="fa fa-plus"></i></button>
-				      	</div>
+				      	</div> -->
 				    </div>
                   	<div class="form-group has-succes">
 				      	<label class="col-lg-4 control-label" for="ListaMarcas">Marca:</label>
@@ -121,14 +144,18 @@ $this->breadcrumbs=array(
 				     <div class="form-group">
 				        <label class="col-lg-4 control-label" for="add_Precio">Precio:</label>
 				        <div class="col-lg-7">
-				        	<input type="text" min="0" class="form-control" id="add_Precio"   name="add_Precio" >
+				        	<div class="input-group">
+                        <span class="input-group-addon">S/.</span>
+                       <input type="text" min="0" class="form-control" id="add_Precio"   name="add_Precio" >
+                      </div>
+				        	
 				        </div>
 				     </div>
 
                   <div class="form-group">
                     <div class="col-md-5 col-md-offset-3">
                       <button type="submit" class="btn btn-primary">Registrar</button>
-                      <button   id="cerrarmodal" class="btn btn-primary"    data-dismiss="modal" rel="tooltip" title="Cerrar"
+                      <button   id="cerrarmodal" class="btn btn-danger"    data-dismiss="modal" rel="tooltip" title="Cerrar"
                       >Cerrar</button>
                     </div>
                   </div>
@@ -181,14 +208,37 @@ $this->breadcrumbs=array(
 					        </select>
 				      	</div>
 				    </div>
+				     <div class="form-group" style="display:none;" id="edit_FechVenc">
+                    <label class="col-lg-4 control-label">Fecha de Vencimiento:</label>
+                    <div class="col-lg-7">
+                      <!--input type="text" class="form-control" id="desNombres"  name="desNombres" placeholder="Fecha de Nacimiento"/-->
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input name="edit_fecVenc" id="add_fecVenc" type="date" class="form-control" />
+                      </div><!-- /.input group -->
+                    </div>
+                  </div>
+                  <script>
+                  	$(document).ready(function($) {
+                  		$("#edit_tipoProd").change(function(event) {
+                  			if($(this).val()==0){
+                  				$("#edit_FechVenc").show();
+                  			}else{
+                  				$("#edit_FechVenc").hide();
+                  			}
+                  		});
+                  	});
+                  </script>
 					<div class="form-group has-succes">
 				      	<label class="col-lg-4 control-label" for="edit_ListaProveedores">Proveedor:</label>
-				      	<div class="col-lg-5">
+				      	<div class="col-lg-7">
 				       	 	<select class="form-control listaProveedores" name="edit_ListaProveedores" id="edit_ListaProveedores"></select>
 				      	</div>
-				      	<div class="col-lg-1">
+				      	<!-- <div class="col-lg-1">
 				        	<button type="button" class="btn btn-primary new_Proveedor" id="nuevoProveedor" data-target="#ModalnuevoProveedor"><i class="fa fa-plus"></i></button>
-				      	</div>
+				      	</div> -->
 				    </div>
                   	<div class="form-group has-succes">
 				      	<label class="col-lg-4 control-label" for="edit_ListaMarcas">Marca:</label>
@@ -237,7 +287,7 @@ $this->breadcrumbs=array(
                   <div class="form-group">
                     <div class="col-md-5 col-md-offset-3">
                       <button type="submit" class="btn btn-primary">Actualizar</button>
-                      <button   id="cerrarmodal" class="btn btn-primary"    data-dismiss="modal" rel="tooltip" title="Cerrar"
+                      <button   id="cerrarmodal" class="btn btn-danger"    data-dismiss="modal" rel="tooltip" title="Cerrar"
                       >Cerrar</button>
                     </div>
                   </div>

@@ -83,9 +83,9 @@ var InventCore = {
                     "bFilterable": false,
                      "mRender": function (data, type, row) {
                   if(data.Tipo=='Salida'){
-                        return '<i class="fa fa-arrow-down text-danger"></i> <strong class="text-danger ">' + data.cantidad + '</strong>';
+                        return '<i class="fa fa-arrow-up text-danger"></i> <strong class="text-danger ">' + data.cantidad + '</strong>';
                   }else if(data.Tipo=='Entrada'){
-                    return '<i class="fa fa-arrow-up text-primary"></i> <strong class="text-primary "> ' + data.cantidad + '</strong>';
+                    return '<i class="fa fa-arrow-down text-primary"></i> <strong class="text-primary "> ' + data.cantidad + '</strong>';
                   }
                   
                 }
@@ -100,6 +100,84 @@ var InventCore = {
     initListadoInventario: function() {       
         
         this.loadInventario();
+
+    },
+    InventarioEntreFechas: function(idProducto){
+        var table = $('#listaInventario').DataTable();
+ 
+            
+            table.destroy();
+        var me = this;
+       
+
+        $.ajax({
+        url: 'index.php?r=reportes/AjaxObtenerInventarioProducto',
+        type: 'POST',
+       
+        data: {
+           
+            idProducto:idProducto
+        },
+    })
+        .done(function(response) {
+            
+                
+            console.log(response);
+             var table = $('#listaInventario').DataTable( {
+                "paging":   true,
+        "ordering": false,
+        "info":     false,
+        "bFilter": false,
+        "data": response,
+
+                columns:[
+               
+                {"mData": "idMovimiento", "sClass": "alignCenter"},
+                {"mData": "documento", "sClass": "alignCenter"},
+                {"mData": "serie", "sClass": "alignCenter"},
+                {"mData": "nro_documento", "sClass": "alignCenter"},
+                {"mData": "fecha", "sClass": "alignCenter"},
+                {"mData": "Tipo", "sClass": "alignCenter"},                
+                {"mData": "producto", "sClass": "alignCenter"},
+
+                //{"mData": "cantidad", "sClass": "alignCenter"},
+                {
+                    "mData": null,
+                    "bSortable": false,
+                    "bFilterable": false,
+                     "mRender": function (data, type, row) {
+                  if(data.Tipo=='Salida'){
+                        return '<i class="fa fa-arrow-up text-primary"></i> <strong class="text-primary">' + data.cantidad + '</strong>';
+                  }else if(data.Tipo=='Entrada'){
+                    return '<i class="fa fa-arrow-up  fa-arrow-down text-danger"></i> <strong class="text-danger "> ' + data.cantidad + '</strong>';
+                  }
+                  
+                }
+                },
+
+                {"mData": "valor_unitario", "sClass": "alignCenter"},
+                {"mData": "total", "sClass": "alignCenter"}
+            ]              
+            } );
+            
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+           
+        });
+        
+    },
+    initReporteInventario: function() {       
+         $('#myModalFacturaDetallada').on('hidden.bs.modal', function() {
+         var table = $('#FacturaDetallada').DataTable();
+ 
+            
+            table.destroy();
+                     
+        });
+        
 
     }
 
@@ -149,8 +227,170 @@ var OrdenCore = {
             }
 
         });
-    },    
+    },
+    Ordenes_X_Proveedor:function(idProveedor){
+        var table = $('#listaOrdenesC').DataTable();            
+        table.destroy();
+        var me = this;
+
+        $.ajax({
+             url: 'index.php?r=reportes/AjaxObtenerOrdenesProveedor',
+            type: 'POST',       
+            data: {          
+                     idProveedor:idProveedor
+                },
+        })
+        .done(function(response) {
+            console.log(response);
+           
+             var table = $('#listaOrdenesC').DataTable( {
+                "paging":   true,
+        "ordering": false,
+        "info":     false,
+        "bFilter": false,
+        "data": response,
+ columns:[
+               
+                {"mData": "nroSerie", "sClass": "alignCenter"},
+                {"mData": "nroOrden", "sClass": "alignCenter"},
+                {"mData": "Proveedor", "sClass": "alignCenter"},
+                //{"mData": "Empleado", "sClass": "alignCenter"},                
+                {"mData": "Fecha", "sClass": "alignCenter"},
+                {"mData": "subTotal", "sClass": "alignCenter"},
+                {"mData": "IGV", "sClass": "alignCenter"},
+                {"mData": "Total", "sClass": "alignCenter"},
+               
+                {
+                    "mData": null,
+                    "bSortable": false,
+                    "bFilterable": false,
+                     "mRender": function (data, type, row) {
+                  /*return row.nroSerie +', '+ row.nroFact;*/
+                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.nroSerie + '" data-nroOrden="' + row.nroOrden + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a> ';
+                }
+                }
+            ],
+            fnDrawCallback: function() {
+                
+                $('.verDetalle').click(function() {
+                    me.obtenerDetalle($(this).attr('data-nroSerie'),$(this).attr('data-nroOrden'));
+                    
+                });
+
+            }             
+            } );
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
+        });
+        
+
+
+    },
+    OrdenesEntreFechas: function(inicio,fin){
+        var me = this;
+        //$("#serie-factura").text(nroSerie+'-'+nroFact);
+
+        var table = $('#listaOrdenesC').DataTable();
+ 
+            
+            table.destroy();
+
+        $.ajax({
+        url: 'index.php?r=reportes/AjaxObtenerOrdenesEntreFechas',
+        type: 'POST',
+       
+        data: {
+            inicio: inicio,
+            fin:fin
+        },
+    })
+        .done(function(response) {
+            
+                
+            console.log(response);
+             var table = $('#listaOrdenesC').DataTable( {
+                
+                "paging":   true,
+        "ordering": false,
+        "info":     false,
+        "bFilter": false,
+        "data": response,
+
+                "columns": [
+               
+                {"mData": "nroSerie", "sClass": "alignCenter"},
+                {"mData": "nroOrden", "sClass": "alignCenter"},
+                {"mData": "Proveedor", "sClass": "alignCenter"},
+                //{"mData": "Empleado", "sClass": "alignCenter"},                
+                {"mData": "Fecha", "sClass": "alignCenter"},
+                {"mData": "subTotal", "sClass": "alignCenter"},
+                {"mData": "IGV", "sClass": "alignCenter"},
+                {"mData": "Total", "sClass": "alignCenter"},
+               
+                {
+                    "mData": null,
+                    "bSortable": false,
+                    "bFilterable": false,
+                     "mRender": function (data, type, row) {
+                  /*return row.nroSerie +', '+ row.nroFact;*/
+                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.nroSerie + '" data-nroOrden="' + row.nroOrden + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a> ';
+                }
+                }
+            ],
+            fnDrawCallback: function() {
+                
+                $('.verDetalle').click(function() {
+                    me.obtenerDetalle($(this).attr('data-nroSerie'),$(this).attr('data-nroOrden'));
+                    
+                });
+
+            }  
+
+            } );
+            
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+
+            /*var table=$('#listaOrdenesC').DataTable(); 
+
+  var total = table 
+    .column(6)
+    .data()
+    .reduce( function (a, b) {
+      //console.log(a+"->"+b );
+        return parseFloat(a) + parseFloat(b);
+    } );
+
+
+  alert(total.toFixed(2));*/
+        });
+
+        
+    },
+    initReporteOrdenes: function() {       
+         $('#myModalFacturaDetallada').on('hidden.bs.modal', function() {
+         var table = $('#FacturaDetallada').DataTable();
+ 
+            
+            table.destroy();
+                     
+        });
+        
+
+    }
+    ,    
     obtenerDetalle : function(nroSerie,nroOrden){
+        var table = $('#OrdenCDetallada').DataTable();
+ 
+            
+            table.destroy();
         $("#serie-OrdenC").text(nroSerie+'-'+nroOrden);
         $.ajax({
             url: 'index.php?r=compras/AjaxObtenerDetalle',
@@ -165,6 +405,7 @@ var OrdenCore = {
                 
             console.log(response);
              var table = $('#OrdenCDetallada').DataTable( {
+                destroy: true,
                 "paging":   false,
         "ordering": false,
         "info":     false,
@@ -199,7 +440,7 @@ var OrdenCore = {
         });
         this.loadOrdenesC();
 
-    }
+    },
 
 }
 var FactCore = {
@@ -211,7 +452,7 @@ var FactCore = {
             toolButons:'<a style="display:inline-block;margin:-1px 0px 0px 0px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModalNuevoFactura">Nuevo Factura</a>',
             url:'index.php?r=ventas/ajaxListadoFacturas',
             "order": [[ 0, 'asc' ]],
-
+              "paging":   true,
             columns:[
                
                 {"mData": "nroSerie", "sClass": "alignCenter"},
@@ -244,6 +485,10 @@ var FactCore = {
         });
     },    
     obtenerDetalle : function(nroSerie,nroFact){
+        var table = $('#FacturaDetallada').DataTable();
+ 
+            
+            table.destroy();
         $("#serie-factura").text(nroSerie+'-'+nroFact);
 
         $.ajax({
@@ -259,6 +504,7 @@ var FactCore = {
                 
             console.log(response);
              var table = $('#FacturaDetallada').DataTable( {
+                destroy: true,
                 "paging":   false,
         "ordering": false,
         "info":     false,
@@ -292,6 +538,99 @@ var FactCore = {
                      
         });
         this.loadFacturas();
+
+    },
+    FacturaEntreFechas: function(inicio,fin){
+        var me = this;
+        //$("#serie-factura").text(nroSerie+'-'+nroFact);
+
+        var table = $('#listaFacturas').DataTable();
+ 
+            
+            table.destroy();
+
+        $.ajax({
+        url: 'index.php?r=reportes/AjaxObtenerFacturasEntreFechas',
+        type: 'POST',
+       
+        data: {
+            inicio: inicio,
+            fin:fin
+        },
+    })
+        .done(function(response) {
+            
+                
+            console.log(response);
+             var table = $('#listaFacturas').DataTable( {
+                
+                "paging":   true,
+        "ordering": false,
+        "info":     false,
+        "bFilter": false,
+        "data": response,
+
+                "columns": [
+                   
+                {"mData": "nroSerie", "sClass": "alignCenter"},
+                {"mData": "nroFact", "sClass": "alignCenter"},
+                {"mData": "Cliente", "sClass": "alignCenter"},
+                //{"mData": "Empleado", "sClass": "alignCenter"},                
+                {"mData": "Fecha", "sClass": "alignCenter"},
+                {"mData": "SubTotal", "sClass": "alignCenter"},
+                {"mData": "IGV", "sClass": "alignCenter"},
+                {"mData": "Total", "sClass": "alignCenter"},
+               
+                {
+                    "mData": null,
+                    "bSortable": false,
+                    "bFilterable": false,
+                     "mRender": function (data, type, row) {
+                  /*return row.nroSerie +', '+ row.nroFact;*/
+                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.nroSerie + '" data-nroFact="' + row.nroFact + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a> ';
+                }
+                }
+                ],
+            fnDrawCallback: function() {
+                
+                $('.verDetalle').click(function() {
+                    me.obtenerDetalle($(this).attr('data-nroSerie'),$(this).attr('data-nroFact'));
+                });
+
+            }
+
+            } );
+            
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            var table=$('#listaFacturas').DataTable(); 
+
+  var total = table 
+    .column(6)
+    .data()
+    .reduce( function (a, b) {
+      //console.log(a+"->"+b );
+        return parseFloat(a) + parseFloat(b);
+    } );
+
+
+  alert(total.toFixed(2));
+        });
+
+        
+    },
+    initReporteFacturas: function() {       
+         $('#myModalFacturaDetallada').on('hidden.bs.modal', function() {
+         var table = $('#FacturaDetallada').DataTable();
+ 
+            
+            table.destroy();
+                     
+        });
+        
 
     }
 
@@ -336,6 +675,7 @@ var BoletCore = {
         });
     },    
     obtenerDetalle : function(nroSerie,nroBol){
+
         $("#serie-Boleta").text(nroSerie+'-'+nroBol);
 
         $.ajax({
@@ -351,6 +691,7 @@ var BoletCore = {
                 
             console.log(response);
              var table = $('#FacturaDetallada').DataTable( {
+                destroy: true,
                 "paging":   false,
         "ordering": false,
         "info":     false,
@@ -416,42 +757,50 @@ var ProvCore = {
                         validating : 'glyphicon glyphicon-refresh'
                     },
                     fields : {
-                        RazSoc_Prov : {
+                        edit_RazSoc_Prov : {
                             validators : {
                                 notEmpty : {
                                     message : 'Debe ingresar la Razon Social o el Nombre del Proveedor'
                                 }
                             }
                         },
-                        tipoPersona_Prov : {
+                        edit_tipoPersona_Prov : {
                             validators : {
                                 notEmpty : {
                                     message : 'Debe Seleccionar el Tipo de Persona'
                                 }
                             }
                         },
-                        ruc_Prov : {
+                        edit_ruc_Prov : {
                             validators : {
                                 notEmpty : {
                                     message : 'Debe ingresar el Nro de RUC'
-                                }
+                                },
+                                 regexp: {
+                        regexp: /.{11}/,
+                        message: 'El campo RUC debe tener de 11 digitos'
+                    }
                             }
                         },
-                        direccion_Prov : {
+                        edit_direccion_Prov : {
                             validators : {
                                 notEmpty : {
                                     message : 'Debe ingresar la Dirección'
                                 }
                             }
                         },
-                        telefono_Prov : {
+                        edit_telefono_Prov : {
                             validators : {
+                                regexp: {
+                        regexp: /\b\w{7,9}\b/,
+                        message: 'debe tener de 7 a 9 digitos'
+                    },
                                 notEmpty : {
                                     message : 'Debe ingresar el telefono'
                                 }
                             }
                         },
-                        email_Prov : {
+                        edit_email_Prov : {
                             validators : {
                                 notEmpty : {
                                     message : 'Debe ingresar el email del Proveedor'
@@ -614,7 +963,11 @@ var ProvCore = {
                             validators : {
                                 notEmpty : {
                                     message : 'Debe ingresar el Nro de RUC'
-                                }
+                                },
+                                 regexp: {
+                        regexp: /.{11}/,
+                        message: 'El campo RUC debe tener de 11 digitos'
+                    }
                             }
                         },
                         direccion_Prov : {
@@ -628,7 +981,10 @@ var ProvCore = {
                             validators : {
                                 notEmpty : {
                                     message : 'Debe ingresar el telefono'
-                                }
+                                }, regexp: {
+                        regexp: /\b\w{7,9}\b/,
+                        message: 'debe tener de 7 a 9 digitos'
+                    }
                             }
                         },
                         email_Prov : {
@@ -1131,7 +1487,6 @@ var FnCore = {
         $('#' + id).modal('hide');
 
     },
-
     validarEditarCliente: function(){
         //console.log("VAMOS A VALIDAR");
         var me = this;
@@ -1150,42 +1505,49 @@ var FnCore = {
                         validating : 'glyphicon glyphicon-refresh'
                     },
                     fields : {
-                        RazSoc_Cli : {
+                        edit_RazSoc_Cli : {
                             validators : {
                                 notEmpty : {
                                     message : 'Debe ingresar la Razon Social o el Nombre del Cliente'
                                 }
                             }
                         },
-                        tipoPersona_Cli : {
+                        edit_tipoPersona_Cli : {
                             validators : {
                                 notEmpty : {
                                     message : 'Debe Seleccionar el Tipo de Persona'
                                 }
                             }
                         },
-                        ruc_Cli : {
+                        edit_ruc_Cli : {
                             validators : {
                                 notEmpty : {
                                     message : 'Debe ingresar el Nro de RUC'
-                                }
+                                },
+                                 regexp: {
+                        regexp: /.{11}/,
+                        message: 'El campo RUC debe tener de 11 digitos'
+                    }
                             }
                         },
-                        direccion_Cli : {
+                        edit_direccion_Cli : {
                             validators : {
                                 notEmpty : {
                                     message : 'Debe ingresar la Dirección'
                                 }
                             }
                         },
-                        telefono_Cli : {
+                        edit_telefono_Cli : {
                             validators : {
                                 notEmpty : {
                                     message : 'Debe ingresar el telefono'
-                                }
+                                }, regexp: {
+                        regexp: /\b\w{7,9}\b/,
+                        message: 'debe tener de 7 a 9 digitos'
+                    }
                             }
                         },
-                        email_Cli : {
+                        edit_email_Cli : {
                             validators : {
                                 notEmpty : {
                                     message : 'Debe ingresar el email del Cliente'
@@ -1348,7 +1710,11 @@ var FnCore = {
                             validators : {
                                 notEmpty : {
                                     message : 'Debe ingresar el Nro de RUC'
-                                }
+                                },
+                                 regexp: {
+                        regexp: /.{11}/,
+                        message: 'El campo RUC debe tener de 11 digitos'
+                    }
                             }
                         },
                         direccion_Cli : {
@@ -1362,7 +1728,10 @@ var FnCore = {
                             validators : {
                                 notEmpty : {
                                     message : 'Debe ingresar el telefono'
-                                }
+                                }, regexp: {
+                        regexp: /\b\w{7,9}\b/,
+                        message: 'debe tener de 7 a 9 digitos'
+                    }
                             }
                         },
                         email_Cli : {
@@ -1457,7 +1826,7 @@ var FnCore = {
             }
         });
     },    
-     validar: function(){
+    /* validar: function(){
         //console.log("VAMOS A VALIDAR");
         var me = this;            
         $('#agregarUsuarioForm')
@@ -1531,7 +1900,7 @@ var FnCore = {
                     }
                 });
 
-    },
+    },*/
     initListadoClientes: function() {       
           $('#myModalNuevoCliente').on('hidden.bs.modal', function() {
          
@@ -1684,6 +2053,11 @@ closeWin: function(id) {
     },
     validarNuevoEmpleado: function(){
         var me = this;
+         $(".inputNumero").keypress(function(e) {
+            if (e.which != 8 && e.which != 0 && e.which != 46 && (e.which < 48 || e.which > 57)) {
+                return false;
+            }
+        });
      $('#newEmpleadoForm')
         .bootstrapValidator(
                 {
@@ -1723,6 +2097,11 @@ closeWin: function(id) {
                                 notEmpty : {
                                     message : 'Debe ingresar el Nro de DNI'
                                 }
+                                ,
+                                 regexp: {
+                        regexp: /.{8}/,
+                        message: 'El campo DNI debe tener de 8 digitos'
+                    }
                             }
                         },
                         add_fecNacimiento : {
@@ -1822,6 +2201,11 @@ closeWin: function(id) {
     },
     validar: function(){
         var me = this;
+         $(".inputNumero").keypress(function(e) {
+            if (e.which != 8 && e.which != 0 && e.which != 46 && (e.which < 48 || e.which > 57)) {
+                return false;
+            }
+        });
      $('#update_EmpleadoForm')
         .bootstrapValidator(
                 {
@@ -1860,7 +2244,11 @@ closeWin: function(id) {
                                 },
                                 notEmpty : {
                                     message : 'Debe ingresar el Nro de DNI'
-                                }
+                                } ,
+                                 regexp: {
+                        regexp: /.{8}/,
+                        message: 'El campo DNI debe tener de 8 digitos'
+                    }
                             }
                         },
                         fecNacimiento : {

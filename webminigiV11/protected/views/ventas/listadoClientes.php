@@ -22,7 +22,7 @@ $this->breadcrumbs=array(
                   <h3 class='box-title'><i class="fa fa-user"></i> Listado de Clientes</h3>
                 </div>
                 <div class="box-body">
-                  <table class="table table-striped table-bordered" id="listaClientes" style="">
+                  <table id="listaClientes" class="table table-bordered table-hover dataTable" cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <!--th style="vertical-align: middle;">#</th-->
@@ -78,25 +78,39 @@ $this->breadcrumbs=array(
 <div class="form-group">
 <label class="col-md-4 control-label" for="RUC">RUC:</label>
 <div class="col-md-7">
-<input id="ruc_Cli" name="ruc_Cli" type="text" placeholder="RUC" class="form-control input-md" value="" >
+<input id="ruc_Cli" name="ruc_Cli" type="text" placeholder="RUC" class="form-control input-md inputNumero" value="" maxlength="11">
 </div>
 </div>
 <div class="form-group">
-<label class="col-md-4 control-label" for="direccion_Cli">direccion:</label>
+<label class="col-md-4 control-label" for="direccion_Cli">Dirección:</label>
 <div class="col-md-7">
+<div class="input-group">
+  <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span> 
 <input id="direccion_Cli" name="direccion_Cli" type="text" placeholder="direccion" class="form-control input-md" value="">
 </div>
 </div>
-<div class="form-group">
-<label class="col-md-4 control-label" for="telefono_Cli">telefono:</label>
-<div class="col-md-7">
-<input id="telefono_Cli" name="telefono_Cli" type="text" placeholder="telefono" class="form-control input-md" value=""  onkeydown="return validarNumeros(event)">
-</div>
 </div>
 <div class="form-group">
-<label class="col-md-4 control-label" for="email_Cli">email:</label>
+<label class="col-md-4 control-label" for="telefono_Cli">Teléfono:</label>
 <div class="col-md-7">
-<input id="email_Cli" name="email_Cli" type="text" placeholder="email" class="form-control input-md" value="">
+<div class="input-group">
+  <div class="input-group-addon">
+    <i class="fa fa-phone"></i>
+  </div>
+  <input type="tel" id="telefono_Cli" name="telefono_Cli"   class="form-control inputNumero" maxlength="9" data-inputmask='"mask": "(99) 302-5902"' data-mask/>
+</div>
+</div>
+
+</div>
+
+<div class="form-group">
+<label class="col-md-4 control-label" for="email_Cli">Correo Electrónico:</label>
+<div class="col-md-7">
+<div class="input-group">
+  <span class="input-group-addon"><i class="fa fa-envelope"></i></span> 
+<input id="email_Cli" name="email_Cli" type="email" placeholder="E-mail" class="form-control input-md" data-error="El correo ingresado es invalido" value="">
+</div> 
+
 </div>
 </div>
   
@@ -154,25 +168,39 @@ $this->breadcrumbs=array(
 <div class="form-group">
 <label class="col-md-4 control-label" for="edit_RUC">RUC:</label>
 <div class="col-md-7">
-<input id="edit_ruc_Cli" name="edit_ruc_Cli" type="text" placeholder="RUC" class="form-control input-md" value="" >
+<input id="edit_ruc_Cli" name="edit_ruc_Cli" type="text" placeholder="RUC" class="form-control input-md inputNumero" value="" maxlength="11" >
 </div>
 </div>
 <div class="form-group">
-<label class="col-md-4 control-label" for="edit_direccion_Cli">direccion:</label>
+<label class="col-md-4 control-label" for="edit_direccion_Cli">Dirección:</label>
 <div class="col-md-7">
+<div class="input-group">
+  <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span> 
 <input id="edit_direccion_Cli" name="edit_direccion_Cli" type="text" placeholder="direccion" class="form-control input-md" value="">
 </div>
-</div>
-<div class="form-group">
-<label class="col-md-4 control-label" for="edit_telefono_Cli">telefono:</label>
-<div class="col-md-7">
-<input id="edit_telefono_Cli" name="edit_telefono_Cli" type="text" placeholder="telefono" class="form-control input-md" value=""  onkeydown="return validarNumeros(event)">
+
 </div>
 </div>
 <div class="form-group">
-<label class="col-md-4 control-label" for="edit_email_Cli">email:</label>
+<label class="col-md-4 control-label" for="edit_telefono_Cli">Teléfono:</label>
 <div class="col-md-7">
-<input id="edit_email_Cli" name="edit_email_Cli" type="text" placeholder="email" class="form-control input-md" value="">
+<div class="input-group">
+  <div class="input-group-addon">
+    <i class="fa fa-phone"></i>
+  </div>
+
+  <input id="edit_telefono_Cli" name="edit_telefono_Cli" type="tel" class="form-control inputNumero" maxlength="9"  >
+</div>
+
+</div>
+</div>
+<div class="form-group">
+<label class="col-md-4 control-label" for="edit_email_Cli">Correo Electrónico:</label>
+<div class="col-md-7">
+<div class="input-group">
+  <span class="input-group-addon"><i class="fa fa-envelope"></i></span> 
+<input id="edit_email_Cli" name="edit_email_Cli"  type="email" placeholder="E-mail" class="form-control input-md" data-error="El correo ingresado es invalido" value="">
+</div> 
 </div>
 </div>
  <div class="form-group">

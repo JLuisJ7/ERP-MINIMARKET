@@ -7,8 +7,8 @@ return array(
 	
 	'connectionString' => 'mysql:host=localhost;dbname=db_sismima',
 	'emulatePrepare' => true,
-	'username' => 'serveracme',
-	'password' => 'acme',
+	'username' => 'root',
+	'password' => '',
 	'charset' => 'utf8',
 	
 );

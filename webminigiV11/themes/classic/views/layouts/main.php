@@ -18,6 +18,24 @@
   /* VERIFICA HASTA AQUI                          */
   /*==============================================*/
   ?>
+  <style>
+thead{
+  background-color: #3c8dbc;
+  color: #ffffff;
+}
+th{
+  max-width: 180px!important;
+  text-align: center;
+}
+td{
+word-break: break-all;
+max-width: 180px!important;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+
+    vertical-align: middle;
+}
+</style>
   <body class="skin-blue">
     <div class="wrapper">
       

@@ -22,7 +22,7 @@ $this->breadcrumbs=array(
                   <h3 class='box-title'><i class="fa fa-credit-card"></i> Listado de Boletas</h3>
                 </div>
                 <div class="box-body">
-                  <table class="table table-striped table-bordered" id="listaBoletas" style="">
+                  <table  id="listaBoletas" class="table table-bordered table-hover dataTable" cellspacing="0" width="100%">
                     <thead>
                       <tr>                        
                         <th style="vertical-align: middle;" >Serie</th>

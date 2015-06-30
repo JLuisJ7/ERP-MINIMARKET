@@ -23,9 +23,43 @@
 class Ordencompra extends CActiveRecord
 {
 
+	public function TotalOrdenesMes($i,$idProveedor){
+
+$sql = "select SUM(TOTAL) as r from ordenCompra where idProveedor=".$idProveedor." and  MONTH(FechaOrden)=".$i." group by MONTH(FechaOrden) ";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryRow();
+}
+
+public function TotalOrdenesMeses($i){
+
+$sql = "select SUM(TOTAL) as r from ordenCompra where MONTH(FechaOrden)=".$i." group by MONTH(FechaOrden) ";
+	
+
+
+		return Yii::app()->db->createCommand($sql)->queryRow();
+}
 public function listadoOrdenesC(){
 
 $sql = "select nroSerie,nroOrden,prov.RazSoc_Prov as Proveedor,idEmpleado as Empleado,DATE_FORMAT(FechaOrden,'%d-%m-%Y') as Fecha,subTotal,IGV,Total from ordencompra as oc inner join proveedor as prov ON prov.idProveedor=oc.idProveedor ";
+	
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	
+	}
+	public function ObtenerOrdenesEntreFechas($inicio,$fin){
+
+$sql = "select nroSerie,nroOrden,prov.RazSoc_Prov as Proveedor,idEmpleado as Empleado,DATE_FORMAT(FechaOrden,'%d-%m-%Y') as Fecha,subTotal,IGV,Total from ordencompra as oc inner join proveedor as prov ON prov.idProveedor=oc.idProveedor where DATE_FORMAT(FechaOrden,'%m/%d/%Y') between '".$inicio."' and '".$fin."'";
+	
+
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	
+	}
+
+	public function ObtenerOrdenesXProveedor($idProveedor){
+
+$sql = "select nroSerie,nroOrden,prov.RazSoc_Prov as Proveedor,idEmpleado as Empleado,DATE_FORMAT(FechaOrden,'%d-%m-%Y') as Fecha,subTotal,IGV,Total from ordencompra as oc inner join proveedor as prov ON prov.idProveedor=oc.idProveedor where prov.idProveedor=".$idProveedor;
 	
 
 		return Yii::app()->db->createCommand($sql)->queryAll();
