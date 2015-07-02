@@ -213,7 +213,7 @@ var OrdenCore = {
                     "bFilterable": false,
                      "mRender": function (data, type, row) {
                   /*return row.nroSerie +', '+ row.nroFact;*/
-                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.nroSerie + '" data-nroOrden="' + row.nroOrden + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a> ';
+                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.nroSerie + '" data-nroOrden="' + row.nroOrden + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a>  <a href="#" style="margin-left:5px;margin-right:0px"data-nroSerie="' + row.nroSerie + '" data-nroFact="' + row.nroOrden + '" class="btn btn-danger btn-sm suspenderOrden"><i class="fa fa-trash-o"></i></a>';
                 }
                 }
             ],
@@ -224,8 +224,49 @@ var OrdenCore = {
                     
                 });
 
+                     $('.suspenderOrden').click(function() {
+                    me.confirmsuspenderOrden($(this).attr('data-nroSerie'),$(this).attr('data-nroOrden'));
+                });
             }
 
+        });
+    },
+     confirmsuspenderOrden: function(nroSerie,nroOrden){
+        var me = this;
+        bootbox.dialog({
+            message: "Confirme la acción de Anular Orden de Compra.",
+            title: "¿Seguro de Anular Factura?",
+            buttons: {
+                main: {
+                    label: "Si",
+                    className: "btn-success",
+                    callback: function() {
+                        console.log('Anulando Factura');
+
+                        $.ajax({
+                            type: "POST",
+                            url: 'index.php?r=ventas/AjaxActualizarEstadoFactura',
+                            data: {nroSerie:nroSerie,nroFact:nroFact,estadoFact:0},
+                            success: function(response) {
+                                console.log(response);
+                                if (response.success) {
+                                    me.loadFacturas();
+                                    bootbox.hideAll();
+                                }
+                            }
+                        });
+
+                        return false;
+                    }
+                },
+                danger: {
+                    label: "No",
+                    className: "btn-danger",
+                    callback: function() {
+                        // bootbox.hideAll();
+                    }
+                }
+            }
         });
     },
     Ordenes_X_Proveedor:function(idProveedor){
