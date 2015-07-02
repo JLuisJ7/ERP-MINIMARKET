@@ -274,4 +274,14 @@ public function actionAjaxActualizarEstadocliente(){
 
 		Util::renderJSON(array('success' => TRUE));
 	}
+
+	public function actionAjaxActualizarEstadoFactura(){
+		$nroSerie = $_POST['nroSerie'];
+		$nroFact = $_POST['nroFact'];
+		$estadoFact = $_POST['estadoFact'];
+
+		$respuesta = Factura::model()->actualizarEstadoFactura($nroSerie,$nroFact,$estadoFact);
+
+		Util::renderJSON(array('success' => TRUE));
+	}
 }

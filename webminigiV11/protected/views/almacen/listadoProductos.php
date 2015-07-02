@@ -118,22 +118,22 @@ $this->breadcrumbs=array(
 				    </div>
                   	<div class="form-group has-succes">
 				      	<label class="col-lg-4 control-label" for="ListaMarcas">Marca:</label>
-				      	<div class="col-lg-5">
+				      	<div class="col-lg-7">
 				       	 	<select class="form-control ListaMarcas" name="ListaMarcas" id="ListaMarcas"></select>
 				      	</div>
-				      	<div class="col-lg-1">
-				        	<button type="button" class="btn btn-primary new_Marca" id="nuevaMarca" data-target="#ModalnuevaMarca"><i class="fa fa-plus"></i></button>
-				      	</div>
+				      	<!-- <div class="col-lg-1">
+				      					        	<button type="button" class="btn btn-primary new_Marca" id="nuevaMarca" data-target="#ModalnuevaMarca"><i class="fa fa-plus"></i></button>
+				      	</div> -->
 				    </div>
 
                  	 <div class="form-group">
 				      	<label class="col-lg-4 control-label" For="ListaCategorias">Categoría:</label>
-				     	 <div class="col-lg-5">
+				     	 <div class="col-lg-7">
 				        	<select class="form-control ListaCategorias" name="ListaCategorias" id="ListaCategorias"></select>
 				      	</div>
-				      	<div class="col-lg-1">
+				      	<!-- <div class="col-lg-1">
 				        	<button type="button" class="btn btn-primary new_Category" id="nueva_Categoria" data-target="#ModalnuevaCategoria"><i class="fa fa-plus"></i></button>
-				     	 </div>
+				     	 </div> -->
 				    </div>
 				    <div class="form-group">
 				        <label class="col-lg-4 control-label">Stock:</label>
@@ -242,23 +242,23 @@ $this->breadcrumbs=array(
 				    </div>
                   	<div class="form-group has-succes">
 				      	<label class="col-lg-4 control-label" for="edit_ListaMarcas">Marca:</label>
-				      	<div class="col-lg-5">
+				      	<div class="col-lg-7">
 				       	 	<select class="form-control ListaMarcas" name="edit_ListaMarcas" id="edit_ListaMarcas"></select>
 				      	</div>
-				      	<div class="col-lg-1">
+				      	<!-- <div class="col-lg-1">
 				        	<button type="button" class="btn btn-primary new_Marca" id="nuevaMarca" data-target="#ModalnuevaMarca"><i class="fa fa-plus"></i></button>
-				      	</div>
+				      	</div> -->
 				    </div>
 
 
                  	 <div class="form-group">
 				      	<label class="col-lg-4 control-label" For="edit_ListaCategorias">Categoría:</label>
-				     	 <div class="col-lg-5">
+				     	 <div class="col-lg-7">
 				        	<select class="form-control ListaCategorias" name="edit_ListaCategorias" id="edit_ListaCategorias"></select>
 				      	</div>
-				      	<div class="col-lg-1">
+				      	<!-- <div class="col-lg-1">
 				        	<button type="button" class="btn btn-primary new_Category" id="nueva_Categoria" data-target="#ModalnuevaCategoria"><i class="fa fa-plus"></i></button>
-				     	 </div>
+				     	 </div> -->
 				    </div>
 				    <div class="form-group">
 				        <label class="col-lg-4 control-label" for="edit_stock">Stock:</label>

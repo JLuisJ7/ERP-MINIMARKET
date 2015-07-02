@@ -470,7 +470,7 @@ var FactCore = {
                     "bFilterable": false,
                      "mRender": function (data, type, row) {
                   /*return row.nroSerie +', '+ row.nroFact;*/
-                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.nroSerie + '" data-nroFact="' + row.nroFact + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a> ';
+                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.nroSerie + '" data-nroFact="' + row.nroFact + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a> <a href="#" style="margin-left:5px;margin-right:0px"data-nroSerie="' + row.nroSerie + '" data-nroFact="' + row.nroFact + '" class="btn btn-danger btn-sm suspenderFactura"><i class="fa fa-trash-o"></i></a>';
                 }
                 }
             ],
@@ -479,11 +479,51 @@ var FactCore = {
                 $('.verDetalle').click(function() {
                     me.obtenerDetalle($(this).attr('data-nroSerie'),$(this).attr('data-nroFact'));
                 });
-
+                     $('.suspenderFactura').click(function() {
+                    me.confirmsuspenderFactura($(this).attr('data-nroSerie'),$(this).attr('data-nroFact'));
+                });
             }
 
         });
-    },    
+    },
+     confirmsuspenderFactura: function(nroSerie,nroFact){
+        var me = this;
+        bootbox.dialog({
+            message: "Confirme la acción de Anular Factura.",
+            title: "¿Seguro de Anular Factura?",
+            buttons: {
+                main: {
+                    label: "Si",
+                    className: "btn-success",
+                    callback: function() {
+                        console.log('Anulando Factura');
+
+                        $.ajax({
+                            type: "POST",
+                            url: 'index.php?r=ventas/AjaxActualizarEstadoFactura',
+                            data: {nroSerie:nroSerie,nroFact:nroFact,estadoFact:0},
+                            success: function(response) {
+                                console.log(response);
+                                if (response.success) {
+                                    me.loadFacturas();
+                                    bootbox.hideAll();
+                                }
+                            }
+                        });
+
+                        return false;
+                    }
+                },
+                danger: {
+                    label: "No",
+                    className: "btn-danger",
+                    callback: function() {
+                        // bootbox.hideAll();
+                    }
+                }
+            }
+        });
+    },   
     obtenerDetalle : function(nroSerie,nroFact){
         var table = $('#FacturaDetallada').DataTable();
  

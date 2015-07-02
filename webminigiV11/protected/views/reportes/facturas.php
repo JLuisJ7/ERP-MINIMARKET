@@ -75,6 +75,7 @@ $this->breadcrumbs=array(
                         <th style="vertical-align: middle;" >IGV</th>
                         <th style="vertical-align: middle;" >Total</th>
                         <th style="vertical-align: middle;" >&nbsp;</th>
+                        <th style="vertical-align: middle;" >&nbsp;</th>
                       </tr>
                     </thead>                 
                   </table>

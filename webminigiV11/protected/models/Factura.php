@@ -22,6 +22,22 @@
  */
 class Factura extends CActiveRecord
 {
+
+	public function actualizarEstadoFactura($nroSerie,$nroFact,$estadoFact){
+		$resultado = array('data'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
+
+		$Factura = Factura::model()->findByPk($nroSerie,$nroFact);
+
+	
+			$Factura->estadoFact=$estadoFact;
+		
+			if(!$Factura->save()){
+				$resultado = array('data'=>0, 'message'=>'No hemos podido realizar su solicitud, intentelo nuevamente');
+			}
+		
+
+		return $resultado;
+	}
 /*
 ==========================================
 **REPORTES
