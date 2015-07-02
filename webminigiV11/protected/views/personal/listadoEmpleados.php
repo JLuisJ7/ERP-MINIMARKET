@@ -185,7 +185,7 @@ $this->breadcrumbs=array(
                   <div class="form-group">
                     <div class="col-md-5 col-md-offset-3">
                       <button type="submit" class="btn btn-primary grabarEmpleado">Registrar</button>
-                      <button   id="cerrarmodal" class="btn btn-primary" data-dismiss="modal" rel="tooltip" title="Cerrar"
+                      <button   id="cerrarmodal" class="btn btn-danger" data-dismiss="modal" rel="tooltip" title="Cerrar"
                       >Cerrar</button>
                     </div>
                   </div>
@@ -345,7 +345,7 @@ $this->breadcrumbs=array(
                   <div class="form-group">
                     <div class="col-md-5 col-md-offset-3">
                       <button type="submit" class="btn btn-primary grabarEmpleado">Actualizar</button>
-                      <button   id="cerrarmodal" class="btn btn-primary" data-dismiss="modal" rel="tooltip" title="Cerrar"
+                      <button   id="cerrarmodal" class="btn btn-danger" data-dismiss="modal" rel="tooltip" title="Cerrar"
                       >Cerrar</button>
                     </div>
                   </div>
