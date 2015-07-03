@@ -30,9 +30,9 @@
         <p class="login-box-msg">Ingrese sus datos para iniciar sesion</p>
         <form action="index.php?r=login/AuthenticationUser" method="post">
           <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="Email" name="username" 
+            <input type="text" class="form-control" placeholder="Usuario" name="username" 
             value="<?php if( !empty($_GET['l'])){ echo $_GET['l'];} ?>"/>
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
             <input type="password" class="form-control" placeholder="Contraseña" name="password"/>
@@ -54,8 +54,8 @@
         <div style="width:100%; text-align: center;margin-top:5px;color: #900000; font-size: 14px;"><?php if( !empty($_GET['message'])){ echo $_GET['message'];} ?></div>
         <div class="social-auth-links text-center">
           <p>- O -</p>
-          <a href="registrar.php" class="btn btn-block btn-social btn-facebook btn-flat">Registrarse</a>
-          
+          <!-- <a href="registrar.php" class="btn btn-block btn-social btn-facebook btn-flat">Registrarse</a>
+ -->          
         </div><!-- /.social-auth-links -->
 
         <!-- <a href="#">Recuperar mi contraseña</a><br> -->
