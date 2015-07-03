@@ -40,75 +40,68 @@
         
                             
                             var M = eval(valores);
-                           
-                                
-                           var  Datos = {
-                                    labels : ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                                    datasets : [
-
-                                        {
-                                            label: "Ventas",
-                                            fillColor : 'rgba(0, 192, 239, 1)', //COLOR DE LAS BARRAS
-                                            strokeColor : '#3c8dbc', //COLOR DEL BORDE DE LAS BARRAS
-                                            highlightFill : '#3BA9C3', //COLOR "HOVER" DE LAS BARRAS
-                                            highlightStroke : 'rgba(66,196,157,0.7)', //COLOR "HOVER" DEL BORDE DE LAS BARRAS
-                                            data : [
-                                                M.V[1],M.V[2],M.V[3],M.V[4],M.V[5],M.V[6],M.V[7],M.V[8],M.V[9],M.V[10],M.V[11],M.V[12]
-                                            ]
-                                        },
-                                        {
-                                            label: "Compras",
-                                            fillColor : 'rgba(91,228,146,0.6)', //COLOR DE LAS BARRAS
-                                            strokeColor : 'rgba(57,194,112,0.7)', //COLOR DEL BORDE DE LAS BARRAS
-                                            highlightFill : 'rgba(73,206,180,0.6)', //COLOR "HOVER" DE LAS BARRAS
-                                            highlightStroke : 'rgba(66,196,157,0.7)', //COLOR "HOVER" DEL BORDE DE LAS BARRAS
-                                            data : [
-                                                    M.C[1],M.C[2],M.C[3],M.C[4],M.C[5],M.C[6],M.C[7],M.C[8],M.C[9],M.C[10],M.C[11],M.C[12]
-                                            ]
-                                        }
-                                    ],
-                                }
-                                
-                            var contexto = document.getElementById('grafico').getContext('2d');
-                            var Barra = new Chart(contexto).Bar(Datos, { 
-                                responsive : true
-                                 });  
-
-                            var data = {
-     labels : ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-    datasets: [
-        {
-            label: "Salidas",
-            fillColor: "rgba(220,220,220,0.2)",
-            strokeColor: "rgba(220,220,220,1)",
-            pointColor: "rgba(220,220,220,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(220,220,220,1)",
-             data : [
-                                                M.V[1],M.V[2],M.V[3],M.V[4],M.V[5],M.V[6],M.V[7],M.V[8],M.V[9],M.V[10],M.V[11],M.V[12]
-                                            ]
+                                                     
+    var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'container',
+            type: 'column',
+            margin: 75,
+            options3d: {
+                enabled: true,
+                alpha: 15,
+                beta: 15,
+                depth: 50,
+                viewDistance: 25
+            }
         },
-        {
-            label: "Entradas",
-            fillColor: "rgba(151,187,205,0.2)",
-            strokeColor: "rgba(151,187,205,1)",
-            pointColor: "rgba(151,187,205,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(151,187,205,1)",
-            data : [
-                                                    M.C[1],M.C[2],M.C[3],M.C[4],M.C[5],M.C[6],M.C[7],M.C[8],M.C[9],M.C[10],M.C[11],M.C[12]
-                                            ]
-        }
-    ]
-};
-var ctx = document.getElementById('graficoLine').getContext('2d');
-var myLineChart = new Chart(ctx).Line(data, { 
-                                responsive : true
-                                 });
+        title: {
+            text: 'Total ventas por meses'
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            categories: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+        },
+        tooltip: {
+            valueSuffix: ' '
+        },
+        plotOptions: {
+            column: {
+                depth: 25
+            }
+        },
+         series: [{
+            name: 'Salidas',
+            data: [M.V[1],M.V[2],M.V[3],M.V[4],M.V[5],M.V[6],M.V[7],M.V[8],M.V[9],M.V[10],M.V[11],M.V[12]]
+        }, {
+            name: 'Entradas',
+            data: [  M.C[1],M.C[2],M.C[3],M.C[4],M.C[5],M.C[6],M.C[7],M.C[8],M.C[9],M.C[10],M.C[11],M.C[12]]
+        }]
+    });
 
-$('#container').highcharts({
+    function showValues() {
+        $('#R0-value').html(chart.options.chart.options3d.alpha);
+        $('#R1-value').html(chart.options.chart.options3d.beta);
+    }
+
+    // Activate the sliders
+    $('#R0').on('change', function () {
+        chart.options.chart.options3d.alpha = this.value;
+        showValues();
+        chart.redraw(false);
+    });
+    $('#R1').on('change', function () {
+        chart.options.chart.options3d.beta = this.value;
+        showValues();
+        chart.redraw(false);
+    });
+
+    showValues();
+
+                
+
+$('#csontainer').highcharts({
         title: {
             text: 'Flujo de Inventario por Producto',
             x: -20 //center
@@ -148,7 +141,8 @@ $('#container').highcharts({
         }]
     });
        
-    })
+
+    })  
     .fail(function() {
         //console.log("error");
     })
