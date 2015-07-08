@@ -24,19 +24,10 @@ class Factura extends CActiveRecord
 {
 
 	public function actualizarEstadoFactura($nroSerie,$nroFact,$estadoFact){
-		$resultado = array('data'=>1,'message'=>'Su solicitud ha sido procesada correctamente.');
-
-		$Factura = Factura::model()->findByPk($nroSerie,$nroFact);
-
 	
-			$Factura->estadoFact=$estadoFact;
 		
-			if(!$Factura->save()){
-				$resultado = array('data'=>0, 'message'=>'No hemos podido realizar su solicitud, intentelo nuevamente');
-			}
-		
-
-		return $resultado;
+$command = Yii::app()->db->createCommand("update factura set estadoFact=$estadoFact where nroSerie=$nroSerie and nroFact=$nroFact");
+		return $command->execute();
 	}
 /*
 ==========================================
@@ -75,7 +66,7 @@ $sql = "select count(*) as Facturas from factura where DATE_FORMAT(fechEmic,'%d/
 
 	public function listadoFacturas(){
 
-$sql = "select nroSerie,nroFact,c.RazSoc_Cli as Cliente,idEmpleado as Empleado,DATE_FORMAT(FechEmic,'%d-%m-%Y') as Fecha,SubTotal,IGV,Total from factura as f inner join Cliente as c ON c.idCliente=f.idCliente order by FechEmic desc";
+$sql = "select nroSerie,nroFact,c.RazSoc_Cli as Cliente,idEmpleado as Empleado,DATE_FORMAT(FechEmic,'%d-%m-%Y') as Fecha,SubTotal,IGV,Total,estadoFact from factura as f inner join Cliente as c ON c.idCliente=f.idCliente order by FechEmic desc";
 	
 
 		return Yii::app()->db->createCommand($sql)->queryAll();

@@ -505,13 +505,26 @@ var FactCore = {
                 {"mData": "IGV", "sClass": "alignCenter"},
                 {"mData": "Total", "sClass": "alignCenter"},
                
+                /*{
+                    "mData": null,
+                    "bSortable": false,
+                    "bFilterable": false,
+                     "mRender": function (data, type, row) {
+                  return row.nroSerie +', '+ row.nroFact;
+                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.nroSerie + '" data-nroFact="' + row.nroFact + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a> <a href="#" style="margin-left:5px;margin-right:0px"data-nroSerie="' + row.nroSerie + '" data-nroFact="' + row.nroFact + '" class="btn btn-danger btn-sm suspenderFactura"><i class="fa fa-trash-o"></i></a>';
+                }
+                }*/
                 {
                     "mData": null,
                     "bSortable": false,
                     "bFilterable": false,
                      "mRender": function (data, type, row) {
-                  /*return row.nroSerie +', '+ row.nroFact;*/
-                  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + row.nroSerie + '" data-nroFact="' + row.nroFact + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a> <a href="#" style="margin-left:5px;margin-right:0px"data-nroSerie="' + row.nroSerie + '" data-nroFact="' + row.nroFact + '" class="btn btn-danger btn-sm suspenderFactura"><i class="fa fa-trash-o"></i></a>';
+                  if(data.estadoFact==1){
+  return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + data.nroSerie + '" data-nroFact="' + data.nroFact + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a> <a href="#" style="margin-left:5px;margin-right:0px"data-nroSerie="' + data.nroSerie + '" data-nroFact="' + data.nroFact + '" class="btn btn-danger btn-sm suspenderFactura"><i class="fa fa-trash-o"></i></a>';
+                  }else if(data.estadoFact==0){
+                    return '<a href="#" style="margin-left:5px;margin-right:0px" data-nroSerie="' + data.nroSerie + '" data-nroFact="' + data.nroFact + '" class="btn btn-default btn-sm verDetalle"><i class="fa fa-eye"></i> Ver Detalle</a> <a href="#" style="margin-left:5px;margin-right:0px"data-nroSerie="' + data.nroSerie + '" data-nroFact="' + data.nroFact + '" class="btn btn-success btn-sm ActivarFactura">ANULADO</a>';;
+                  }
+                  
                 }
                 }
             ],
