@@ -117,6 +117,16 @@ public function actionAjaxObtenerUsuario(){
 		
 	}
 
+	public function actionRegistrarUsuarios(){
+		if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("registrarusuarios");
+		}
+
+		
+	}
+
 public function actionAjaxListadoUsuarios(){
 		
 		$usuarios = SisUsuario::model()->listadoUsuarios();
