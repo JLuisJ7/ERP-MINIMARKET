@@ -200,21 +200,50 @@ $diciembre= Factura::model()->TotalFacturasMes(12);
 }
 
 	public function actionClientes(){
-		$this->render("Clientes");
+
+		
+		if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("Clientes");
+		}
+
 	}
 public function actionAlmacen(){
-		$this->render("almacen");
+	if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("almacen");
+		}
+		
+
 	}
 
 	public function actionProveedores(){
-		$this->render("proveedores");
+		if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("proveedores");
+		}
+		
 	}
 	public function actionFacturas(){
-		$this->render("facturas");
+		
+
+		if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("facturas");
+		}
 	}
 
 	public function actionordenescompra(){
-		$this->render("ordenescompra");
+		
+			if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("ordenescompra");
+		}
 	}
 
 

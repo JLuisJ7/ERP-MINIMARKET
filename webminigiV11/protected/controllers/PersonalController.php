@@ -13,7 +13,12 @@ class PersonalController extends Controller{
 
 	public function actionListadoEmpleados(){
 
-		$this->render("listadoEmpleados");
+		
+	if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("listadoEmpleados");
+		}
 
 	}
 public function actionajaxListadoEmpleados(){

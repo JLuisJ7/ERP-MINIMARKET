@@ -37,7 +37,12 @@ public function actionAjaxListadoInventario(){
 
 	public function actionInventario(){
 
-		$this->render("Inventario");
+		
+			if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("Inventario");
+		}
 	}
 
 
@@ -94,10 +99,16 @@ public function actionAjaxListarCategorias(){
 	public function actionListadoProductos(){
 
 		// $productos = Producto::model()->listadoProductos();
-		$dataProvider=new CActiveDataProvider('Producto');
+		
+			if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$dataProvider=new CActiveDataProvider('Producto');
 		$this->render("listadoProductos",array(
 			'dataProvider'=>$dataProvider,
 			));
+			
+		}
 	}
 	public function actionAjaxObtenerProducto(){
 		$idProducto = $_POST['idProducto'];

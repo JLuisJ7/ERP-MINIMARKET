@@ -30,7 +30,13 @@ public function actionajaxListadoOrdenesC(){
 
 public function actionordenesCompra(){
 
-		$this->render("ordenesCompra");
+		
+
+			if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("ordenesCompra");
+		}
 	}
 
 	public function actionAjaxBuscarProveedor(){
@@ -96,14 +102,23 @@ foreach($array as $obj){
 
 	public function actionregistraCompra(){
 
-		$this->render("registraCompra");
+			if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("registraCompra");
+		}
 	}
 	public function actionListadoProveedores(){
 
 		$proveedores = Proveedor::model()->listadoProveedores();
-		$this->render("listadoProveedores",array(
+			if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("listadoProveedores",array(
 			'proveedores'=>$proveedores,
 			));
+		}
+		
 		
 	}
 	public function actionAjaxListadoProveedores(){

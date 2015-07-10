@@ -52,7 +52,12 @@ public function actionAjaxListarClientes(){
 	}
 	public function actionBoletas(){
 
-		$this->render("boletas");
+if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("boletas");
+		}
+		
 	}
 
 
@@ -97,9 +102,14 @@ public function actionAjaxListarClientes(){
 
 		
 		$clientes = Cliente::model()->listadoClientes();
-		$this->render("listadoClientes",array(
+		if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("listadoClientes",array(
 			'clientes'=>$clientes,
 			));
+		}
+		
 	}
 
 	public function actionAjaxObtenerCliente(){

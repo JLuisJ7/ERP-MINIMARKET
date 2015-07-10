@@ -21,7 +21,14 @@ public function actionAjaxObtenerParametroGeneral(){
 
 
 	public function actionparametrosGenerales(){
-		$this->render("parametrosGenerales");
+		
+
+		if($this->verificarSessiousuario()==FALSE){
+			$this->redirect("login.php");
+		}else{
+			$this->render("parametrosGenerales");
+			
+		}
 	}
 
 
